@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/styles/color.dart';
 
-final ButtonStyle customerPrimary = ElevatedButton.styleFrom(
-  minimumSize: const Size(327, 50),
-  backgroundColor: orange,
+final ButtonStyle themeBtn1 = ElevatedButton.styleFrom(
+  backgroundColor: themeBtnGrey,
   foregroundColor: Colors.white,
   elevation: 0,
   shape: const RoundedRectangleBorder(
@@ -13,9 +12,9 @@ final ButtonStyle customerPrimary = ElevatedButton.styleFrom(
   )
 );
 
-final ButtonStyle merchantPrimary = ElevatedButton.styleFrom(
-  minimumSize: const Size(327, 50),
-  backgroundColor: purple,  
+final ButtonStyle themeBtn2 = ElevatedButton.styleFrom(
+  backgroundColor: themeBtnOrange,
+  foregroundColor: Colors.white,
   elevation: 0,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(

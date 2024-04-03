@@ -3,7 +3,10 @@ import 'package:flutter_application_1/pages/customer/customer_home.dart';
 import 'package:flutter_application_1/pages/merchant/qr_image.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+
 import 'package:flutter_application_1/styles/button.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/styles/color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -34,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 244, 242, 242), //3d3d3d 212121
+        // backgroundColor: Color.fromARGB(255, 244, 242, 242), //3d3d3d 212121
         body: Padding(
           padding: const EdgeInsets.all(0.0),
           child: ListView(
@@ -63,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 50),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 35),
-                      child: Image.asset('lib/images/ap.png', height: 250, width: 250,),
+                      child: Lottie.asset('lib/assets/welcome.json', height: 250, width: 250),
                     ),
                     const SizedBox(height: 20),
                     const Padding(
@@ -86,20 +89,15 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => const CustomerHome()));
                           },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF464646)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ),
-                          child: const Text(
+                          style: themeBtn1,
+                          child: Text(
                             "Customer",
-                            style: TextStyle(
+                            style: GoogleFonts.getFont(
+                              'Lato',
                               fontSize: 18,
-                              color: Color(0xFFcccccf),
+                              color: textWhite,
                               fontWeight: FontWeight.bold,
+                              letterSpacing: .7,
                             ),
                           ),                          
                         ),
@@ -114,23 +112,17 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => const QRImage()));
                           },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFfc5a3b)),
-                            elevation: MaterialStateProperty.all<double>(0),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                          style: themeBtn2,
+                          child: Text(
+                            "Merchant",
+                            style: GoogleFonts.getFont(
+                              'Lato',
+                              fontSize: 18,
+                              color: textWhite,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: .5,
                             ),                            
                           ),
-                          child: const Text(
-                            "Merchant",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFFcccccf),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),                          
                         ),
                       ),
                     ),

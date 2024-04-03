@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 
+import 'package:flutter_application_1/styles/button.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/styles/color.dart';
+
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
 
@@ -29,7 +33,6 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: const Text('Sign In'),
@@ -83,7 +86,20 @@ class _SignInState extends State<SignIn> {
               ],
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(onPressed: () => _submit(context), child: const Text('Sign In')),                                                    
+            ElevatedButton(
+              onPressed: () => _submit(context), 
+              style: themeBtn2,
+              child: Text(
+                'Sign In',
+                style: GoogleFonts.getFont(
+                  'Lato',
+                  fontSize: 18,
+                  color: textWhite,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: .7,
+                ),                
+              ),
+            ),                                                    
           ],
         ),
 
