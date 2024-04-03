@@ -26,13 +26,12 @@ class _ValidateCompleteState extends State<ValidateComplete> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
             Text('Dear ${widget.name}, Welcoe to Alt-Pay'),
             TextField(
               readOnly: true,
-              controller: TextEditingController(text: '${widget.phone}'),
+              controller: TextEditingController(text: widget.phone),
               ),
             const SizedBox(height: 20.0),
             const Text('Partner: Monzo'),

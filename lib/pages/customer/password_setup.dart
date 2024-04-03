@@ -50,13 +50,12 @@ class _PasswordSetupState extends State<PasswordSetup> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
-            Text('${widget.name}'),
+            Text(widget.name),
             TextField(
               readOnly: true,
-              controller: TextEditingController(text: '${widget.phone}'),
+              controller: TextEditingController(text: widget.phone),
               ),
             const SizedBox(height: 20.0),
             const Text('Password'),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/customer_home.dart';
 import 'package:flutter_application_1/pages/merchant/qr_image.dart';
+import 'package:lottie/lottie.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_application_1/styles/button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,7 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
  
-  void _navigateToCustomerPage(BuildContext context) {
+  void navigateToCustomerPage(BuildContext context) {
     // Navigate to customer page
     Navigator.push(
       context,
@@ -19,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _navigateToMerchantPage(BuildContext context) {
+  void navigateToMerchantPage(BuildContext context) {
     // Navigate to merchant page
     Navigator.push(
       context,
@@ -29,40 +32,116 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[600],
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [
-              const Text('Welcome To',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Color.fromARGB(255, 244, 242, 242), //3d3d3d 212121
+        body: Padding(
+          padding: const EdgeInsets.all(0.0),
+          child: ListView(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ClipPath(
+                      clipper: WaveClipperTwo(),
+                      child: Container(
+                        width: double.infinity,
+                        height: 120.0,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color(0xFFf99321),
+                              Color(0xFFfc5a3b),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      child: Image.asset('lib/images/ap.png', height: 250, width: 250,),
+                    ),
+                    const SizedBox(height: 20),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 35),
+                      child: Text(
+                        'A simple, fun, and creative way to \nshare photos, videos, messages\nwith friends and family ',
+                        style: TextStyle(
+                          color: Color(0xFF777779),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 120),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const CustomerHome()));
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFF464646)),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                          child: const Text(
+                            "Customer",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFFcccccf),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),                          
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const QRImage()));
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFfc5a3b)),
+                            elevation: MaterialStateProperty.all<double>(0),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),                            
+                          ),
+                          child: const Text(
+                            "Merchant",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFFcccccf),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),                          
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30,),
+                  ],
                 ),
               ),
-
-            Image.asset('lib/images/lankapay.png', width: 200),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () => _navigateToCustomerPage(context),
-                  child: const Text('Customer'),
-                ),
-                const SizedBox(width: 40), // Adjust spacing between buttons as needed
-                ElevatedButton(
-                  onPressed: () => _navigateToMerchantPage(context),
-                  child: const Text('Merchant'),
-                  
-                ),
-              ],
-            ),
-          ],
-        ),         
-      ),      
-    );
+            ],
+          ),
+        ),
+      ),
+    );    
   }
 }

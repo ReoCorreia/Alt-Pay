@@ -35,8 +35,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
         title: const Text('Validate Phone Number'),
       ),   
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: <Widget>[
             const Text(
               'Enter OTP',

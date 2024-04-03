@@ -32,7 +32,7 @@ class _ValidateCredentialsState extends State<ValidateCredentials> {
             Text('Dear ${widget.name}, Welcome to Alt-Pay'),
             TextField(
               readOnly: true,
-              controller: TextEditingController(text: '${widget.phone}'),
+              controller: TextEditingController(text: widget.phone),
               ),
             const SizedBox(height: 20.0),
             const Text('Partner: Monzo'),

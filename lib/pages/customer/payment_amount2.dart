@@ -22,10 +22,10 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
-            Image.asset('lib/images/lankapay.png', width: 250, height: 230),
+              Image.asset('lib/images/lankapay.png'),
+              const SizedBox(height: 20.0),
               const Text('BeachSide Deli', style: TextStyle(fontSize: 28)),
               const SizedBox(height: 20.0),
               const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00'),

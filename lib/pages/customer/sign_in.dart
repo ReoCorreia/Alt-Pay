@@ -20,7 +20,7 @@ class _SignInState extends State<SignIn> {
     print('Phone: ${_phoneNumberController.text}');
     print('Password: ${_password.text}');
     if(_phoneNumberController.text.isEmpty || _password.text.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill all fields')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill all  fields')));
       return;
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
@@ -36,11 +36,10 @@ class _SignInState extends State<SignIn> {
       ),      
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: ListView(
           children: <Widget>[
             Image.asset('lib/images/lankapay.png', width: 250, height: 230),
-            const SizedBox(height: 20.0),
+            // const SizedBox(height: 20.0),
             Row(
               children: [
                 Expanded(
@@ -54,7 +53,7 @@ class _SignInState extends State<SignIn> {
                     favorite: const ['+91'], // Your favorite country codes
                   ),
                 ),
-                const SizedBox(width: 20.0),
+                // const SizedBox(width: 20.0),
                 Expanded(
                   flex: 2,
                   child: TextFormField(
@@ -67,7 +66,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+//            const SizedBox(height: 20.0),
             Row(
               children: [
                 const Expanded(child: Text('Password'),),

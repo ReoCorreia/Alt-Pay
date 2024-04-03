@@ -28,8 +28,7 @@ class _CredentialSetupState extends State<CredentialSetup> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
             Text('Dear ${widget.name}, Welcome to Alt-Pay'),
             TextField(
