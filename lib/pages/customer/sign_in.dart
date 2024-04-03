@@ -45,7 +45,7 @@ class _SignInState extends State<SignIn> {
             // const SizedBox(height: 20.0),
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey), // Define border color and width
+                border: Border.all(color: themeBtnOrange), // Define border color and width
                 borderRadius: BorderRadius.circular(8.0), // Optionally, apply border radius
               ),
               child: Row(
@@ -84,7 +84,7 @@ class _SignInState extends State<SignIn> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0), // Apply border radius
-                      border: Border.all(color: Colors.grey), // Define border color and width
+                      border: Border.all(color: themeBtnOrange), // Define border color and width
                     ),
                     child: TextField(
                       obscureText: true,
@@ -101,20 +101,39 @@ class _SignInState extends State<SignIn> {
             ),
 
             const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () => _submit(context), 
-              style: themeBtn2,
-              child: Text(
-                'Sign In',
-                style: GoogleFonts.getFont(
-                  'Lato',
-                  fontSize: 18,
-                  color: textWhite,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: .7,
-                ),                
-              ),
-            ),                                                    
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Divider(
+                    color: themeBtnOrange,
+                  )
+                ),
+                const SizedBox(width: 5.0),         
+                Expanded(
+                  flex: 2,
+                  child: ElevatedButton(
+                    onPressed: () => _submit(context), 
+                    style: themeBtn2,
+                    child: Text(
+                      'Sign In',
+                      style: GoogleFonts.getFont(
+                        'Lato',
+                        fontSize: 18,
+                        color: textWhite,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: .7,
+                      ),                
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5.0),                
+                Expanded(
+                  child: Divider(
+                    color: themeBtnOrange,
+                  )
+                )                                
+              ],
+            )
           ],
         ),
 
