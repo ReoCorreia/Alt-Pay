@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[600],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +43,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
 
-            Image.asset('lib/images/lankapay.png', width: 150, height: 130),
+            Image.asset('lib/images/lankapay.png', width: 200),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
