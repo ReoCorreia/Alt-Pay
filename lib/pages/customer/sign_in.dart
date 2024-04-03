@@ -34,57 +34,72 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: themeBtnOrange,
         title: const Text('Sign In'),
       ),      
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Image.asset('lib/images/lankapay.png', width: 250, height: 230),
+            Image.asset('lib/images/login.png', width: 300, height: 300),
             // const SizedBox(height: 20.0),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey), // Define border color and width
+                borderRadius: BorderRadius.circular(8.0), // Optionally, apply border radius
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CountryCodePicker(
+                      onChanged: (CountryCode? code) {
+                        setState(() {
+                          _selectedCountryCode = code?.dialCode ?? _selectedCountryCode;
+                        });
+                      },
+                      initialSelection: 'IN', // Initial selection country code
+                      favorite: const ['+91'], // Your favorite country codes
+                    ),
+                  ),
+                  // const SizedBox(width: 20.0),
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _phoneNumberController,
+                      keyboardType: TextInputType.phone,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        hintText: 'Enter your phone number',
+                      ),                    
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20.0),
             Row(
               children: [
                 Expanded(
-                  child: CountryCodePicker(
-                    onChanged: (CountryCode? code) {
-                      setState(() {
-                        _selectedCountryCode = code?.dialCode ?? _selectedCountryCode;
-                      });
-                    },
-                    initialSelection: 'IN', // Initial selection country code
-                    favorite: const ['+91'], // Your favorite country codes
-                  ),
-                ),
-                // const SizedBox(width: 20.0),
-                Expanded(
                   flex: 2,
-                  child: TextFormField(
-                    controller: _phoneNumberController,
-                    keyboardType: TextInputType.phone,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your phone number',
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0), // Apply border radius
+                      border: Border.all(color: Colors.grey), // Define border color and width
+                    ),
+                    child: TextField(
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none, // Remove border around TextField
+                        hintText: 'Enter your password',
+                        contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                      ),
+                      controller: _password,
                     ),
                   ),
                 ),
               ],
             ),
-//            const SizedBox(height: 20.0),
-            Row(
-              children: [
-                const Expanded(child: Text('Password'),),
-                Expanded(
-                  flex: 2,
-                  child: TextField(
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your password',
-                    ),
-                    controller: _password,
-                  ),
-                ),
-              ],
-            ),
+
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () => _submit(context), 
