@@ -4,9 +4,9 @@ import 'package:flutter_application_1/pages/merchant/qr_image.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-import 'package:flutter_application_1/styles/button.dart';
+import 'package:flutter_application_1/themes/button.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_application_1/styles/color.dart';
+import 'package:flutter_application_1/themes/color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

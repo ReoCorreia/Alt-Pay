@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter_application_1/pages/customer/customer_home.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 
 class SignUp extends StatefulWidget {
@@ -16,8 +17,6 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _phoneNumberController = TextEditingController();
 
   void _navigateToPhoneValidation(BuildContext context, String phoneNumber) {
-    // Navigate to customer page
-    print('Phone: ${_phoneNumberController.text}');
 
     if(_phoneNumberController.text.length != 10){
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a valid phone number')));
@@ -82,7 +81,11 @@ class _SignUpState extends State<SignUp> {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                    },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CustomerHome()),
+                      );                      
+                    },                    
                     child: const Text('Cancel'),
                   ),                   
                 ),

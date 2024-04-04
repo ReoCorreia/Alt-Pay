@@ -16,10 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(      
       debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: _buildTheme(Brightness.light),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark
-      ),
+      theme: _buildTheme(Brightness.dark),
       routes: {
         '/welcome': (context) => const HomePage(),
         '/customerhome': (context) => const CustomerHome(),

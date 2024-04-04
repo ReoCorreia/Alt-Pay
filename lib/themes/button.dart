@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/styles/color.dart';
+import 'package:flutter_application_1/themes/color.dart';
 
 final ButtonStyle themeBtn1 = ElevatedButton.styleFrom(
   backgroundColor: themeBtnGrey,

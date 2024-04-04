@@ -3,9 +3,10 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'package:flutter_application_1/styles/button.dart';
+import 'package:flutter_application_1/themes/button.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_application_1/styles/color.dart';
+import 'package:flutter_application_1/themes/color.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -34,13 +35,7 @@ class _SignInState extends State<SignIn> {
           content: Text(
             textAlign: TextAlign.center,
             'Phone Incorrect',
-            style: GoogleFonts.getFont(
-              'Lato',
-              fontSize: 18,
-              color: textWhite,
-              fontWeight: FontWeight.bold,
-              letterSpacing: .7,
-            ),            
+            style: themeTextField,            
           ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic), 
           backgroundColor: themeBtnOrange
         ),
@@ -80,13 +75,7 @@ class _SignInState extends State<SignIn> {
           title: Text(
             textAlign: TextAlign.center,
             'Sign In',
-            style: GoogleFonts.getFont(
-              'Lato',
-              fontSize: 18,
-              color: textWhite,
-              fontWeight: FontWeight.bold,
-              letterSpacing: .7,
-            ),            
+            style: themeTextField,            
           )
       ),      
       body: Padding(
@@ -120,10 +109,15 @@ class _SignInState extends State<SignIn> {
                     child: TextFormField(
                       controller: _phoneNumberController,
                       keyboardType: TextInputType.phone,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(borderSide: BorderSide.none),
                         hintText: 'Enter your phone number',
-                      ),                    
+                        hintStyle: GoogleFonts.getFont(
+                          'Lato',
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: .7,
+                        ),                        
+                      ),
                     ),
                   ),
                 ],
@@ -143,10 +137,15 @@ class _SignInState extends State<SignIn> {
 
                     child: TextField(
                       obscureText: true,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none, // Remove border around TextField
                         hintText: 'Enter your password',
-                        contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                        hintStyle: GoogleFonts.getFont(
+                          'Lato',
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: .7,
+                        ),                        
+                        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                       ),
                       controller: _password,
                     ),
@@ -171,13 +170,7 @@ class _SignInState extends State<SignIn> {
                     style: themeBtn2,
                     child: Text(
                       'Sign In',
-                      style: GoogleFonts.getFont(
-                        'Lato',
-                        fontSize: 18,
-                        color: textWhite,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: .7,
-                      ),                
+                      style: themeTextField,                
                     ),
                   ),
                 ),
