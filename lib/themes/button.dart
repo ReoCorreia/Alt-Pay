@@ -4,7 +4,7 @@ import 'package:flutter_application_1/themes/color.dart';
 final ButtonStyle themeBtn1 = ElevatedButton.styleFrom(
   backgroundColor: themeBtnGrey,
   foregroundColor: Colors.white,
-  elevation: 0,
+  elevation: 15.0,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(50),

@@ -77,7 +77,7 @@ class _SignInState extends State<SignIn> {
             'Sign In',
             style: themeTextField,            
           )
-      ),      
+      ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
