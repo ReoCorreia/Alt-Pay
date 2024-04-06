@@ -32,7 +32,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: const Text('Validate Phone Number'),
+        title: const Text('Validate Phone  Number'),
       ),   
       body: Center(
         child: ListView(
