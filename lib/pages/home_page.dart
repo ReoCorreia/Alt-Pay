@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 50),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 35),
-                      child: Lottie.asset('lib/assets/welcome.json', height: 250, width: 250),
+                      child: Lottie.asset('lib/assets/welcome.json', height: 250,),
                     ),
                     const SizedBox(height: 20),
                     const Padding(

@@ -61,7 +61,6 @@ class _CustomerHomeState extends State<CustomerHome> {
               Image.asset(
                 'lib/images/t-logo.png',
                 width: 250,
-                height: 230,
               ),
               const SizedBox(height: 20), // Adjust vertical spacing as needed
               ElevatedButton(
