@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/pages/customer/sign_up.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
@@ -36,20 +37,38 @@ class _CustomerHomeState extends State<CustomerHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-          'Sign In',
-          style: themeTextField,
-        ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   backgroundColor: themeBtnOrange,
+      //   title: Text(
+      //     'Sign In',
+      //     style: themeTextField,
+      //   ),
+      // ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+                    ClipPath(
+                      clipper: WaveClipperTwo(),
+                      child: Container(
+                        width: double.infinity,
+                        height: 120.0,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Color(0xFFf99321),
+                              Color(0xFFfc5a3b),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 50),              
               const Text(
                 'Welcome To',
                 style: TextStyle(

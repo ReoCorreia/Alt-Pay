@@ -3,6 +3,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/customer_home.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
+import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../themes/button.dart';
@@ -44,14 +45,14 @@ class _SignUpState extends State<SignUp> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ValidatePhone(data: phoneNumber)),
+      MaterialPageRoute(builder: (context) => ValidatePhone(phone: phoneNumber)),
     );
   }
 
   void _navigateToHome(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const CustomerHome()),
+      MaterialPageRoute(builder: (context) => const HomePage()),
     );
   }
 
@@ -73,7 +74,6 @@ class _SignUpState extends State<SignUp> {
           children: <Widget>[
             // target: incorrectInput? 1 : 0 can be used inside animate() to conditionally animate.
             Image.asset('lib/images/login.png', width: 300, height: 300),
-            // const SizedBox(height: 20.0),
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: incorrectPhone? Colors.red : themeBtnOrange), // Define border color and width
@@ -113,15 +113,8 @@ class _SignUpState extends State<SignUp> {
               ),
             ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
             const SizedBox(height: 20.0),
-
-            //const SizedBox(height: 20.0),
             Row(
               children: <Widget>[
-                // Expanded(
-                //   child: Divider(
-                //     color: themeBtnOrange,
-                //   )
-                // ),
                 const SizedBox(width: 5.0),
                 Expanded(
                   flex: 4,

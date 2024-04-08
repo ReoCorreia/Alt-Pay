@@ -169,8 +169,8 @@ class _ValidatePhoneState extends State<ValidatePhone> {
 
             ElevatedButton(
               onPressed: () => _validatePhone(),
-              style: themeBtn2,
               child: const Text('Verify Phone'),
+              style: themeBtn2,
             ),
           ],
         ),

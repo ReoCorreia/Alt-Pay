@@ -3,10 +3,13 @@ import 'package:flutter_application_1/pages/customer/customer_home.dart';
 import 'package:flutter_application_1/pages/merchant/qr_image.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:flutter_application_1/pages/customer/sign_in.dart';
+import 'package:flutter_application_1/pages/customer/sign_up.dart';
 
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_application_1/themes/color.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,22 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
- 
-  void navigateToCustomerPage(BuildContext context) {
-    // Navigate to customer page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const CustomerHome()),
-    );
-  }
-
-  void navigateToMerchantPage(BuildContext context) {
-    // Navigate to merchant page
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const QRImage()),
-    );
-  }  
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +31,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     ClipPath(
                       clipper: WaveClipperTwo(),
@@ -64,34 +51,35 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 50),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 35),
-                      child: Lottie.asset('lib/assets/welcome.json', height: 250,),
-                    ),
-                    const SizedBox(height: 20),
                     const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 35),
                       child: Text(
-                        'A simple, fun, and creative way to \nshare photos, videos, messages\nwith friends and family ',
+                        'Welcome To',
                         style: TextStyle(
-                          color: Color(0xFF777779),
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
                         ),
                       ),
+                    ),                   
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 35),
+                      child: Image.asset(
+                        'lib/images/t-logo.png',
+                        width: 250,
+                      ),
                     ),
-                    const SizedBox(height: 120),
+                    const SizedBox(height: 60),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 35),
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const CustomerHome()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
                           },
                           style: themeBtn1,
                           child: Text(
-                            "Customer",
+                            "Sign Up",
                             style: GoogleFonts.getFont(
                               'Lato',
                               fontSize: 18,
@@ -110,11 +98,11 @@ class _HomePageState extends State<HomePage> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const QRImage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
                           },
                           style: themeBtn2,
                           child: Text(
-                            "Merchant",
+                            "Sign In",
                             style: GoogleFonts.getFont(
                               'Lato',
                               fontSize: 18,
