@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/screens/splash_screen.dart';
 import 'pages/home_page.dart';
 import 'pages/customer/customer_home.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {    
     return MaterialApp(      
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: const SplashScreen(),
       theme: _buildTheme(Brightness.light),
       routes: {
         '/welcome': (context) => const HomePage(),

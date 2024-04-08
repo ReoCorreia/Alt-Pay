@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_application_1/pages/customer/customer_home.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';

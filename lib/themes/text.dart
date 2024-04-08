@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../images/color.dart';
+import 'package:flutter_application_1/themes/color.dart';
 
 final TextStyle themeTextField1 = GoogleFonts.lato(
   fontSize: 32,
