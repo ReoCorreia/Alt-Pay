@@ -23,15 +23,21 @@ class _EnterNameState extends State<EnterName> {
   final TextEditingController _emailController = TextEditingController();
 
   void saveName(){
+    
     if(_firstName.text.isEmpty){
       snackBarMessage('Please fill First Name');
     }else if(_lastName.text.isEmpty){
       snackBarMessage('Please fill Last Name');
     }else if(_emailController.text.isEmpty){
       snackBarMessage('Please fill Email Id');
-    }else{
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: "abcd", phone: widget.data)));
     }
+
+    if(!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(_emailController.text)){
+      snackBarMessage('Email address invalid');
+      return;
+    }
+
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: "abcd", phone: widget.data)));
   }
 
   void snackBarMessage(error){
