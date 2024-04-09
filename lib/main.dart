@@ -31,5 +31,5 @@ ThemeData _buildTheme(brightness) {
 
   return baseTheme.copyWith(
     textTheme: GoogleFonts.latoTextTheme(baseTheme.textTheme),
-  );
+  );  
 }

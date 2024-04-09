@@ -32,7 +32,6 @@ class _ValidatePhoneState extends State<ValidatePhone> {
     if(_otp.length != 4){
       // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a valid OTP')));
       // return;
-      print('Resend OTP');
       setState(() {
         incorrectOTP = true;
       });
@@ -88,7 +87,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
         backgroundColor: themeBtnOrange,
         title: Text(
           textAlign: TextAlign.center,
-          'Validate Phone  Number',
+          'Validate Phone Number',
           style: themeTextField,
         )
       ),
