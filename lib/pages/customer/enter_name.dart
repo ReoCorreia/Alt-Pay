@@ -62,7 +62,6 @@ class _EnterNameState extends State<EnterName> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: themeBtnOrange,
@@ -75,10 +74,63 @@ class _EnterNameState extends State<EnterName> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            TextField(
-              readOnly: true,
-              controller: TextEditingController(text: widget.data),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0), // Apply border radius
+                border: Border.all(color: themeBtnOrange), // Define border color and width
               ),
+              child: TextFormField(
+                readOnly: true,
+                controller: TextEditingController(text: widget.data),
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
+                ),
+              ),
+            ),
+            const SizedBox(height: 20,),  
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0), // Apply border radius
+                border: Border.all(color: themeBtnOrange), // Define border color and width
+              ),
+              child: TextFormField(
+                controller: _firstName,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'First Name',
+                  hintStyle: GoogleFonts.getFont(
+                    'Lato',
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: .7,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
+                ),                
+              ),
+            ),
+            const SizedBox(height: 20,),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0), // Apply border radius
+                border: Border.all(color: themeBtnOrange), // Define border color and width
+              ),              
+              child: TextFormField(
+                controller: _lastName,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Last Name',
+                  hintStyle: GoogleFonts.getFont(
+                    'Lato',
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: .7,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
+                ),
+              ),
+            ),
             const SizedBox(height: 20,),
             Container(
               decoration: BoxDecoration(
@@ -100,15 +152,7 @@ class _EnterNameState extends State<EnterName> {
                 ),                
               ),
             ),
-            const SizedBox(height: 20,),            
-            TextField(
-              controller: _firstName,
-              ),
-            const SizedBox(height: 20,),
-            TextField(
-              controller: _lastName,
-              ),
-            const SizedBox(height: 20,),              
+            const SizedBox(height: 20,),                          
             btnOrange()              
           ],
         ),

@@ -6,7 +6,6 @@ import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
 
 import '../../themes/button.dart';
-import '../../themes/text.dart';
 import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 
