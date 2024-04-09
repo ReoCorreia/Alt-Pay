@@ -20,7 +20,6 @@ class ValidatePhone extends StatefulWidget {
 }
 
 class _ValidatePhoneState extends State<ValidatePhone> {
-
   String _otp = "";
   bool incorrectOTP = false;
   bool waiting = true;
@@ -29,9 +28,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
 
   void  _validatePhone(){
 
-    if(_otp.length != 4){
-      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter a valid OTP')));
-      // return;
+    if(_otp != '1234'){
       setState(() {
         incorrectOTP = true;
       });
@@ -99,16 +96,22 @@ class _ValidatePhoneState extends State<ValidatePhone> {
 
             const SizedBox(height: 30.0),
 
-            Center(
+            const Center(
               child: Text(
                 'Verification OTP',
-                style: themeTextField1,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             Center(
               child: Text(
                 'OTP sent to ${maskPhoneNumber(widget.phone)}',
-                style: themeTextField2,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
 
@@ -118,7 +121,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
                 children: <Widget>[
                   const Text("Didn't receive the OTP? "),
                   GestureDetector(
-                    onTap: () => _resendOTP(),
+                    onTap: () => !waiting? _resendOTP() : null,
                     child: const Text(
                       'Resend OTP',
                       style: TextStyle(
@@ -130,7 +133,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
                   const Text("  "),
                   TweenAnimationBuilder(
                     tween: Tween<double>(begin: 30, end: 0),
-                    duration: const Duration(seconds: 30),
+                    duration: const Duration(seconds: 10),
                     builder: (context, value, child) => Text(
                       '00:${value.toInt()}',
                       style: const TextStyle(
@@ -140,7 +143,9 @@ class _ValidatePhoneState extends State<ValidatePhone> {
                     ),
                     onEnd: () {
                       // Add your logic here
-                      waiting = false;
+                      setState(() {
+                        waiting = false;
+                      });
                     },
                   )
                 ],
@@ -167,7 +172,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
             const SizedBox(height: 20.0),
 
             ElevatedButton(
-              onPressed: () => _validatePhone(),
+              onPressed: _otp.length == 4? () => _validatePhone() : null,
               style: themeBtn2,
               child: const Text('Verify Phone'),
             ),

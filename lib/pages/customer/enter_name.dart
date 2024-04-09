@@ -116,7 +116,3 @@ class _EnterNameState extends State<EnterName> {
     );
   }
 }
-
-SizedBox gap(height){
-  return SizedBox(height: height);
-}

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(      
       debugShowCheckedModeBanner: false,
       home: const SplashScreen(),
-      theme: _buildTheme(Brightness.light),
+      theme: _buildTheme(Brightness.dark),
       routes: {
         '/welcome': (context) => const HomePage(),
         '/customerhome': (context) => const CustomerHome(),
