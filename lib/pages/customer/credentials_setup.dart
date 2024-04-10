@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_application_1/pages/customer/password_setup.dart';
-import 'package:flutter_application_1/themes/text.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
 
 import '../../themes/button.dart';
 import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
+import '../../themes/text.dart';
 
 class CredentialSetup extends StatefulWidget {
 
   final String name, phone;
+
   const CredentialSetup({super.key, required this.name, required this.phone});
 
   @override
@@ -19,126 +19,115 @@ class CredentialSetup extends StatefulWidget {
 
 class _CredentialSetupState extends State<CredentialSetup> {
 
-  final TextEditingController _ibanController = TextEditingController();
-  final TextEditingController _bankRoutingController = TextEditingController();
-  final TextEditingController _accountNoController = TextEditingController();
+  final TextEditingController _ibanNo = TextEditingController();
+  final TextEditingController _bankingRoutingNo = TextEditingController();
+  final TextEditingController _accountNo = TextEditingController();
 
   void _submit(BuildContext context){
-    if(_ibanController.text.isEmpty && (_bankRoutingController.text.isEmpty && _accountNoController.text.isEmpty)){
-      showSnackBarMessage('Fill all the necessary details to proceed further'); 
-      return;     
+
+    if(_ibanNo.text.isEmpty && _bankingRoutingNo.text.isEmpty){
+      snackBarMessage('Please fill IBAN No or Banking Routing No');
+      return;
+    }else if(_accountNo.text.isEmpty){
+      snackBarMessage('Please fill Account No');
+      return;
     }
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: const Text("Confirm Details"),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text("IBAN: ${_ibanController.text}"),
-                Text("Bank Routing Number: ${_bankRoutingController.text}"),
-                Text("Account Number: ${_accountNoController.text}"),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Cancel", style: dialogBoxBlackText,),
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Close the dialog
-              },
-            ),
-            TextButton(
-              child: Text("Confirm", style: dialogBoxOrangeText,),
-              onPressed: () {
-                // Close the dialog and proceed with the navigation
-                Navigator.of(dialogContext).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => PasswordSetup(name: widget.name, phone: widget.phone),
-                  ),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
+
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ValidateCredentials(name: widget.name ,phone: widget.phone, ibanNo: _ibanNo.text, bankingRoutingNo: _bankingRoutingNo.text, accountNo: _accountNo.text)));
   }
 
-  void showSnackBarMessage(String text){
+  void snackBarMessage(error){
     ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                textAlign: TextAlign.center,
-                text,
-                style: GoogleFonts.getFont(
-                  'Lato',
-                  fontSize: 18,
-                  color: textWhite,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: .7,
-                ),            
-              ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
-              backgroundColor: themeBtnOrange
-            ),
-          );    
-  }
-
-  Container textFieldContainer(hintText, TextEditingController controller){
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0), // Apply border radius
-        border: Border.all(color: themeBtnOrange), // Define border color and width
-      ),              
-      child: TextFormField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: hintText,
-          hintStyle: GoogleFonts.getFont(
-            'Lato',
-            fontWeight: FontWeight.w500,
-            letterSpacing: .7,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
-        ),
+      SnackBar(
+          content: Text(
+            textAlign: TextAlign.center,
+            '$error',
+            style: themeTextFieldError,
+          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
+          backgroundColor: themeBtnOrange
       ),
     );
-  }  
+  }
+
+  ElevatedButton btnOrange(){
+    ElevatedButton btn = ElevatedButton(
+      style: themeBtn2,
+      onPressed: () => _submit(context),
+      child: Text(
+        'Submit',
+        style: themeTextField,
+      ),
+    );
+    return btn;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: themeBtnOrange,
-          title: Text(
-            textAlign: TextAlign.center,
-            'Issue Partner',
-            style: themeTextField,
-          )
+        centerTitle: true,
+        backgroundColor: themeBtnOrange,
+        title: Text(
+          'Credentials Setup',
+          style: themeTextField,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            const SizedBox(height: 20.0),                            
-            textFieldContainer('IBAN No', _ibanController),
+            Text(
+              'Partner: Monzo',
+              style: themeTextField2,
+            ),
             const SizedBox(height: 20.0),
-            const Text('( OR )'),        
+            Text(
+              'IBAN No:',
+              style: themeTextField4,
+            ),
+            TextField(
+              controller: _ibanNo,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: 'Enter IBAN No',
+              ),
+            ),
+            const SizedBox(height: 20,),
+
+            Text(
+              '( OR )',
+              style: themeTextField4,
+            ),
             const SizedBox(height: 20.0),            
-            textFieldContainer('Banking Routing No', _bankRoutingController),
+            Text(
+              'Banking Routing No:',
+              style: themeTextField4,
+            ),
+            TextField(
+              controller: _bankingRoutingNo,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: 'Enter Banking Routing No',
+              ),
+            ),
             const SizedBox(height: 20.0),
-            textFieldContainer('Account No', _accountNoController),
+
+            Text(
+              'Account No:',
+              style: themeTextField4,
+            ),
+            TextField(
+              controller: _accountNo,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: 'Enter Account No',
+              ),
+            ),
             const SizedBox(height: 20.0), 
-            ElevatedButton(onPressed: () => _submit(context), style: themeBtn2, child: const Text('Submit')),                                   
+            btnOrange(),
           ],
         ),
-      ),
+      ),      
     );
   }
 }

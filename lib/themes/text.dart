@@ -18,21 +18,14 @@ final TextStyle themeTextField2 = GoogleFonts.lato(
 
 final TextStyle themeTextField3 = GoogleFonts.lato(
   fontSize: 12,
-  color: textBlack,
-  fontWeight: FontWeight.bold,
+  color: textBlack, // Assuming textWhite is defined somewhere
+  //fontWeight: FontWeight.bold,
   letterSpacing: 0.7,
 );
 
-final TextStyle dialogBoxBlackText = GoogleFonts.lato(
+final TextStyle themeTextField4 = GoogleFonts.lato(
   fontSize: 14,
-  color: textBlack,
-  fontWeight: FontWeight.bold,
-  letterSpacing: 0.7,
-);
-
-final TextStyle dialogBoxOrangeText = GoogleFonts.lato(
-  fontSize: 14,
-  color: themeBtnOrange,
-  fontWeight: FontWeight.bold,
+  color: textBlack, // Assuming textWhite is defined somewhere
+  // fontWeight: FontWeight.bold,
   letterSpacing: 0.7,
 );

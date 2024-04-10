@@ -6,6 +6,8 @@ import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../themes/text.dart';
+
 class PasswordSetup extends StatefulWidget {
 
   final String name, phone;
@@ -22,31 +24,25 @@ class _PasswordSetupState extends State<PasswordSetup> {
 
   void _submit(BuildContext context){
     if(_password.text.isEmpty || _cpassword.text.isEmpty){
-      showSnackBarMessage('Please enter both fields');
+      snackBarMessage('Please enter password and confirm password');
     }else if(_password.text != _cpassword.text){
-      showSnackBarMessage('Both passwords must match');
+      snackBarMessage('Both passwords must match');
     }else{
       Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
     }
   }
 
-   void showSnackBarMessage(String text){
+  void snackBarMessage(error){
     ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                textAlign: TextAlign.center,
-                text,
-                style: GoogleFonts.getFont(
-                  'Lato',
-                  fontSize: 18,
-                  color: textWhite,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: .7,
-                ),            
-              ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
-              backgroundColor: themeBtnOrange
-            ),
-          );    
+      SnackBar(
+          content: Text(
+            textAlign: TextAlign.center,
+            '$error',
+            style: themeTextFieldError,
+          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
+          backgroundColor: themeBtnOrange
+      ),
+    );
   }
 
   Container textFieldContainer(hintText, TextEditingController controller){
@@ -71,7 +67,19 @@ class _PasswordSetupState extends State<PasswordSetup> {
         ),
       ),
     );
-  }   
+  }
+
+  ElevatedButton btnOrange(){
+    ElevatedButton btn = ElevatedButton(
+      style: themeBtn2,
+      onPressed: () => _submit(context),
+      child: Text(
+        'Submit',
+        style: themeTextField,
+      ),
+    );
+    return btn;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,12 +97,31 @@ class _PasswordSetupState extends State<PasswordSetup> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            const SizedBox(height: 20.0),
-            textFieldContainer('New Password', _password),
-            const SizedBox(height: 20.0),
-            textFieldContainer('Confirm Password', _cpassword),
-            const SizedBox(height: 20.0),
-            ElevatedButton(onPressed: () => _submit(context), style: themeBtn2, child: const Text('Submit')),                                                
+            Text(
+              'New Password',
+              style: themeTextField2,
+            ),
+            TextField(
+              controller: _password,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: 'New Password',
+              ),
+            ),
+            const SizedBox(height: 30,),
+            Text(
+              'Confirm Password',
+              style: themeTextField2,
+            ),
+            TextField(
+              controller: _cpassword,
+              keyboardType: TextInputType.name,
+              decoration: const InputDecoration(
+                hintText: 'Confirm Password',
+              ),
+            ),
+            const SizedBox(height: 20,),
+            btnOrange(),
           ],
         ),
       ),      

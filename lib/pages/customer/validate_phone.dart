@@ -132,7 +132,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
                   const Text("  "),
                   TweenAnimationBuilder(
                     tween: Tween<double>(begin: 30, end: 0),
-                    duration: const Duration(seconds: 10),
+                    duration: const Duration(seconds: 30),
                     builder: (context, value, child) => Text(
                       '00:${value.toInt()}',
                       style: const TextStyle(

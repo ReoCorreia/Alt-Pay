@@ -8,3 +8,10 @@ final TextStyle themeTextField = GoogleFonts.lato(
   fontWeight: FontWeight.bold,
   letterSpacing: 0.7,
 );
+
+final TextStyle themeTextFieldError = GoogleFonts.lato(
+  fontSize: 16,
+  color: textWhite, // Assuming textWhite is defined somewhere
+  fontWeight: FontWeight.bold,
+  letterSpacing: 0.7,
+);

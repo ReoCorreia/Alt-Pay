@@ -37,7 +37,7 @@ class _EnterNameState extends State<EnterName> {
       return;
     }
 
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: "abcd", phone: widget.data)));
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: '${_firstName.text} ${_lastName.text}', phone: widget.data)));
   }
 
   void snackBarMessage(error){

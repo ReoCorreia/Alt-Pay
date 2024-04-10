@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_complete.dart';
+
+import '../../themes/button.dart';
+import '../../themes/color.dart';
+import '../../themes/hint_style.dart';
+import '../../themes/text.dart';
 
 class ValidateCredentials extends StatefulWidget {
 
-  final String name, phone;
-  const ValidateCredentials({super.key, required this.name, required this.phone});
+  final String name, phone, ibanNo, bankingRoutingNo, accountNo;
+  const ValidateCredentials({super.key, required this.name, required this.phone, required this.ibanNo, required this.bankingRoutingNo, required this.accountNo});
 
   @override
   State<ValidateCredentials> createState() => _ValidateCredentialsState();
@@ -13,35 +19,72 @@ class ValidateCredentials extends StatefulWidget {
 class _ValidateCredentialsState extends State<ValidateCredentials> {
 
   void _validate(BuildContext context){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ValidateComplete(name: widget.name ,phone: widget.phone)));
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ValidateComplete(name: widget.name ,phone: widget.phone, ibanNo: widget.ibanNo, bankingRoutingNo: widget.bankingRoutingNo, accountNo: widget.accountNo)));
+  }
+
+  void snackBarMessage(error){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text(
+            textAlign: TextAlign.center,
+            '$error',
+            style: themeTextField,
+          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
+          backgroundColor: themeBtnOrange
+      ),
+    );
+  }
+
+  Text ibanOrBankingRoutingNo(){
+    Text txt = Text(
+      (widget.ibanNo.isEmpty) ? 'Banking Routing No: \n${widget.bankingRoutingNo}' : 'IBAN No: \n${widget.ibanNo}',
+      style: themeTextField4,
+    );
+    return txt;
+  }
+
+  ElevatedButton btnOrange(){
+    ElevatedButton btn = ElevatedButton(
+      onPressed: () => _validate(context),
+      style: themeBtn2,
+      child: Text(
+        'Validate',
+        style: themeTextField,
+      ),
+    );
+    return btn;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: const Text('Credentials Setup'),
+        centerTitle: true,
+        backgroundColor: themeBtnOrange,
+        title: Text(
+          'Validate Credentials',
+          style: themeTextField,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
-            Text('Dear ${widget.name}, Welcome to Alt-Pay'),
-            TextField(
-              readOnly: true,
-              controller: TextEditingController(text: widget.phone),
-              ),
+
+            Text(
+                'Partner: Monzo',
+              style: themeTextField2,
+            ),
             const SizedBox(height: 20.0),
-            const Text('Partner: Monzo'),
-            const SizedBox(height: 20.0),           
-            const Text('IBAN No: \nAL47 2121 1009 0000 0002 3569 8741'), 
-            const SizedBox(height: 20.0),            
-            const Text('You will now be redirected to our partner website/app for validation of your credentials'),
+            ibanOrBankingRoutingNo(),
             const SizedBox(height: 20.0),
-            ElevatedButton(onPressed: () => _validate(context), child: const Text('Submit')),
+            Text(
+              'You will now be redirected to our partner website/app for validation of your credentials',
+              style: themeTextField4,
+            ),
+            const SizedBox(height: 20.0),
+            btnOrange(),
           ],
           ),
       ),      
