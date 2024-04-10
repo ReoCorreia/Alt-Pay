@@ -4,7 +4,6 @@ import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
 import '../../themes/button.dart';
 import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
-import '../../themes/text.dart';
 
 class IssuePartner extends StatefulWidget {
 
@@ -25,7 +24,6 @@ class _IssuePartnerState extends State<IssuePartner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: themeBtnOrange,

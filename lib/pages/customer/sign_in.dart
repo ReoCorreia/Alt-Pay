@@ -155,33 +155,17 @@ class _SignInState extends State<SignIn> {
             ),
 
             const SizedBox(height: 20.0),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: Divider(
-                    color: themeBtnOrange,
-                  )
+            Expanded(
+              flex: 2,
+              child: ElevatedButton(
+                onPressed: () => _submit(context), 
+                style: themeBtn2,
+                child: Text(
+                  'Sign In',
+                  style: themeTextField,                
                 ),
-                const SizedBox(width: 5.0),         
-                Expanded(
-                  flex: 2,
-                  child: ElevatedButton(
-                    onPressed: () => _submit(context), 
-                    style: themeBtn2,
-                    child: Text(
-                      'Sign In',
-                      style: themeTextField,                
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 5.0),                
-                Expanded(
-                  child: Divider(
-                    color: themeBtnOrange,
-                  )
-                )                                
-              ],
-            )
+              ),
+            ),
           ],
         ),
 

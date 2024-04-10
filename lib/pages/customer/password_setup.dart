@@ -4,9 +4,7 @@ import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../themes/text.dart';
+import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 class PasswordSetup extends StatefulWidget {
 
@@ -55,22 +53,13 @@ class _PasswordSetupState extends State<PasswordSetup> {
         controller: controller,
         obscureText: true,
         keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: hintText,
-          hintStyle: GoogleFonts.getFont(
-            'Lato',
-            fontWeight: FontWeight.w500,
-            letterSpacing: .7,
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
-        ),
+        decoration: decorate(hintText)
       ),
     );
   }
 
   ElevatedButton btnOrange(){
-    ElevatedButton btn = ElevatedButton(
+    return ElevatedButton(
       style: themeBtn2,
       onPressed: () => _submit(context),
       child: Text(
@@ -78,7 +67,6 @@ class _PasswordSetupState extends State<PasswordSetup> {
         style: themeTextField,
       ),
     );
-    return btn;
   }
 
   @override
@@ -97,29 +85,9 @@ class _PasswordSetupState extends State<PasswordSetup> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Text(
-              'New Password',
-              style: themeTextField2,
-            ),
-            TextField(
-              controller: _password,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: 'New Password',
-              ),
-            ),
+            textFieldContainer('New Password', _password),
             const SizedBox(height: 30,),
-            Text(
-              'Confirm Password',
-              style: themeTextField2,
-            ),
-            TextField(
-              controller: _cpassword,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: 'Confirm Password',
-              ),
-            ),
+            textFieldContainer('Confirm Password', _cpassword),
             const SizedBox(height: 20,),
             btnOrange(),
           ],

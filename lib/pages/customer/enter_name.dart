@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/issue_partner.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 class EnterName extends StatefulWidget {
 
@@ -68,95 +69,34 @@ class _EnterNameState extends State<EnterName> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-          'User Details',
-          style: themeTextField,
-        ),
-      ),
+      appBar: appBar('User Details'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0), // Apply border radius
-                border: Border.all(color: themeBtnOrange), // Define border color and width
-              ),
-              child: TextFormField(
-                readOnly: true,
-                controller: TextEditingController(text: widget.data),
-                keyboardType: TextInputType.name,
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
-                ),
-              ),
+            TextFormField(
+              readOnly: true,
+              controller: TextEditingController(text: widget.data),
+              keyboardType: TextInputType.phone,
+              decoration: decorate('Phone')
             ),
             const SizedBox(height: 20,),  
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0), // Apply border radius
-                border: Border.all(color: themeBtnOrange), // Define border color and width
-              ),
-              child: TextFormField(
-                controller: _firstName,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'First Name',
-                  hintStyle: GoogleFonts.getFont(
-                    'Lato',
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: .7,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
-                ),                
-              ),
+            TextFormField(
+              controller: _firstName,
+              keyboardType: TextInputType.name,
+              decoration: decorate('First Name')
             ),
             const SizedBox(height: 20,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0), // Apply border radius
-                border: Border.all(color: themeBtnOrange), // Define border color and width
-              ),              
-              child: TextFormField(
-                controller: _lastName,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Last Name',
-                  hintStyle: GoogleFonts.getFont(
-                    'Lato',
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: .7,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
-                ),
-              ),
+            TextFormField(
+              controller: _lastName,
+              keyboardType: TextInputType.name,
+              decoration: decorate('Last Name')
             ),
             const SizedBox(height: 20,),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0), // Apply border radius
-                border: Border.all(color: themeBtnOrange), // Define border color and width
-              ),              
-              child: TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Enter your Email Id',
-                  hintStyle: GoogleFonts.getFont(
-                    'Lato',
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: .7,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
-                ),                
-              ),
+            TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: decorate('Email')                
             ),
             const SizedBox(height: 20,),                          
             btnOrange()              

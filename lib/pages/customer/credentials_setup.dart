@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
+import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 import '../../themes/button.dart';
 import '../../themes/color.dart';
@@ -81,16 +82,14 @@ class _CredentialSetupState extends State<CredentialSetup> {
               style: themeTextField2,
             ),
             const SizedBox(height: 20.0),
-            Text(
-              'IBAN No:',
-              style: themeTextField4,
-            ),
+            // Text(
+            //   'IBAN No:',
+            //   style: themeTextField4,
+            // ),
             TextField(
               controller: _ibanNo,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: 'Enter IBAN No',
-              ),
+              keyboardType: TextInputType.number,
+              decoration: decorate('Enter IBAN No')
             ),
             const SizedBox(height: 20,),
 
@@ -99,29 +98,25 @@ class _CredentialSetupState extends State<CredentialSetup> {
               style: themeTextField4,
             ),
             const SizedBox(height: 20.0),            
-            Text(
-              'Banking Routing No:',
-              style: themeTextField4,
-            ),
+            // Text(
+            //   'Banking Routing No:',
+            //   style: themeTextField4,
+            // ),
             TextField(
               controller: _bankingRoutingNo,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: 'Enter Banking Routing No',
-              ),
+              keyboardType: TextInputType.number,
+              decoration: decorate('Enter Banking Routing No')
             ),
             const SizedBox(height: 20.0),
 
-            Text(
-              'Account No:',
-              style: themeTextField4,
-            ),
+            // Text(
+            //   'Account No:',
+            //   style: themeTextField4,
+            // ),
             TextField(
               controller: _accountNo,
-              keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                hintText: 'Enter Account No',
-              ),
+              keyboardType: TextInputType.number,
+              decoration: decorate('Enter Account No')
             ),
             const SizedBox(height: 20.0), 
             btnOrange(),
