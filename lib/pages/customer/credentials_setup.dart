@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/password_setup.dart';
-import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:google_fonts/google_fonts.dart';
 

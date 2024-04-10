@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
+import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/color.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PasswordSetup extends StatefulWidget {
 
@@ -16,61 +21,80 @@ class _PasswordSetupState extends State<PasswordSetup> {
   final TextEditingController _cpassword = TextEditingController();
 
   void _submit(BuildContext context){
-    print(_password.text == _cpassword.text);
-    if(_password.text == _cpassword.text && _password.text.isNotEmpty && _cpassword.text.isNotEmpty){
+    if(_password.text.isEmpty || _cpassword.text.isEmpty){
+      showSnackBarMessage('Please enter both fields');
+    }else if(_password.text != _cpassword.text){
+      showSnackBarMessage('Both passwords must match');
+    }else{
       Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
     }
-    else if(_password.text.isEmpty != _cpassword.text.isEmpty){
-      showDialog(context: context, builder: (context) => AlertDialog(
-        title: const Text('Error'),
-        content: const Text('Passwords do not match'),
-        actions: <Widget>[
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))
-        ],
-      ));
-    }
-    else{
-      showDialog(context: context, builder: (context) => AlertDialog(
-        title: const Text('Error'),
-        content: const Text('Passwords cannot be empty'),
-        actions: <Widget>[
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))
-        ],
-      ));
-    }
   }
+
+   void showSnackBarMessage(String text){
+    ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                textAlign: TextAlign.center,
+                text,
+                style: GoogleFonts.getFont(
+                  'Lato',
+                  fontSize: 18,
+                  color: textWhite,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: .7,
+                ),            
+              ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
+              backgroundColor: themeBtnOrange
+            ),
+          );    
+  }
+
+  Container textFieldContainer(hintText, TextEditingController controller){
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0), // Apply border radius
+        border: Border.all(color: themeBtnOrange), // Define border color and width
+      ),              
+      child: TextFormField(
+        controller: controller,
+        obscureText: true,
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText,
+          hintStyle: GoogleFonts.getFont(
+            'Lato',
+            fontWeight: FontWeight.w500,
+            letterSpacing: .7,
+          ),
+          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),                  
+        ),
+      ),
+    );
+  }   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: const Text('Credentials Setup'),
+          centerTitle: true,
+          backgroundColor: themeBtnOrange,
+          title: Text(
+            textAlign: TextAlign.center,
+            'Password Setup',
+            style: themeTextField,
+          )
       ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Text(widget.name),
-            TextField(
-              readOnly: true,
-              controller: TextEditingController(text: widget.phone),
-              ),
             const SizedBox(height: 20.0),
-            const Text('Password'),
-            TextField(
-              obscureText: true,
-              controller: _password,
-              ),
+            textFieldContainer('New Password', _password),
             const SizedBox(height: 20.0),
-            const Text('Confirm Password'),
-            TextField(
-              obscureText: true,
-              controller: _cpassword,
-              ),
+            textFieldContainer('Confirm Password', _cpassword),
             const SizedBox(height: 20.0),
-            ElevatedButton(onPressed: () => _submit(context), child: const Text('Submit')),                                                
+            ElevatedButton(onPressed: () => _submit(context), style: themeBtn2, child: const Text('Submit')),                                                
           ],
         ),
       ),      
