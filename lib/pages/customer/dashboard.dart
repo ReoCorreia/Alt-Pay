@@ -15,6 +15,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
+  // ignore: unused_field
   String _scanBarcode = 'Unknown';
 
   @override
