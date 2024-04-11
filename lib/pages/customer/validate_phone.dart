@@ -152,21 +152,19 @@ class _ValidatePhoneState extends State<ValidatePhone> {
             ),
 
             const SizedBox(height: 30.0),
-            Flexible(
-              child: OTPTextField(
-                length: 4,
-                width: MediaQuery.of(context).size.width,
-                style: const TextStyle(
-                  fontSize: 17
-                ),
-                textFieldAlignment: MainAxisAlignment.spaceAround,
-                fieldStyle: FieldStyle.underline,
-                onCompleted: (pin) {
-                  setState(() {
-                    _otp = pin;
-                  });
-                },
+            OTPTextField(
+              length: 4,
+              width: MediaQuery.of(context).size.width,
+              style: const TextStyle(
+                fontSize: 17
               ),
+              textFieldAlignment: MainAxisAlignment.spaceAround,
+              fieldStyle: FieldStyle.underline,
+              onCompleted: (pin) {
+                setState(() {
+                  _otp = pin;
+                });
+              },
             ),
             const SizedBox(height: 20.0),
 

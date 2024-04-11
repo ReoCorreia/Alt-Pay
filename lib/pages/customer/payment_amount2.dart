@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/button.dart';
 
 class PaymentAmount2 extends StatefulWidget {
   const PaymentAmount2({super.key});
@@ -15,16 +17,12 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: const Text('New Payment'),
-      ),
+      appBar: appBar('Bill'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: [
-              Image.asset('lib/images/lankapay.png'),
+              Image.asset('lib/images/logo.png', height: 200, width: 200,),
               const SizedBox(height: 20.0),
               const Text('BeachSide Deli', style: TextStyle(fontSize: 28)),
               const SizedBox(height: 20.0),
@@ -58,7 +56,7 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                     flex: 1,
                     child: ElevatedButton(onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const PaymentAmount2()))
-                    }, child: const Text(
+                    }, style: themeBtn2, child: const Text(
                       'Bill Photo Using Camera',
                       textAlign: TextAlign.center,
                       )
@@ -66,8 +64,8 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(
-                    child: ElevatedButton(onPressed: () => {}, child: const Text('Upload Bill File')),
-                  ),                  
+                    child: ElevatedButton(onPressed: () => {}, style: themeBtn2, child: const Text('Upload Bill File')),
+                  ),
                 ],
               ),
               const SizedBox(height: 20.0),
@@ -75,26 +73,25 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                 color: Colors.black,
                 thickness: 2,
                 height: 20,
-              ),              
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     child: ElevatedButton(onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const Dashboard()))
-                    }, child: const Text('Submit & Continue')),
+                    }, style: themeBtn2, child: const Text('Submit & Continue')),
                   ),
                   const SizedBox(width: 25.0),
                   Expanded(
                     child: ElevatedButton(onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const Dashboard()))
-                    }, child: const Text('Cancel')),
-                  ),                  
+                    }, style: themeBtn2, child: const Text('Cancel')),
+                  ),
                 ],
-              ),                            
+              ), 
           ],
         ),
-
       ),
     );
   }

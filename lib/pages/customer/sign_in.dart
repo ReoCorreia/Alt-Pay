@@ -17,7 +17,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  String _selectedCountryCode = "+91"; // Default country code
+  String _selectedCountryCode = "+44"; // Default country code
   bool incorrectPhone = false;
   bool incorrectPassword = false;
   
@@ -155,15 +155,12 @@ class _SignInState extends State<SignIn> {
             ),
 
             const SizedBox(height: 20.0),
-            Expanded(
-              flex: 2,
-              child: ElevatedButton(
-                onPressed: () => _submit(context), 
-                style: themeBtn2,
-                child: Text(
-                  'Sign In',
-                  style: themeTextField,                
-                ),
+            ElevatedButton(
+              onPressed: () => _submit(context), 
+              style: themeBtn2,
+              child: Text(
+                'Sign In',
+                style: themeTextField,                
               ),
             ),
           ],

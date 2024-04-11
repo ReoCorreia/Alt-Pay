@@ -25,94 +25,92 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(0.0),
           child: ListView(
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    ClipPath(
-                      clipper: WaveClipperTwo(),
-                      child: Container(
-                        width: double.infinity,
-                        height: 120.0,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              Color(0xFFf99321),
-                              Color(0xFFfc5a3b),
-                            ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  ClipPath(
+                    clipper: WaveClipperTwo(),
+                    child: Container(
+                      width: double.infinity,
+                      height: 120.0,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            Color(0xFFf99321),
+                            Color(0xFFfc5a3b),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 35),
+                    child: Text(
+                      'Welcome To',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),                   
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: Image.asset(
+                      'lib/images/t-logo.png',
+                      width: 250,
+                    ),
+                  ),
+                  const SizedBox(height: 60),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+                        },
+                        style: themeBtn1,
+                        child: Text(
+                          "Sign Up",
+                          style: GoogleFonts.getFont(
+                            'Lato',
+                            fontSize: 18,
+                            color: textWhite,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: .7,
                           ),
+                        ),                          
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
+                        },
+                        style: themeBtn2,
+                        child: Text(
+                          "Sign In",
+                          style: GoogleFonts.getFont(
+                            'Lato',
+                            fontSize: 18,
+                            color: textWhite,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: .5,
+                          ),                            
                         ),
                       ),
                     ),
-                    const SizedBox(height: 50),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 35),
-                      child: Text(
-                        'Welcome To',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),                   
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 35),
-                      child: Image.asset(
-                        'lib/images/t-logo.png',
-                        width: 250,
-                      ),
-                    ),
-                    const SizedBox(height: 60),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 35),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
-                          },
-                          style: themeBtn1,
-                          child: Text(
-                            "Sign Up",
-                            style: GoogleFonts.getFont(
-                              'Lato',
-                              fontSize: 18,
-                              color: textWhite,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: .7,
-                            ),
-                          ),                          
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 35),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
-                          },
-                          style: themeBtn2,
-                          child: Text(
-                            "Sign In",
-                            style: GoogleFonts.getFont(
-                              'Lato',
-                              fontSize: 18,
-                              color: textWhite,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: .5,
-                            ),                            
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 30,),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 30,),
+                ],
               ),
             ],
           ),

@@ -41,12 +41,12 @@ class _EnterNameState extends State<EnterName> {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: '${_firstName.text} ${_lastName.text}', phone: widget.data)));
   }
 
-  void snackBarMessage(error){
+  void snackBarMessage(String error){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             textAlign: TextAlign.center,
-            '${error}',
+            error,
             style: themeTextField,            
           ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
           backgroundColor: themeBtnOrange

@@ -43,18 +43,12 @@ class _PasswordSetupState extends State<PasswordSetup> {
     );
   }
 
-  Container textFieldContainer(hintText, TextEditingController controller){
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0), // Apply border radius
-        border: Border.all(color: themeBtnOrange), // Define border color and width
-      ),              
-      child: TextFormField(
-        controller: controller,
-        obscureText: true,
-        keyboardType: TextInputType.text,
-        decoration: decorate(hintText)
-      ),
+  TextFormField textFieldContainer(hintText, TextEditingController controller){
+    return TextFormField(
+      controller: controller,
+      obscureText: true,
+      keyboardType: TextInputType.text,
+      decoration: decorate(hintText)
     );
   }
 

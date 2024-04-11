@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount1.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/button.dart';
 
 class PaymentAmount extends StatefulWidget {
-  const PaymentAmount({super.key});
+  final String pn, pa, aid;
+  const PaymentAmount({super.key, required this.pn, required this.pa, required this.aid});
 
   @override
   State<PaymentAmount> createState() => _PaymentAmountState();
 }
 
 class _PaymentAmountState extends State<PaymentAmount> {
-
   final TextEditingController _amount = TextEditingController();
 
   void _getCCYAmount(BuildContext context){
@@ -19,49 +21,75 @@ class _PaymentAmountState extends State<PaymentAmount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.grey,
-        title: const Text('New Payment'),
-      ),
+      appBar: appBar('New Payment'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: <Widget>[
-            const Text(
-              'BeachSide DEli',
-              style: TextStyle(
-                fontSize: 28,
-              ),
-              ),
-              const SizedBox(height: 20.0),
-              const Text('Enter amount:'),
-              TextFormField(
-                controller: _amount,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  hintText: 'Please enter amount',
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset('lib/images/merchant.png', height: 40, width: 40,)                    
+                  ],
                 ),
-              ),
-              const SizedBox(height: 20.0),
-              const Text('EUR Exchange Rate: LKR 336.10'),
-              const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: ElevatedButton(onPressed: () => _getCCYAmount(context), child: const Text('Get CCY Amount')),
+                const SizedBox(width: 20.0),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Paying to ${widget.pn.toUpperCase()}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(widget.pa),                    
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(height: 60.0),
+            // const Text('Enter amount:'),
+            Center(
+              child: Column(
+                children: <Widget>[
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    controller: _amount,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      hintText: '   0',
+                    ),
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  const SizedBox(width: 25.0),
-                  Expanded(
-                    child: ElevatedButton(onPressed: () => {}, child: const Text('Cancel')),
-                  ),                  
+                  const SizedBox(height: 20.0),                  
+                  const Text('EUR Exchange Rate: LKR 336.10'),                  
                 ],
-              ),                            
+              ),
+            ),
+            const SizedBox(height: 20.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 ,child: const Text('Get CCY Amount')),
+                ),
+                const SizedBox(width: 25.0),
+                Expanded(
+                  child: ElevatedButton(onPressed: () => {}, style: themeBtn1 ,child: const Text('Cancel')),
+                ),
+              ],
+            ),
           ],
         ),
-        ),      
+        ),
     );
   }
 }
