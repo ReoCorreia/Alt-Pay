@@ -99,8 +99,8 @@ class _SignInState extends State<SignIn> {
                           _selectedCountryCode = code?.dialCode ?? _selectedCountryCode;
                         });
                       },
-                      initialSelection: 'IN', // Initial selection country code
-                      favorite: const ['+91'], // Your favorite country codes
+                      initialSelection: 'United Kingdom', // Initial selection country code
+                      favorite: const ['+44'], // Your favorite country codes
                     ),
                   ),
                   // const SizedBox(width: 20.0),

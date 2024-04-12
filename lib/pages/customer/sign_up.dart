@@ -18,7 +18,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  String _selectedCountryCode = "+91"; // Default country code
+  String _selectedCountryCode = "+44"; // Default country code
   bool incorrectPhone = false;
 
   final TextEditingController _phoneNumberController = TextEditingController();
@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                 Expanded(
                   flex: 4,
                   child: ElevatedButton(
-                    onPressed: () => _navigateToPhoneValidation(context, _selectedCountryCode + _phoneNumberController.text),
+                    onPressed: () => _navigateToPhoneValidation(context, "$_selectedCountryCode ${_phoneNumberController.text}"),
                     style: themeBtn2,
                     child: Text(
                       'Send OTP',
