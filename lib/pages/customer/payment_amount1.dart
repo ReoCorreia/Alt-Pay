@@ -20,7 +20,7 @@ class _PaymentAmount1State extends State<PaymentAmount1> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('lib/images/logo.png', width: 250, height: 230),
+            Image.asset('lib/images/t-logo.png', width: 250, height: 230),
               const SizedBox(height: 20.0),
               const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00'),
               const SizedBox(height: 20.0),

@@ -22,7 +22,7 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: [
-              Image.asset('lib/images/logo.png', height: 200, width: 200,),
+              Image.asset('lib/images/t-logo.png', height: 200, width: 200,),
               const SizedBox(height: 20.0),
               const Text('BeachSide Deli', style: TextStyle(fontSize: 28)),
               const SizedBox(height: 20.0),
