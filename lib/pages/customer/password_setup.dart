@@ -26,7 +26,13 @@ class _PasswordSetupState extends State<PasswordSetup> {
     }else if(_password.text != _cpassword.text){
       snackBarMessage('Both passwords must match');
     }else{
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
+      snackBarMessageNormal('Sign Up Successful, redirecting to Login...');
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const SignIn()),
+        );
+      });
     }
   }
 
@@ -42,6 +48,20 @@ class _PasswordSetupState extends State<PasswordSetup> {
       ),
     );
   }
+
+  void snackBarMessageNormal(String error){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            textAlign: TextAlign.center,
+            error,
+            style: themeTextField,            
+          ),
+          duration: const Duration(seconds: 2),
+          backgroundColor: themeBtnOrange
+        ),
+      );    
+  }  
 
   TextFormField textFieldContainer(hintText, TextEditingController controller){
     return TextFormField(

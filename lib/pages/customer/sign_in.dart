@@ -30,41 +30,41 @@ class _SignInState extends State<SignIn> {
       setState(() {
         incorrectPhone = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            'Phone Incorrect',
-            style: themeTextField,            
-          ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic), 
-          backgroundColor: themeBtnOrange
-        ),
-      );     
+      snackBarMessage('Phone Incorrect');     
       return;
     }else if(_password.text.isEmpty){
       setState(() {
         incorrectPassword = true;
       });      
+      snackBarMessage('Password Incorrect');
+      return;
+    }else{
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
             textAlign: TextAlign.center,
-            'Password Incorrect',
-            style: GoogleFonts.getFont(
-              'Lato',
-              fontSize: 18,
-              color: textWhite,
-              fontWeight: FontWeight.bold,
-              letterSpacing: .7,
-            ),            
-          ).animate(target: incorrectPassword? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic), 
+            'Sign In Successful',
+            style: whiteSnackBar            
+          ), 
+          backgroundColor: textWhite
+        ),
+      );      
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
+    }    
+  }
+
+  void snackBarMessage(String error){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            textAlign: TextAlign.center,
+            error,
+            style: themeTextField,            
+          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
           backgroundColor: themeBtnOrange
         ),
-      );
-      return;
-    }    
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
-  }
+      );    
+  }  
 
   @override
   Widget build(BuildContext context) {

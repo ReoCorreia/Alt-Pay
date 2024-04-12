@@ -171,7 +171,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
             ElevatedButton(
               onPressed: _otp.length == 4? () => _validatePhone() : null,
               style: themeBtn2,
-              child: const Text('Verify Phone'),
+              child: const Text('Verify OTP'),
             ),
           ],
         ),

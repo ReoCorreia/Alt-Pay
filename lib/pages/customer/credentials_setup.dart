@@ -82,13 +82,9 @@ class _CredentialSetupState extends State<CredentialSetup> {
               style: themeTextField2,
             ),
             const SizedBox(height: 20.0),
-            // Text(
-            //   'IBAN No:',
-            //   style: themeTextField4,
-            // ),
             TextField(
               controller: _ibanNo,
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
               decoration: decorate('Enter IBAN No')
             ),
             const SizedBox(height: 20,),
@@ -98,21 +94,12 @@ class _CredentialSetupState extends State<CredentialSetup> {
               style: themeTextField4,
             ),
             const SizedBox(height: 20.0),            
-            // Text(
-            //   'Banking Routing No:',
-            //   style: themeTextField4,
-            // ),
             TextField(
               controller: _bankingRoutingNo,
               keyboardType: TextInputType.number,
               decoration: decorate('Enter Banking Routing No')
             ),
             const SizedBox(height: 20.0),
-
-            // Text(
-            //   'Account No:',
-            //   style: themeTextField4,
-            // ),
             TextField(
               controller: _accountNo,
               keyboardType: TextInputType.number,

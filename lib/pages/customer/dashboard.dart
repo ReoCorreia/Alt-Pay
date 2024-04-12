@@ -171,7 +171,7 @@ class _DashboardState extends State<Dashboard> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         FloatingActionButton(
-                                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentAmount(pn: 'upiData[pn]!', pa: 'upiData[pa]!', aid: 'upiData[aib]!'))),
+                                          onPressed: () => scanQR(),
                                           foregroundColor: themeBtnOrange,
                                           backgroundColor: themeBtnOrange,
                                           child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
