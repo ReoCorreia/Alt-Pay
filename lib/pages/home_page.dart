@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/api.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/pages/customer/sign_up.dart';
@@ -56,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
+                  ),                   
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: Image.asset(
@@ -83,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                             letterSpacing: .7,
                           ),
-                        ),
+                        ),                          
                       ),
                     ),
                   ),
@@ -111,9 +110,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 30,),
-                  // ElevatedButton(onPressed: () => {
-                  //   Navigator.push(context, MaterialPageRoute(builder: (context) => const Api()))
-                  // }, child: const Text('Api'))
                 ],
               ),
             ],
