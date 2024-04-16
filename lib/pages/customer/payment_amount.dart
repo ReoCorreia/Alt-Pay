@@ -4,8 +4,8 @@ import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
 
 class PaymentAmount extends StatefulWidget {
-  final String pn, pa, aid;
-  const PaymentAmount({super.key, required this.pn, required this.pa, required this.aid});
+  final Map<String, dynamic> data;
+  const PaymentAmount({super.key, required this.data});
 
   @override
   State<PaymentAmount> createState() => _PaymentAmountState();
@@ -40,18 +40,17 @@ class _PaymentAmountState extends State<PaymentAmount> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      'Paying to ${widget.pn.toUpperCase()}',
+                      widget.data["Merchant Name"]["data"],
                       style: const TextStyle(
                         fontSize: 18,
                       ),
                     ),
-                    Text(widget.pa),                    
+                    const Text("widget.pa"),                    
                   ],
                 ),
               ],
             ),
             const SizedBox(height: 60.0),
-            // const Text('Enter amount:'),
             Center(
               child: Column(
                 children: <Widget>[

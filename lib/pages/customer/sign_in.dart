@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -17,7 +17,6 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
 
-  String _selectedCountryCode = "+44"; // Default country code
   bool incorrectPhone = false;
   bool incorrectPassword = false;
   
@@ -66,6 +65,7 @@ class _SignInState extends State<SignIn> {
       );    
   }  
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,70 +85,28 @@ class _SignInState extends State<SignIn> {
             // target: incorrectInput? 1 : 0 can be used inside animate() to conditionally animate.
             Image.asset('lib/images/login.png', width: 300, height: 300),
             // const SizedBox(height: 20.0),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: incorrectPhone? Colors.red : themeBtnOrange), // Define border color and width
-                borderRadius: BorderRadius.circular(8.0), // Optionally, apply border radius
-              ),
-              child: Row(
+            Row(
                 children: [
                   Expanded(
-                    child: CountryCodePicker(
-                      onChanged: (CountryCode? code) {
-                        setState(() {
-                          _selectedCountryCode = code?.dialCode ?? _selectedCountryCode;
-                        });
-                      },
-                      initialSelection: 'United Kingdom', // Initial selection country code
-                      favorite: const ['+44'], // Your favorite country codes
+                    child: IntlPhoneField(
+                      initialCountryCode: 'GB',
+                      decoration: decorate('Enter your phone'),
+                      controller: _phoneNumberController,
                     ),
                   ),
                   // const SizedBox(width: 20.0),
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      controller: _phoneNumberController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(borderSide: BorderSide.none),
-                        hintText: 'Enter your phone number',
-                        hintStyle: GoogleFonts.getFont(
-                          'Lato',
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: .7,
-                        ),                        
-                      ),
-                    ),
-                  ),
                 ],
-              ),
-            ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
+              ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
             const SizedBox(height: 20.0),
             Row(
               children: [
                     // effects: [FadeEffect(), ScaleEffect()],
                 Expanded(
                   flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0), // Apply border radius
-                      border: Border.all(color: incorrectPassword? Colors.red : themeBtnOrange), // Define border color and width
-                    ),
-
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        border: InputBorder.none, // Remove border around TextField
-                        hintText: 'Enter your password',
-                        hintStyle: GoogleFonts.getFont(
-                          'Lato',
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: .7,
-                        ),                        
-                        contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                      ),
-                      controller: _password,
-                    ),
+                  child: TextFormField(
+                    obscureText: true,
+                    decoration: decorate('Enter your password'),
+                    controller: _password,
                   ).animate(target: incorrectPassword? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
                 ),
               ],
@@ -165,7 +123,6 @@ class _SignInState extends State<SignIn> {
             ),
           ],
         ),
-
         ),
     );
   }

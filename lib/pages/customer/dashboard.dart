@@ -6,6 +6,8 @@ import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -17,41 +19,52 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
 
   // ignore: unused_field
-  String _scanBarcode = 'Unknown';
+  String _scanBarcode = '';
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> scanQR() async {
-    String upiUrl;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      upiUrl = await FlutterBarcodeScanner.scanBarcode(
-          '#fffc5a3b', 'Cancel', true, ScanMode.QR);
-      print(upiUrl);
-      Map<String, String> upiData = parseUPIURL(upiUrl);
-      print("Merchant Name: ${upiData['pn']}");
-      print("UPI ID (PA): ${upiData['pa']}");
-      print("Additional Information (AID): ${upiData['aid']}");
-      if(upiData.isNotEmpty){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount(pn: "${upiData['pn']}", pa: "${upiData['pa']}", aid: "${upiData['aib']}")));        
-      }      
-    } on PlatformException {
-      upiUrl = 'Failed to get platform version.';
-      snackBarMessage('Scan google pay qr');      
+Future<void> scanQR(BuildContext context) async {
+  String qrstring;
+
+  try {
+    qrstring = await FlutterBarcodeScanner.scanBarcode(
+        '#fffc5a3b', 'Cancel', true, ScanMode.QR);
+    if (qrstring.isNotEmpty) {
+      print("Upi url: $qrstring");
+      await fetchData(context, qrstring);
     }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _scanBarcode = upiUrl;
-    });
+  } on PlatformException {
+    qrstring = 'Failed to get platform version.';
   }
+
+  if (!mounted) return;
+
+  setState(() {
+    _scanBarcode = qrstring;
+  });
+}
+
+Future<void> fetchData(BuildContext context, String qrstring) async {
+  var url = Uri.http(
+      '65.1.187.138:8000', '/masters/v1/decodeLankaQR/', {'qrstring': qrstring});
+
+  print('Upi url: $qrstring');
+  final response = await http.get(url);
+  var jsonResponse = jsonDecode(response.body);
+  var data = jsonResponse['data'];
+  print("name: ${data["Merchant Name"]}");
+
+  // Navigate to the next page while passing the data as arguments
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => PaymentAmount(data: data),
+    ),
+  );
+}  
 
   void snackBarMessage(String error){
       ScaffoldMessenger.of(context).showSnackBar(
@@ -65,17 +78,7 @@ class _DashboardState extends State<Dashboard> {
         ),
       );    
   }
-
-  Map<String, String> parseUPIURL(String url) {
-    Uri uri = Uri.parse(url);
-    Map<String, String> upiData = {};
-    if (uri.scheme == "upi" && uri.queryParameters.isNotEmpty) {
-      upiData['pa'] = uri.queryParameters['pa']!;
-      upiData['pn'] = uri.queryParameters['pn']!;
-      upiData['aid'] = uri.queryParameters['aid']!;
-    }
-    return upiData;
-  }  
+  
 
   Widget titleBox(String title) {
     return DecoratedBox(
@@ -155,7 +158,7 @@ class _DashboardState extends State<Dashboard> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         FloatingActionButton(
-                                          onPressed: () => scanQR(),
+                                          onPressed: () => scanQR(context),
                                           foregroundColor: themeBtnOrange,
                                           backgroundColor: themeBtnOrange,
                                           child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
@@ -171,7 +174,7 @@ class _DashboardState extends State<Dashboard> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         FloatingActionButton(
-                                          onPressed: () => scanQR(),
+                                          onPressed: () => scanQR(context),
                                           foregroundColor: themeBtnOrange,
                                           backgroundColor: themeBtnOrange,
                                           child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),

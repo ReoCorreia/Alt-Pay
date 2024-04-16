@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/themes/text_field_decoration.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../themes/button.dart';
 import '../../themes/color.dart';
@@ -18,12 +18,11 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
 
-  String _selectedCountryCode = "+44"; // Default country code
   bool incorrectPhone = false;
 
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  void _navigateToPhoneValidation(BuildContext context, String phoneNumber) {
+  void _navigateToPhoneValidation(BuildContext context) {
 
     if(_phoneNumberController.text.isEmpty){
       setState(() {
@@ -44,7 +43,7 @@ class _SignUpState extends State<SignUp> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ValidatePhone(phone: phoneNumber)),
+      MaterialPageRoute(builder: (context) => ValidatePhone(phone: _phoneNumberController.text)),
     );
   }
 
@@ -73,43 +72,17 @@ class _SignUpState extends State<SignUp> {
           children: <Widget>[
             // target: incorrectInput? 1 : 0 can be used inside animate() to conditionally animate.
             Image.asset('lib/images/login.png', width: 300, height: 300),
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: incorrectPhone? Colors.red : themeBtnOrange), // Define border color and width
-                borderRadius: BorderRadius.circular(8.0), // Optionally, apply border radius
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CountryCodePicker(
-                      onChanged: (CountryCode? code) {
-                        setState(() {
-                          _selectedCountryCode = code?.dialCode ?? _selectedCountryCode;
-                        });
-                      },
-                      initialSelection: 'United Kingdom', // Initial selection country code
-                      favorite: const ['+44'], // Your favorite country codes
-                    ),
+            Row(
+              children: [                
+                Expanded(
+                  child: IntlPhoneField(
+                    initialCountryCode: 'GB',
+                    decoration: decorate('Enter your phone'),
+                    controller: _phoneNumberController,
                   ),
-                  // const SizedBox(width: 20.0),
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      controller: _phoneNumberController,
-                      keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(borderSide: BorderSide.none),
-                        hintText: 'Enter your phone number',
-                        hintStyle: GoogleFonts.getFont(
-                          'Lato',
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: .7,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                // const SizedBox(width: 20.0),
+              ],
             ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
             const SizedBox(height: 20.0),
             Row(
@@ -118,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                 Expanded(
                   flex: 4,
                   child: ElevatedButton(
-                    onPressed: () => _navigateToPhoneValidation(context, "$_selectedCountryCode ${_phoneNumberController.text}"),
+                    onPressed: () => _navigateToPhoneValidation(context),
                     style: themeBtn2,
                     child: Text(
                       'Send OTP',
