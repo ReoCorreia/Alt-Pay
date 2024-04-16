@@ -27,31 +27,31 @@ class _DashboardState extends State<Dashboard> {
   }
 
 Future<void> scanQR(BuildContext context) async {
-  String qrstring;
+  String qrString;
 
   try {
-    qrstring = await FlutterBarcodeScanner.scanBarcode(
+    qrString = await FlutterBarcodeScanner.scanBarcode(
         '#fffc5a3b', 'Cancel', true, ScanMode.QR);
-    if (qrstring.isNotEmpty) {
-      print("Upi url: $qrstring");
-      await fetchData(context, qrstring);
+    if (qrString != "-1") {
+      print("Upi url: $qrString");
+      await fetchData(context, qrString);
     }
   } on PlatformException {
-    qrstring = 'Failed to get platform version.';
+    qrString = 'Failed to get platform version.';
   }
 
   if (!mounted) return;
 
   setState(() {
-    _scanBarcode = qrstring;
+    _scanBarcode = qrString;
   });
 }
 
-Future<void> fetchData(BuildContext context, String qrstring) async {
+Future<void> fetchData(BuildContext context, String qrString) async {
   var url = Uri.http(
-      '65.1.187.138:8000', '/masters/v1/decodeLankaQR/', {'qrstring': qrstring});
+      '65.1.187.138:8000', '/masters/v1/decodeLankaQR/', {'qrstring': qrString});
 
-  print('Upi url: $qrstring');
+  print('Upi url: $qrString');
   final response = await http.get(url);
   var jsonResponse = jsonDecode(response.body);
   var data = jsonResponse['data'];
