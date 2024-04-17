@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
+import 'package:flutter_application_1/variables/api_variables.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../themes/button.dart';
@@ -19,12 +23,11 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
 
   bool incorrectPhone = false;
+  String mobile = "";
 
-  final TextEditingController _phoneNumberController = TextEditingController();
+  Future<void> _navigateToPhoneValidation(BuildContext context) async {
 
-  void _navigateToPhoneValidation(BuildContext context) {
-
-    if(_phoneNumberController.text.isEmpty){
+    if(mobile.isEmpty){
       setState(() {
         incorrectPhone = true;
       });
@@ -41,11 +44,45 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ValidatePhone(phone: _phoneNumberController.text)),
-    );
+  try {
+    // Calling the sendOtp function and waiting for the response
+    http.Response response = await sendOtp(mobile);
+
+    // Check if the request was successful
+    if (response.statusCode == 200) {
+      // If the server returns an OK response, parse the JSON.
+      var responseData = jsonDecode(response.body);
+      print(responseData['data']['OTP']);
+      String receivedOtp = responseData['data']['OTP'].toString();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ValidatePhone(phone: mobile, getOtp: receivedOtp)),
+      );
+    } else {
+      // If the response was not OK, throw an error.
+      print('Failed to send OTP. Status code: ${response.statusCode}');
+      print('Error response: ${response.body}');
+    }
+  } catch (e) {
+    // Catch any other kind of exception and handle it
+    print('Error sending OTP: $e');
   }
+
+}
+
+  Future<http.Response> sendOtp(String mobile) async{
+    return await http.post(
+      Uri.parse('http://$apiDomain/users/v1/send_otp'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'mobile': mobile,
+        'type': "signup"
+      }),
+    );
+  }  
 
   void _navigateToHome(BuildContext context) {
     Navigator.push(
@@ -78,7 +115,11 @@ class _SignUpState extends State<SignUp> {
                   child: IntlPhoneField(
                     initialCountryCode: 'GB',
                     decoration: decorate('Enter your phone'),
-                    controller: _phoneNumberController,
+                    onChanged: (phone) {
+                        setState(() {
+                          mobile = phone.completeNumber;
+                        });                        
+                    },
                   ),
                 ),
                 // const SizedBox(width: 20.0),

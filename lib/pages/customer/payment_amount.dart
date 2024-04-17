@@ -45,7 +45,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
                         fontSize: 18,
                       ),
                     ),
-                    const Text("widget.pa"),                    
+                    Text(widget.data["Merchant Category Code"]["description"]),                    
                   ],
                 ),
               ],

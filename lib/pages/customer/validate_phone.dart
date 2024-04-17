@@ -4,30 +4,59 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
+import 'package:telephony/telephony.dart';
 
 import '../../themes/button.dart';
 import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 
 class ValidatePhone extends StatefulWidget {
-  final String phone; // Variable to hold the passed string
+  final String phone, getOtp;
   
-  const ValidatePhone({super.key, required this.phone});
+  const ValidatePhone({super.key, required this.phone, required this.getOtp});
 
   @override
   State<ValidatePhone> createState() => _ValidatePhoneState();
 }
 
-class _ValidatePhoneState extends State<ValidatePhone> {
+class _ValidatePhoneState extends State<ValidatePhone> with TickerProviderStateMixin {
   String _otp = "";
+  Telephony telephony = Telephony.instance;
+  OtpFieldController otpbox = OtpFieldController();
   bool incorrectOTP = false;
   bool waiting = true;
 
   get incorrectPhone => null;
 
+  @override 
+  void initState() {
+    super.initState(); 
+    telephony.listenIncomingSms( 
+      onNewMessage: (SmsMessage message) { 
+        print(message.address);  
+        print(message.body); 
+  
+        String sms = message.body.toString(); 
+  
+        if (message.body!.contains('otp')) { 
+            
+          String otpcode = sms.replaceAll(new RegExp(r'[^0-9]'), ''); 
+          otpbox.set(otpcode.split("")); 
+  
+          setState(() { 
+            // refresh UI 
+          }); 
+        } else { 
+          print("error"); 
+        } 
+      }, 
+      listenInBackground: false, 
+    ); 
+  }   
+
   void  _validatePhone(){
 
-    if(_otp != '1234'){
+    if(_otp != widget.getOtp){
       setState(() {
         incorrectOTP = true;
       });
@@ -160,6 +189,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
               ),
               textFieldAlignment: MainAxisAlignment.spaceAround,
               fieldStyle: FieldStyle.underline,
+              
               onCompleted: (pin) {
                 setState(() {
                   _otp = pin;

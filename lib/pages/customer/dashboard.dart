@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/variables/api_variables.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:lottie/lottie.dart';
 import 'package:http/http.dart' as http;
@@ -49,13 +50,11 @@ Future<void> scanQR(BuildContext context) async {
 
 Future<void> fetchData(BuildContext context, String qrString) async {
   var url = Uri.http(
-      '65.1.187.138:8000', '/masters/v1/decodeLankaQR/', {'qrstring': qrString});
+      apiDomain, '/masters/v1/decodeLankaQR/', {'qrstring': qrString});
 
-  print('Upi url: $qrString');
   final response = await http.get(url);
   var jsonResponse = jsonDecode(response.body);
   var data = jsonResponse['data'];
-  print("name: ${data["Merchant Name"]}");
 
   // Navigate to the next page while passing the data as arguments
   Navigator.push(
