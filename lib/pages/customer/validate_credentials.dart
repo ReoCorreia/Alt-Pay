@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_complete.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 
 import '../../themes/button.dart';
 import '../../themes/color.dart';
@@ -59,14 +60,7 @@ class _ValidateCredentialsState extends State<ValidateCredentials> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-          'Validate Credentials',
-          style: themeTextField,
-        ),
-      ),
+      appBar: appBar('Validate Credentials'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(

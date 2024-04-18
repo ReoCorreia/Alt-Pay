@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
 import 'package:telephony/telephony.dart';
-
 import '../../themes/button.dart';
 import '../../themes/color.dart';
-import '../../themes/hint_style.dart';
 
 class ValidatePhone extends StatefulWidget {
   final String phone, receivedOtp;
@@ -106,15 +105,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-          textAlign: TextAlign.center,
-          'Validate Phone Number',
-          style: themeTextField,
-        )
-      ),
+      appBar: appBar('Validate Phone Number'),
 
       body: Padding(
         padding: const EdgeInsets.all(25.0),

@@ -6,6 +6,7 @@ import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/variables/api_variables.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_application_1/themes/app_bar.dart';
 
 import '../../themes/button.dart';
 import '../../themes/color.dart';
@@ -111,14 +112,7 @@ class _CredentialSetupState extends State<CredentialSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-          'Credentials Setup',
-          style: themeTextField,
-        ),
-      ),
+      appBar: appBar('Credentials Setup'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(

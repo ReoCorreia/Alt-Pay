@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
-
+import 'package:flutter_application_1/themes/app_bar.dart';
 import '../../themes/button.dart';
-import '../../themes/color.dart';
-import '../../themes/hint_style.dart';
 
 class IssuePartner extends StatefulWidget {
 
@@ -24,15 +22,7 @@ class _IssuePartnerState extends State<IssuePartner> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-        'Issue Partner',
-        style: themeTextField,
-        ),
-      ),
-
+      appBar: appBar('Issue Partner'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(

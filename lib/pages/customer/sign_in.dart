@@ -1,12 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
-// import 'package:device_imei/device_imei.dart';
-
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/color.dart';
@@ -30,64 +28,6 @@ class _SignInState extends State<SignIn> {
   final TextEditingController _password = TextEditingController();
 
   final deviceInfoPlugin = DeviceInfoPlugin();
-
-    showAndroidInfo() {
-    return FutureBuilder(
-      future: deviceInfoPlugin.androidInfo,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
-        } else if (snapshot.hasData) {
-          AndroidDeviceInfo info = snapshot.data!;
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                item('Android Model', info.model),
-                item('Android Brand', info.brand),
-                item('Android Device', info.device),
-                item('Android Hardware', info.hardware),
-                item('Android Host', info.host),
-                item('Android ID', info.id),
-                item('Android SerialNo', info.fingerprint),
-                item('Android Is Physical', info.isPhysicalDevice.toString()),
-                item('Android SDK Int', info.version.sdkInt.toString()),
-              ],
-            ),
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
-  
-    showIOSInfo() {
-    return FutureBuilder(
-      future: deviceInfoPlugin.iosInfo,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
-        } else if (snapshot.hasData) {
-          IosDeviceInfo info = snapshot.data!;
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                item('Device Model', info.model),
-                item('Device Name', info.name),
-                item('System Name', info.systemName),
-                item('System Version', info.systemVersion),
-                item('Device Is Physical', info.isPhysicalDevice.toString()),
-              ],
-            ),
-          );
-        } else {
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
 
   Future<void> _submit(BuildContext context) async{
 
@@ -167,15 +107,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-          title: Text(
-            textAlign: TextAlign.center,
-            'Sign In',
-            style: themeTextField,            
-          )
-      ),
+      appBar: appBar('Sign In'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
@@ -227,32 +159,5 @@ class _SignInState extends State<SignIn> {
         ),
     );
   }
-
-  item(String name, String value) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }  
 }
 

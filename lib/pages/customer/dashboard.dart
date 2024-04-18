@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_application_1/variables/api_variables.dart';
@@ -95,15 +96,7 @@ Future<void> fetchData(BuildContext context, String qrString) async {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: themeBtnOrange,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-          title: Text(
-            textAlign: TextAlign.center,
-            'Dashboard',
-            style: themeTextField,            
-          )
-      ),      
+      appBar: appBar('Dashboard'),      
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: ListView(

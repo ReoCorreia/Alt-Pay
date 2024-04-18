@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
@@ -86,15 +87,7 @@ class _PasswordSetupState extends State<PasswordSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: themeBtnOrange,
-          title: Text(
-            textAlign: TextAlign.center,
-            'Password Setup',
-            style: themeTextField,
-          )
-      ),
+      appBar: appBar('Password Setup'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
