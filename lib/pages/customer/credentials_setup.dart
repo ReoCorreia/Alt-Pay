@@ -38,8 +38,18 @@ class _CredentialSetupState extends State<CredentialSetup> {
       return;
     }
 
-    Map<String, dynamic> response = await addBank(widget.name, widget.phone, _bankingRoutingNo.text, _ibanNo.text, _accountNo.text, "bank");
-    print(response["error"]);
+    await addBank(widget.name, widget.phone, _bankingRoutingNo.text, _ibanNo.text, _accountNo.text, "bank");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          duration: const Duration(seconds: 2),
+          content: Text(
+            textAlign: TextAlign.center,
+            'Bank details saved successfully',
+            style: themeTextFieldError,
+          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
+          backgroundColor: themeBtnOrange
+      ),
+    );    
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ValidateCredentials(name: widget.name ,phone: widget.phone, ibanNo: _ibanNo.text, bankingRoutingNo: _bankingRoutingNo.text, accountNo: _accountNo.text)));
   }
 

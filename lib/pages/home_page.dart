@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   const SizedBox(height: 30,),
+                  //ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => const Tmain()))}, child: Text("Go")),
                 ],
               ),
             ],

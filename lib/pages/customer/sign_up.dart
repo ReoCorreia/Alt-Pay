@@ -64,6 +64,17 @@ class _SignUpState extends State<SignUp> {
       // If the response was not OK, throw an error.
       print('Failed to send OTP. Status code: ${response.statusCode}');
       print('Error response: ${response.body}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+              textAlign: TextAlign.center,
+              'Enter valid Phone Number ',
+              style: themeTextField,
+            ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
+            backgroundColor: themeBtnOrange
+        ),
+      );      
+      
     }
   } catch (e) {
     // Catch any other kind of exception and handle it
@@ -109,6 +120,7 @@ class _SignUpState extends State<SignUp> {
                 Expanded(
                   child: IntlPhoneField(
                     initialCountryCode: 'GB',
+                    disableLengthCheck: true,
                     decoration: decorate('Enter your phone'),
                     onChanged: (phone) {
                         setState(() {
