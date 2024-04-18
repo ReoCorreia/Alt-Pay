@@ -19,10 +19,11 @@ class ValidatePhone extends StatefulWidget {
   State<ValidatePhone> createState() => _ValidatePhoneState();
 }
 
-class _ValidatePhoneState extends State<ValidatePhone> with TickerProviderStateMixin {
+class _ValidatePhoneState extends State<ValidatePhone> {
   String _otp = "";
   Telephony telephony = Telephony.instance;
   OtpFieldController otpbox = OtpFieldController();
+  String textReceived = "";
   bool incorrectOTP = false;
   bool waiting = true;
 
@@ -30,28 +31,26 @@ class _ValidatePhoneState extends State<ValidatePhone> with TickerProviderStateM
 
   @override 
   void initState() {
-    super.initState(); 
-    telephony.listenIncomingSms( 
-      onNewMessage: (SmsMessage message) { 
-        print(message.address);  
-        print(message.body); 
-  
-        String sms = message.body.toString(); 
-  
-        if (message.body!.contains('otp')) { 
-            
-          String otpcode = sms.replaceAll(new RegExp(r'[^0-9]'), ''); 
-          otpbox.set(otpcode.split("")); 
-  
+    super.initState();
+    telephony.listenIncomingSms(
+        onNewMessage: (SmsMessage message) {
+          textReceived = message.body!;
+          print(message.body!);
+          if(message.body!.contains('otp')){ 
+                String otpcode = textReceived.replaceAll(RegExp(r'[^0-9]'),''); 
+                otpbox.set(otpcode.split(""));  
+                print(otpcode); 
+    
+          }else{ 
+              print("Normal message."); 
+          }
+
           setState(() { 
-            // refresh UI 
-          }); 
-        } else { 
-          print("error"); 
-        } 
-      }, 
-      listenInBackground: false, 
-    ); 
+            textReceived = message.body!; 
+          });             
+        },        
+        listenInBackground: false
+      ); 
   }   
 
   void  _validatePhone(){
@@ -121,6 +120,8 @@ class _ValidatePhoneState extends State<ValidatePhone> with TickerProviderStateM
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
+
+            Text(textReceived),
 
             const SizedBox(height: 30.0),
 
