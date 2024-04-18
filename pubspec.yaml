@@ -50,6 +50,7 @@ dependencies:
   http: ^1.2.1
   intl_phone_field: ^3.2.0
   telephony: ^0.2.0
+  aws_client: ^0.4.2
 
 dev_dependencies:
   flutter_test:

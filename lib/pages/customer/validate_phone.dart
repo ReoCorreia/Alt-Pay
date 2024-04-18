@@ -11,9 +11,9 @@ import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 
 class ValidatePhone extends StatefulWidget {
-  final String phone, getOtp;
+  final String phone, receivedOtp;
   
-  const ValidatePhone({super.key, required this.phone, required this.getOtp});
+  const ValidatePhone({super.key, required this.phone, required this.receivedOtp});
 
   @override
   State<ValidatePhone> createState() => _ValidatePhoneState();
@@ -56,7 +56,7 @@ class _ValidatePhoneState extends State<ValidatePhone> with TickerProviderStateM
 
   void  _validatePhone(){
 
-    if(_otp != widget.getOtp){
+    if(_otp != widget.receivedOtp){
       setState(() {
         incorrectOTP = true;
       });

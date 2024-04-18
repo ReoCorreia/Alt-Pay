@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/variables/api_variables.dart';
 import 'package:http/http.dart' as http;
@@ -53,10 +54,11 @@ class _SignUpState extends State<SignUp> {
       // If the server returns an OK response, parse the JSON.
       var responseData = jsonDecode(response.body);
       print(responseData['data']['OTP']);
-      String receivedOtp = responseData['data']['OTP'].toString();
+      String receivedOtp = responseData['data']['OTP'].toString();      
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ValidatePhone(phone: mobile, getOtp: receivedOtp)),
+        MaterialPageRoute(builder: (context) => ValidatePhone(phone: mobile, receivedOtp: receivedOtp,)),
       );
     } else {
       // If the response was not OK, throw an error.
@@ -69,6 +71,7 @@ class _SignUpState extends State<SignUp> {
   }
 
 }
+
 
   Future<http.Response> sendOtp(String mobile) async{
     return await http.post(
@@ -94,15 +97,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: themeBtnOrange,
-          title: Text(
-            textAlign: TextAlign.center,
-            'Sign Up',
-            style: themeTextField,
-          )
-      ),
+      appBar: appBar('Sign Up'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
@@ -154,11 +149,6 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 const SizedBox(width: 5.0),
-                // Expanded(
-                //     child: Divider(
-                //       color: themeBtnOrange,
-                //     )
-                // )
               ],
             )
           ],
