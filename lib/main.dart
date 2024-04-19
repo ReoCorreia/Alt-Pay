@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
-import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/pages/screens/splash_screen.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'pages/home_page.dart';
