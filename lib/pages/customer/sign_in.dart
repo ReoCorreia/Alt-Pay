@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
+import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
@@ -26,6 +27,7 @@ class _SignInState extends State<SignIn> {
   bool incorrectPhone = false;
   bool incorrectPassword = false;
   String mobile = "";
+  final AuthManager authManager = AuthManager();
   
   final TextEditingController _password = TextEditingController();
 
@@ -46,13 +48,28 @@ class _SignInState extends State<SignIn> {
       snackBarMessage('Password Incorrect');
       return;
     }else{      
+      await login();
       await addDevice();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const  Duration(seconds: 2),
+          content: Text(
+            textAlign: TextAlign.center,
+            'Sign In Successfull',
+            style: whiteSnackBar            
+          ), 
+          backgroundColor: textWhite
+        ),
+      );        
+
       Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
     }    
   }
 
   Future<Map<String, dynamic>> addDevice() async{
     dynamic deviceInfo;
+    final AuthManager authManager = AuthManager();
+    final String? authToken = await authManager.getAuthToken();
 
     if (!kIsWeb) { // kIsWeb to ensure that the code is not running on web
       if (Platform.isAndroid) {
@@ -70,7 +87,7 @@ class _SignInState extends State<SignIn> {
       headers: <String, String>{
         'accept': 'application/json',
         'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': 'gAAAAABmIN1LP2Hz8XWjtlQGnZpNlxCWfkybWuRKvgA0xmt-DRVhi_z6IS-qPIO3Bw7q44fR0XL8aiUCvagHSJgaCoYyi987UjGhtsbp3jLpNtO7PHwbot9HrI6UhUbf9Hg1GuZmjSmx-PTrmkRT85F9NtrcpjXNfQ=='
+        'Authorization': authToken.toString()
       },
       body: jsonEncode(<String, String>{
         "mobile": mobile,
@@ -86,22 +103,37 @@ class _SignInState extends State<SignIn> {
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
     
     if (!jsonResponse['error']) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            'Sign In Successful',
-            style: whiteSnackBar            
-          ), 
-          backgroundColor: textWhite
-        ),
-      );        
       return jsonResponse;
     } else {
       snackBarMessage(jsonResponse["message"]);
       throw Exception('${jsonResponse['message']}');
     }
   }
+
+  Future<void> login() async{
+
+    var response = await http.post(
+      Uri.parse('http://$apiDomain/users/v1/login'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "mobile": '+498423421234', //api does not accept any mobile
+        "password": 'test' //api does not accept any pass other than 'test' yet
+      }),
+    );
+    
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    
+    if (!jsonResponse['error']) {        
+      await authManager.saveAuthToken(jsonResponse['data']);
+      print(await authManager.getAuthToken());
+    } else {
+      snackBarMessage(jsonResponse["message"]);
+      throw Exception('${jsonResponse['message']}');
+    }
+  }  
 
   void snackBarMessage(String error){
       ScaffoldMessenger.of(context).showSnackBar(
@@ -115,7 +147,6 @@ class _SignInState extends State<SignIn> {
         ),
       );    
   }  
-
 
   @override
   Widget build(BuildContext context) {
@@ -171,32 +202,5 @@ class _SignInState extends State<SignIn> {
         ),
     );
   }
-
-  item(String name, String value) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            value,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
-    );
-  }  
 }
 

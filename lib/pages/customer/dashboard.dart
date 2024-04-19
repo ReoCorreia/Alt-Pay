@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
+import 'package:flutter_application_1/pages/customer/sign_in.dart';
+import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
@@ -22,6 +24,8 @@ class _DashboardState extends State<Dashboard> {
 
   // ignore: unused_field
   String _scanBarcode = '';
+  final AuthManager authManager = AuthManager();
+  
 
   @override
   void initState() {
@@ -92,11 +96,31 @@ Future<void> fetchData(BuildContext context, String qrString) async {
     );
   }
 
+  void signOut(){
+    authManager.removeAuthToken();
+    Navigator.push(context, MaterialPageRoute( builder: (context) => const SignIn()),
+  );
+    
+  }  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: themeBtnOrange,
-      appBar: appBar('Dashboard'),      
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: themeBtnOrange,
+        title: Text(
+          'Dashboard',
+          style: themeTextField,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app), // Sign out icon
+            onPressed: signOut,
+          ),
+        ],
+      ),      
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: ListView(

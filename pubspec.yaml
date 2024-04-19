@@ -52,6 +52,7 @@ dependencies:
   telephony: ^0.2.0
   aws_client: ^0.4.2
   device_info_plus: ^10.1.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

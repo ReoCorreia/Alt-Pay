@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/variables/api_variables.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
@@ -21,9 +25,6 @@ class _ValidatePhoneState extends State<ValidatePhone> {
   String _otp = "";
   bool incorrectOTP = false;
   bool waiting = true;
-
-  get incorrectPhone => null;
-
 
   void _validatePhone(){
 
@@ -67,7 +68,60 @@ class _ValidatePhoneState extends State<ValidatePhone> {
     if (waiting) {
       print('waiting');
     }else{
-      print('Resend OTP');
+      print('OTP resent');
+      //logic for resend otp
+    }
+  }
+
+    Future<Map<String, dynamic>> receiveOTP(String mobile) async{
+    var response = await http.post(
+      Uri.parse('http://$apiDomain/users/v1/send_otp'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'mobile': mobile,
+        'type': "signup"
+      }),
+    );
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    if(!jsonResponse['error']){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+              textAlign: TextAlign.center,
+              'Otp Resent!',
+              style: GoogleFonts.getFont(
+                'Lato',
+                fontSize: 18,
+                color: textWhite,
+                fontWeight: FontWeight.bold,
+                letterSpacing: .7,
+              ),
+            ),
+            backgroundColor: themeBtnOrange
+        ),
+      );
+      return jsonResponse['data']['OTP'];
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+              textAlign: TextAlign.center,
+              'Could not send otp',
+              style: GoogleFonts.getFont(
+                'Lato',
+                fontSize: 18,
+                color: textWhite,
+                fontWeight: FontWeight.bold,
+                letterSpacing: .7,
+              ),
+            ).animate(target: incorrectOTP ? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
+            backgroundColor: themeBtnOrange
+        ),
+      );
+      throw Exception('${jsonResponse['message']}');
     }
   }
 
