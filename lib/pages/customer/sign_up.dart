@@ -46,8 +46,8 @@ class _SignUpState extends State<SignUp> {
     }
 
   try {
-    // Calling the sendOtp function and waiting for the response
-    http.Response response = await sendOtp(mobile);
+    // Calling the receiveOTP function and waiting for the response
+    http.Response response = await receiveOTP(mobile);
 
     // Check if the request was successful
     if (response.statusCode == 200) {
@@ -84,7 +84,7 @@ class _SignUpState extends State<SignUp> {
 }
 
 
-  Future<http.Response> sendOtp(String mobile) async{
+  Future<http.Response> receiveOTP(String mobile) async{
     return await http.post(
       Uri.parse('http://$apiDomain/users/v1/send_otp'),
       headers: <String, String>{

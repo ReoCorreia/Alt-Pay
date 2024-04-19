@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:device_info_plus/device_info_plus.dart';
@@ -27,7 +29,7 @@ class _SignInState extends State<SignIn> {
   
   final TextEditingController _password = TextEditingController();
 
-  final deviceInfoPlugin = DeviceInfoPlugin();
+  final deviceInfoPlugin = DeviceInfoPlugin();  
 
   Future<void> _submit(BuildContext context) async{
 
@@ -43,51 +45,62 @@ class _SignInState extends State<SignIn> {
       });      
       snackBarMessage('Password Incorrect');
       return;
-    }else{
+    }else{      
       await addDevice();
       Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
     }    
   }
 
   Future<Map<String, dynamic>> addDevice() async{
-      var response = await http.post(
-        Uri.parse('http://$apiDomain/users/v1/add_device'),
-        headers: <String, String>{
-          'accept': 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'gAAAAABmIN1LP2Hz8XWjtlQGnZpNlxCWfkybWuRKvgA0xmt-DRVhi_z6IS-qPIO3Bw7q44fR0XL8aiUCvagHSJgaCoYyi987UjGhtsbp3jLpNtO7PHwbot9HrI6UhUbf9Hg1GuZmjSmx-PTrmkRT85F9NtrcpjXNfQ=='
-        },
-        body: jsonEncode(<String, String>{
-          "mobile": "+5239063864351765162",
-          "device_id": "string",
-          "make": "string",
-          "model": "string",
-          "os": "string",
-          "imei1": "string",
-          "imei2": "string"
-        }),
-      );
-      // Parse the response JSON string
-      Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-      
-      // Check if the request was successful (error is false)
-      if (!jsonResponse['error']) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              textAlign: TextAlign.center,
-              'Sign In Successful',
-              style: whiteSnackBar            
-            ), 
-            backgroundColor: textWhite
-          ),
-        );        
-        return jsonResponse;
+    dynamic deviceInfo;
+
+    if (!kIsWeb) { // kIsWeb to ensure that the code is not running on web
+      if (Platform.isAndroid) {
+        deviceInfo = await deviceInfoPlugin.androidInfo;
+      } else if(Platform.isIOS){
+        deviceInfo = await deviceInfoPlugin.iosInfo;
       } else {
-        // If there was an error, throw an exception with the error message
-        snackBarMessage(jsonResponse["message"]);
-        throw Exception('${jsonResponse['message']}');
+        snackBarMessage('Server error: try again after sometime');
+        throw Exception('Could not fetch device info');
       }
+    }
+
+    var response = await http.post(
+      Uri.parse('http://$apiDomain/users/v1/add_device'),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'gAAAAABmIN1LP2Hz8XWjtlQGnZpNlxCWfkybWuRKvgA0xmt-DRVhi_z6IS-qPIO3Bw7q44fR0XL8aiUCvagHSJgaCoYyi987UjGhtsbp3jLpNtO7PHwbot9HrI6UhUbf9Hg1GuZmjSmx-PTrmkRT85F9NtrcpjXNfQ=='
+      },
+      body: jsonEncode(<String, String>{
+        "mobile": mobile,
+        "device_id": deviceInfo.version.sdkInt.toString(), //serial no
+        "make": deviceInfo.manufacturer,
+        "model": deviceInfo.model,
+        "os": Platform.isAndroid ? "Android" : "IOS",
+        "imei1": "string",
+        "imei2": "string"
+      }),
+    );
+    
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    
+    if (!jsonResponse['error']) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            textAlign: TextAlign.center,
+            'Sign In Successful',
+            style: whiteSnackBar            
+          ), 
+          backgroundColor: textWhite
+        ),
+      );        
+      return jsonResponse;
+    } else {
+      snackBarMessage(jsonResponse["message"]);
+      throw Exception('${jsonResponse['message']}');
+    }
   }
 
   void snackBarMessage(String error){
@@ -112,7 +125,6 @@ class _SignInState extends State<SignIn> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            // Platform.isAndroid ? showAndroidInfo() : showIOSInfo(),
             Image.asset('lib/images/login.png', width: 300, height: 300),
             Row(
                 children: [
@@ -159,5 +171,32 @@ class _SignInState extends State<SignIn> {
         ),
     );
   }
+
+  item(String name, String value) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            name,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }  
 }
 

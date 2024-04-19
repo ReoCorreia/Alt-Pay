@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
-import 'package:telephony/telephony.dart';
 import '../../themes/button.dart';
 import '../../themes/color.dart';
 
@@ -20,39 +19,13 @@ class ValidatePhone extends StatefulWidget {
 
 class _ValidatePhoneState extends State<ValidatePhone> {
   String _otp = "";
-  Telephony telephony = Telephony.instance;
-  OtpFieldController otpbox = OtpFieldController();
-  String textReceived = "";
   bool incorrectOTP = false;
   bool waiting = true;
 
   get incorrectPhone => null;
 
-  @override 
-  void initState() {
-    super.initState();
-    telephony.listenIncomingSms(
-        onNewMessage: (SmsMessage message) {
-          textReceived = message.body!;
-          print(message.body!);
-          if(message.body!.contains('otp')){ 
-                String otpcode = textReceived.replaceAll(RegExp(r'[^0-9]'),''); 
-                otpbox.set(otpcode.split(""));  
-                print(otpcode); 
-    
-          }else{ 
-              print("Normal message."); 
-          }
 
-          setState(() { 
-            textReceived = message.body!; 
-          });             
-        },        
-        listenInBackground: false
-      ); 
-  }   
-
-  void  _validatePhone(){
+  void _validatePhone(){
 
     if(_otp != widget.receivedOtp){
       setState(() {
@@ -83,18 +56,14 @@ class _ValidatePhoneState extends State<ValidatePhone> {
   String maskPhoneNumber(String phoneNumber) {
     // Extracting the country code
     String countryCode = phoneNumber.substring(0, 3);
-
     // Extracting the last 4 digits of the phone number
     String lastFourDigits = phoneNumber.substring(phoneNumber.length - 4);
-
     // Creating the masked phone number
     String maskedPhoneNumber = '$countryCode ******$lastFourDigits';
-
     return maskedPhoneNumber;
   }
 
   void _resendOTP(){
-    // Resend OTP logic here
     if (waiting) {
       print('waiting');
     }else{
