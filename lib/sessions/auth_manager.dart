@@ -6,6 +6,11 @@ class AuthManager {
     return prefs.getString('authToken');
   }
 
+  Future<String?> getMobile() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('mobile_number');
+  }  
+
   Future<Map<String, dynamic>?> getAuthData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     

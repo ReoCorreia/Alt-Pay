@@ -1,15 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
-import 'package:flutter_application_1/variables/api_variables.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
-
 import '../../themes/button.dart';
 import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
@@ -25,8 +23,9 @@ class _SignUpState extends State<SignUp> {
 
   bool incorrectPhone = false;
   String mobile = "";
+  final ApiService apiService = ApiService();
 
-  Future<void> _navigateToPhoneValidation(BuildContext context) async {
+  Future<void> _navigateToPhoneValidation() async {
 
     if(mobile.isEmpty){
       setState(() {
@@ -46,22 +45,17 @@ class _SignUpState extends State<SignUp> {
     }
 
   try {
-    // Calling the receiveOTP function and waiting for the response
-    http.Response response = await receiveOTP(mobile);
+    http.Response response = await apiService.receiveOTP(mobile);
 
-    // Check if the request was successful
     if (response.statusCode == 200) {
-      // If the server returns an OK response, parse the JSON.
+      
       var responseData = jsonDecode(response.body);
       print(responseData['data']['OTP']);
       String receivedOtp = responseData['data']['OTP'].toString();      
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ValidatePhone(phone: mobile, receivedOtp: receivedOtp,)),
-      );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(phone: mobile, receivedOtp: receivedOtp)));
+    
     } else {
-      // If the response was not OK, throw an error.
+      
       print('Failed to send OTP. Status code: ${response.statusCode}');
       print('Error response: ${response.body}');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -73,36 +67,17 @@ class _SignUpState extends State<SignUp> {
             ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
             backgroundColor: themeBtnOrange
         ),
-      );      
-      
+      );
+
     }
   } catch (e) {
-    // Catch any other kind of exception and handle it
     print('Error sending OTP: $e');
   }
 
-}
+}  
 
-
-  Future<http.Response> receiveOTP(String mobile) async{
-    return await http.post(
-      Uri.parse('http://$apiDomain/users/v1/send_otp'),
-      headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'mobile': mobile,
-        'type': "signup"
-      }),
-    );
-  }  
-
-  void _navigateToHome(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomePage()),
-    );
+  void _navigateToHome() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
 
   @override
@@ -113,7 +88,6 @@ class _SignUpState extends State<SignUp> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            // target: incorrectInput? 1 : 0 can be used inside animate() to conditionally animate.
             Image.asset('lib/images/login.png', width: 300, height: 300),
             Row(
               children: [                
@@ -129,7 +103,6 @@ class _SignUpState extends State<SignUp> {
                     },
                   ),
                 ),
-                // const SizedBox(width: 20.0),
               ],
             ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
             const SizedBox(height: 20.0),
@@ -139,7 +112,7 @@ class _SignUpState extends State<SignUp> {
                 Expanded(
                   flex: 4,
                   child: ElevatedButton(
-                    onPressed: () => _navigateToPhoneValidation(context),
+                    onPressed: () => _navigateToPhoneValidation(),
                     style: themeBtn2,
                     child: Text(
                       'Send OTP',
@@ -152,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                 Expanded(
                   flex: 4,
                   child: ElevatedButton(
-                    onPressed: () => _navigateToHome(context),
+                    onPressed: () => _navigateToHome(),
                     style: themeBtn2,
                     child: Text(
                       'Cancel',

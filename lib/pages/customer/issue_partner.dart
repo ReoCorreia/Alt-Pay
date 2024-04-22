@@ -66,49 +66,7 @@ class _IssuePartnerState extends State<IssuePartner> {
             ),
           ],
         ),
-      ),
-
-      // body: Padding(
-      //   padding: const EdgeInsets.all(15.0),
-      //   child: Column(
-      //     crossAxisAlignment: CrossAxisAlignment.start,
-      //     children: <Widget>[
-      //       Text(
-      //         'Dear ${widget.name}, Welcome to Alt-Pay',
-      //         textAlign: TextAlign.start,
-      //         style: const TextStyle(
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //       const SizedBox(height: 20.0),
-      //       Text(
-      //         'Phone ${widget.phone}',
-      //         textAlign: TextAlign.start,
-      //         style: const TextStyle(
-      //           fontWeight: FontWeight.bold,
-      //         ),
-      //       ),
-      //       const SizedBox(height: 20.0),
-      //       const Text(
-      //         'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
-      //         textAlign: TextAlign.start,
-      //       ),
-      //       const SizedBox(height: 20.0),
-      //       const Text(
-      //         'Please know that we will be setting up and accessing your account credentials with them',
-      //         textAlign: TextAlign.start,
-      //       ),
-      //       const SizedBox(height: 20.0),
-      //       ElevatedButton(onPressed: () => _credentialsPage(context), child: const Text('OK & Continue')),
-      //       const SizedBox(height: 20.0),
-      //       const Text(
-      //         'Let me check and revert to continue forward from here.',
-      //         textAlign: TextAlign.start,
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      
+      ),      
     );
   }
 }

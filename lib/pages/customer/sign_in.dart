@@ -1,19 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import 'package:http/http.dart' as http;
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:flutter_application_1/variables/api_variables.dart';
+import 'package:flutter_application_1/api_services.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -23,15 +18,13 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-
   bool incorrectPhone = false;
   bool incorrectPassword = false;
   String mobile = "";
   final AuthManager authManager = AuthManager();
+  final ApiService apiService = ApiService();
   
-  final TextEditingController _password = TextEditingController();
-
-  final deviceInfoPlugin = DeviceInfoPlugin();  
+  final TextEditingController _password = TextEditingController();  
 
   Future<void> _submit(BuildContext context) async{
 
@@ -39,7 +32,7 @@ class _SignInState extends State<SignIn> {
       setState(() {
         incorrectPhone = true;
       });
-      snackBarMessage('Phone Incorrect');     
+      snackBarMessage('Phone field cannot be empty');     
       return;
     }else if(_password.text.isEmpty){
       setState(() {
@@ -48,8 +41,8 @@ class _SignInState extends State<SignIn> {
       snackBarMessage('Password Incorrect');
       return;
     }else{      
-      await login();
-      await addDevice();
+      await apiService.login();
+      await apiService.addDevice();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const  Duration(seconds: 2),
@@ -66,74 +59,6 @@ class _SignInState extends State<SignIn> {
     }    
   }
 
-  Future<Map<String, dynamic>> addDevice() async{
-    dynamic deviceInfo;
-    final AuthManager authManager = AuthManager();
-    final String? authToken = await authManager.getAuthToken();
-
-    if (!kIsWeb) { // kIsWeb to ensure that the code is not running on web
-      if (Platform.isAndroid) {
-        deviceInfo = await deviceInfoPlugin.androidInfo;
-      } else if(Platform.isIOS){
-        deviceInfo = await deviceInfoPlugin.iosInfo;
-      } else {
-        snackBarMessage('Server error: try again after sometime');
-        throw Exception('Could not fetch device info');
-      }
-    }
-
-    var response = await http.post(
-      Uri.parse('http://$apiDomain/users/v1/add_device'),
-      headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Authorization': authToken.toString()
-      },
-      body: jsonEncode(<String, String>{
-        "mobile": mobile,
-        "device_id": deviceInfo.version.sdkInt.toString(), //serial no
-        "make": deviceInfo.manufacturer,
-        "model": deviceInfo.model,
-        "os": Platform.isAndroid ? "Android" : "IOS",
-        "imei1": "string",
-        "imei2": "string"
-      }),
-    );
-    
-    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-    
-    if (!jsonResponse['error']) {
-      return jsonResponse;
-    } else {
-      snackBarMessage(jsonResponse["message"]);
-      throw Exception('${jsonResponse['message']}');
-    }
-  }
-
-  Future<void> login() async{
-
-    var response = await http.post(
-      Uri.parse('http://$apiDomain/users/v1/login'),
-      headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        "mobile": '+498423421234', //api does not accept any mobile
-        "password": 'test' //api does not accept any pass other than 'test' yet
-      }),
-    );
-    
-    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-    
-    if (!jsonResponse['error']) {        
-      await authManager.saveAuthToken(jsonResponse['data']);
-      print(await authManager.getAuthToken());
-    } else {
-      snackBarMessage(jsonResponse["message"]);
-      throw Exception('${jsonResponse['message']}');
-    }
-  }  
 
   void snackBarMessage(String error){
       ScaffoldMessenger.of(context).showSnackBar(
