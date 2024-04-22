@@ -19,7 +19,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
   }
 
   @override
-  Widget build(BuildContext context) {
+Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar('New Payment'),
       body: Padding(
@@ -29,24 +29,23 @@ class _PaymentAmountState extends State<PaymentAmount> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset('lib/images/merchant.png', height: 40, width: 40,)                    
-                  ],
-                ),
-                const SizedBox(width: 20.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      widget.data["Merchant Name"]["data"],
-                      style: const TextStyle(
-                        fontSize: 18,
+                Image.asset('lib/images/merchant.png', height: 40, width: 40),
+                const SizedBox(width: 10.0),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        widget.data["Merchant Name"]["data"],
+                        style: const TextStyle(fontSize: 18),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    Text(widget.data["Merchant Category Code"]["description"]),                    
-                  ],
+                      Text(
+                        widget.data["Merchant Category Code"]["description"],
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -88,7 +87,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
             ),
           ],
         ),
-        ),
+      ),
     );
   }
 }

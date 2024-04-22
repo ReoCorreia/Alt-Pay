@@ -92,7 +92,7 @@ Future<void> fetchData(BuildContext context, String qrString) async {
 
   void signOut(){
     authManager.removeAuthToken();
-    Navigator.push(context, MaterialPageRoute( builder: (context) => const SignIn()));
+    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => const SignIn()));
   }  
 
   @override
