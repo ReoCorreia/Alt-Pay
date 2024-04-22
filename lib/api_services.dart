@@ -13,6 +13,7 @@ class ApiService{
   // endpoints
   static const String _loginEndpoint = '/users/v1/login';
   static const String _signUpEndpoint = '/users/v1/send_otp';
+  static const String _verifyOTPEndpoint = '/users/v1/verify_otp';
   static const String _addDeviceEndpoint = '/users/v1/add_device';
   static const String _addBankEndpoint = '/users/v1/add_bank';
 
@@ -94,6 +95,27 @@ class ApiService{
         'type': "signup"
       }),
     );
+  }
+
+    Future<bool> verifyOTP(String mobile, String otp) async{
+    var response = await http.post(
+      Uri.parse(_baseUrl + _verifyOTPEndpoint),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "mobile": mobile,
+        "otp": otp
+      }),
+    );
+    Map<String,dynamic> jsonResponse = jsonDecode(response.body);
+      if (!jsonResponse['error']) {
+        print(jsonResponse['data']['OTPVerified']);
+        return jsonResponse['data']['OTPVerified'];
+      } else {
+        throw Exception('Failed to verify: ${jsonResponse['message']}');
+      }
   }
 
   Future<Map<String, dynamic>> addBank(String name, String phone, String bankingRoutingNo, String iban, String accountNo, String bank) async{

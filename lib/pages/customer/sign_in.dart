@@ -55,7 +55,7 @@ class _SignInState extends State<SignIn> {
         ),
       );        
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()),  (route) => false);
     }    
   }
 

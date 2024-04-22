@@ -52,7 +52,7 @@ class _SignUpState extends State<SignUp> {
       var responseData = jsonDecode(response.body);
       print(responseData['data']['OTP']);
       String receivedOtp = responseData['data']['OTP'].toString();      
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(phone: mobile, receivedOtp: receivedOtp)));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(mobile: mobile, receivedOtp: receivedOtp)));
     
     } else {
       

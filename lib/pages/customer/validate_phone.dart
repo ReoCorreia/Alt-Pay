@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import 'package:flutter_application_1/variables/api_variables.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
@@ -13,9 +12,9 @@ import '../../themes/button.dart';
 import '../../themes/color.dart';
 
 class ValidatePhone extends StatefulWidget {
-  final String phone, receivedOtp;
+  final String mobile, receivedOtp;
   
-  const ValidatePhone({super.key, required this.phone, required this.receivedOtp});
+  const ValidatePhone({super.key, required this.mobile, required this.receivedOtp});
 
   @override
   State<ValidatePhone> createState() => _ValidatePhoneState();
@@ -25,10 +24,15 @@ class _ValidatePhoneState extends State<ValidatePhone> {
   String _otp = "";
   bool incorrectOTP = false;
   bool waiting = true;
+  final ApiService apiService = ApiService();
 
-  void _validatePhone(){
+  void _validatePhone() async{
 
-    if(_otp != widget.receivedOtp){
+    bool verified = await apiService.verifyOTP(widget.mobile, _otp);
+
+    if(verified){
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EnterName(data: widget.mobile)));
+    }else if(!verified){
       setState(() {
         incorrectOTP = true;
       });
@@ -50,8 +54,6 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       );
       return;
     }
-
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EnterName(data: widget.phone)));
   }
 
   String maskPhoneNumber(String phoneNumber) {
@@ -64,64 +66,42 @@ class _ValidatePhoneState extends State<ValidatePhone> {
     return maskedPhoneNumber;
   }
 
-  void _resendOTP(){
+  Future<void> _resendOTP() async {
     if (waiting) {
       print('waiting');
     }else{
       print('OTP resent');
-      //logic for resend otp
-    }
-  }
-
-    Future<Map<String, dynamic>> receiveOTP(String mobile) async{
-    var response = await http.post(
-      Uri.parse('http://$apiDomain/users/v1/send_otp'),
-      headers: <String, String>{
-        'accept': 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'mobile': mobile,
-        'type': "signup"
-      }),
-    );
-    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-    if(!jsonResponse['error']){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-              textAlign: TextAlign.center,
-              'Otp Resent!',
-              style: GoogleFonts.getFont(
-                'Lato',
-                fontSize: 18,
-                color: textWhite,
-                fontWeight: FontWeight.bold,
-                letterSpacing: .7,
-              ),
+      try {
+        http.Response response = await apiService.receiveOTP(widget.mobile);
+        if (response.statusCode == 200) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+                  textAlign: TextAlign.center,
+                  'Enter valid Phone Number ',
+                  style: themeTextField,
+                ),
+                backgroundColor: themeBtnOrange
             ),
-            backgroundColor: themeBtnOrange
-        ),
-      );
-      return jsonResponse['data']['OTP'];
-    }else{
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-              textAlign: TextAlign.center,
-              'Could not send otp',
-              style: GoogleFonts.getFont(
-                'Lato',
-                fontSize: 18,
-                color: textWhite,
-                fontWeight: FontWeight.bold,
-                letterSpacing: .7,
-              ),
-            ).animate(target: incorrectOTP ? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
-            backgroundColor: themeBtnOrange
-        ),
-      );
-      throw Exception('${jsonResponse['message']}');
+          );        
+        } else {
+          print('Failed to send OTP. Status code: ${response.statusCode}');
+          print('Error response: ${response.body}');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(
+                  textAlign: TextAlign.center,
+                  'Failed to send OTP',
+                  style: themeTextField,
+                ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
+                backgroundColor: themeBtnOrange
+            ),
+          );                  
+        }
+      } catch (e) {
+        print('Error sending OTP: $e');
+      }      
+      //logic for resend otp
     }
   }
 
@@ -150,7 +130,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
             ),
             Center(
               child: Text(
-                'OTP sent to ${maskPhoneNumber(widget.phone)}',
+                'OTP sent to ${maskPhoneNumber(widget.mobile)}',
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

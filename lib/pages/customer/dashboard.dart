@@ -19,50 +19,49 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard>{
 
   // ignore: unused_field
   String _scanBarcode = '';
-  final AuthManager authManager = AuthManager();
-  
+  final AuthManager authManager = AuthManager(); 
 
   @override
   void initState() {
     super.initState();
   }
 
-Future<void> scanQR(BuildContext context) async {
-  String qrString;
+  Future<void> scanQR(BuildContext context) async {
+    String qrString;
 
-  try {
-    qrString = await FlutterBarcodeScanner.scanBarcode(
-        '#fffc5a3b', 'Cancel', true, ScanMode.QR);
-    if (qrString != "-1") {
-      print("Upi url: $qrString");
-      await fetchData(context, qrString);
+    try {
+      qrString = await FlutterBarcodeScanner.scanBarcode(
+          '#fffc5a3b', 'Cancel', true, ScanMode.QR);
+      if (qrString != "-1") {
+        print("Upi url: $qrString");
+        await fetchData(context, qrString);
+      }
+    } on PlatformException {
+      qrString = 'Failed to get platform version.';
     }
-  } on PlatformException {
-    qrString = 'Failed to get platform version.';
+
+    if (!mounted) return;
+
+    setState(() {
+      _scanBarcode = qrString;
+    });
   }
 
-  if (!mounted) return;
+  Future<void> fetchData(BuildContext context, String qrString) async {
+    var url = Uri.http(
+        apiDomain, '/masters/v1/decodeLankaQR/', {'qrstring': qrString});
 
-  setState(() {
-    _scanBarcode = qrString;
-  });
-}
+    final response = await http.get(url);
+    var jsonResponse = jsonDecode(response.body);
+    var data = jsonResponse['data'];
 
-Future<void> fetchData(BuildContext context, String qrString) async {
-  var url = Uri.http(
-      apiDomain, '/masters/v1/decodeLankaQR/', {'qrstring': qrString});
-
-  final response = await http.get(url);
-  var jsonResponse = jsonDecode(response.body);
-  var data = jsonResponse['data'];
-
-  // Navigate to the next page while passing the data as arguments
-  Navigator.push(context, MaterialPageRoute( builder: (context) => PaymentAmount(data: data)));
-}  
+    // Navigate to the next page while passing the data as arguments
+    Navigator.push(context, MaterialPageRoute( builder: (context) => PaymentAmount(data: data)));
+  }  
 
   void snackBarMessage(String error){
       ScaffoldMessenger.of(context).showSnackBar(
@@ -92,7 +91,7 @@ Future<void> fetchData(BuildContext context, String qrString) async {
 
   void signOut(){
     authManager.removeAuthToken();
-    Navigator.pushReplacement(context, MaterialPageRoute( builder: (context) => const SignIn()));
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute( builder: (context) => const SignIn()), ((route) => false));
   }  
 
   @override

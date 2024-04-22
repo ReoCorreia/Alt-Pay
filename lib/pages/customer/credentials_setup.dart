@@ -36,7 +36,7 @@ class _CredentialSetupState extends State<CredentialSetup> {
       return;
     }
 
-    await apiService.addBank(widget.name, widget.phone, _bankingRoutingNo.text, _ibanNo.text, _accountNo.text, "bank");
+    await apiService.addBank(widget.name, widget.phone, _bankingRoutingNo.text, _ibanNo.text.toUpperCase(), _accountNo.text, "bank");
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
           duration: const Duration(seconds: 2),
