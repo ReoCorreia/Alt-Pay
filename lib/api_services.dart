@@ -146,6 +146,7 @@ class ApiService{
       );
       Map<String,dynamic> jsonResponse = jsonDecode(response.body);
       if (!jsonResponse['error']) {
+        await authManager.saveAuthToken(jsonResponse['data']['user_data']);
         return jsonResponse['data']['OTPVerified'];
       } else {
         throw Exception('Failed to verify: ${jsonResponse['message']}');

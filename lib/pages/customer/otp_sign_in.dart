@@ -33,7 +33,7 @@ class OtpSignInState extends State<OtpSignIn> {
     bool verified = await apiService.verifyLoginOTP(widget.mobile, _otp);
 
     if(verified){
-      //await apiService.addDevice();
+      await apiService.addDevice();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           duration: const  Duration(seconds: 2),

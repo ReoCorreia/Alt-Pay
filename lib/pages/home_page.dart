@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                           colors: [
-                            Color(0xFFFC7A69),
-                            Color(0xFFFC7A69),
+                            Color(0xFFf6f9ff),
+                            Color(0xFF4154f1),
                           ],
                         ),
                       ),
