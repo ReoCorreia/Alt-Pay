@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
-import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
@@ -87,11 +86,6 @@ class _DashboardState extends State<Dashboard>{
         child: Text(title, textAlign: TextAlign.center),
       ),
     );
-  }
-
-  void signOut(){
-    authManager.removeAuthToken();
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute( builder: (context) => const SignIn()), ((route) => false));
   }  
 
   @override
@@ -108,7 +102,7 @@ class _DashboardState extends State<Dashboard>{
         actions: [
           IconButton(
             icon: const Icon(Icons.exit_to_app), // Sign out icon
-            onPressed: signOut,
+            onPressed: () async {await authManager.signOut(context);}
           ),
         ],
       ),

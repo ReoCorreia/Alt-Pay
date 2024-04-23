@@ -1,26 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_services.dart';
+import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:flutter_application_1/pages/customer/enter_name.dart';
-import '../../themes/button.dart';
-import '../../themes/color.dart';
 
-class ValidatePhone extends StatefulWidget {
+class OtpSignIn extends StatefulWidget {
   final String mobile, receivedOtp;
   
-  const ValidatePhone({super.key, required this.mobile, required this.receivedOtp});
+  const OtpSignIn({super.key, required this.mobile, required this.receivedOtp});
 
   @override
-  State<ValidatePhone> createState() => _ValidatePhoneState();
+  State<OtpSignIn> createState() => OtpSignInState();
 }
 
-class _ValidatePhoneState extends State<ValidatePhone> {
+class OtpSignInState extends State<OtpSignIn> {
   String _otp = "";
   bool incorrectOTP = false;
   bool waiting = true;
@@ -28,10 +30,22 @@ class _ValidatePhoneState extends State<ValidatePhone> {
 
   void _validatePhone() async{
 
-    bool verified = await apiService.verifySignUpOTP(widget.mobile, _otp);
+    bool verified = await apiService.verifyLoginOTP(widget.mobile, _otp);
 
     if(verified){
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EnterName(data: widget.mobile)));
+      //await apiService.addDevice();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const  Duration(seconds: 2),
+          content: Text(
+            textAlign: TextAlign.center,
+            'Sign In Successfull',
+            style: whiteSnackBar            
+          ), 
+          backgroundColor: textWhite
+        ),
+      );      
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()), (route) => false);
     }else if(!verified){
       setState(() {
         incorrectOTP = true;
@@ -67,12 +81,12 @@ class _ValidatePhoneState extends State<ValidatePhone> {
   }
 
   Future<void> _resendOTP() async {
-    if (waiting) {
-      print('waiting');
-    }else{
-      print('OTP resent');
+    if (!waiting) {
       try {
-        http.Response response = await apiService.receiveOTP(widget.mobile);
+        http.Response response = await apiService.signInViaOTP(widget.mobile);
+        setState(() {
+          _otp = jsonDecode(response.body)['data']['OTP'].toString();
+        });
         if (response.statusCode == 200) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -85,8 +99,6 @@ class _ValidatePhoneState extends State<ValidatePhone> {
             ),
           );        
         } else {
-          print('Failed to send OTP. Status code: ${response.statusCode}');
-          print('Error response: ${response.body}');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content: Text(
@@ -101,21 +113,20 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       } catch (e) {
         print('Error sending OTP: $e');
       }      
-      //logic for resend otp
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('Validate Phone Number'),
+      appBar: appBar('OTP Sign In'),
 
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
 
-            Text("Enter otp: ${widget.receivedOtp}"),
+            Text("Enter otp: ${_otp.isEmpty ? widget.receivedOtp : _otp}"),
 
             const SizedBox(height: 30.0),
 

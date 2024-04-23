@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                           colors: [
-                            Color(0xFFf99321),
-                            Color(0xFFfc5a3b),
+                            Color(0xFFFC7A69),
+                            Color(0xFFFC7A69),
                           ],
                         ),
                       ),
@@ -55,7 +55,8 @@ class _HomePageState extends State<HomePage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),                   
+                  ),
+                  const SizedBox(height: 40.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: Image.asset(
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.bold,
                             letterSpacing: .7,
                           ),
-                        ),                          
+                        ),
                       ),
                     ),
                   ),

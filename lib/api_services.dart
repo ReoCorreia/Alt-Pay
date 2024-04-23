@@ -17,8 +17,7 @@ class ApiService{
   static const String _addDeviceEndpoint = '/users/v1/add_device';
   static const String _addBankEndpoint = '/users/v1/add_bank';
 
-  Future<void> login() async{
-
+  Future<void> login(String mobile, String password) async{
     var response = await http.post(
       Uri.parse(_baseUrl + _loginEndpoint),
       headers: <String, String>{
@@ -26,8 +25,8 @@ class ApiService{
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "mobile": '+498423421234', //api does not accept any mobile
-        "password": 'test' //api does not accept any pass other than 'test' yet
+        "mobile": mobile,
+        "password": password
       }),
     );
     
@@ -97,26 +96,61 @@ class ApiService{
     );
   }
 
-    Future<bool> verifyOTP(String mobile, String otp) async{
-    var response = await http.post(
-      Uri.parse(_baseUrl + _verifyOTPEndpoint),
+  Future<http.Response> signInViaOTP(String mobile) async{
+    return await http.post(
+      Uri.parse(_baseUrl + _signUpEndpoint),
       headers: <String, String>{
         'accept': 'application/json',
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, String>{
-        "mobile": mobile,
-        "otp": otp
+        'mobile': mobile,
+        'type': "login"
       }),
     );
-    Map<String,dynamic> jsonResponse = jsonDecode(response.body);
+  }  
+
+    Future<bool> verifySignUpOTP(String mobile, String otp) async{
+      var response = await http.post(
+        Uri.parse(_baseUrl + _verifyOTPEndpoint),
+        headers: <String, String>{
+          'accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'type': 'signup'
+        },
+        body: jsonEncode(<String, String>{
+          "mobile": mobile,
+          "otp": otp
+        }),
+      );
+      Map<String,dynamic> jsonResponse = jsonDecode(response.body);
       if (!jsonResponse['error']) {
-        print(jsonResponse['data']['OTPVerified']);
         return jsonResponse['data']['OTPVerified'];
       } else {
         throw Exception('Failed to verify: ${jsonResponse['message']}');
       }
   }
+
+    Future<bool> verifyLoginOTP(String mobile, String otp) async{
+      var response = await http.post(
+        Uri.parse(_baseUrl + _verifyOTPEndpoint),
+        headers: <String, String>{
+          'accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'type': 'login'
+        },
+        body: jsonEncode(<String, String>{
+          "mobile": mobile,
+          "otp": otp
+        }),
+      );
+      Map<String,dynamic> jsonResponse = jsonDecode(response.body);
+      if (!jsonResponse['error']) {
+        return jsonResponse['data']['OTPVerified'];
+      } else {
+        throw Exception('Failed to verify: ${jsonResponse['message']}');
+      }
+  }  
 
   Future<Map<String, dynamic>> addBank(String name, String phone, String bankingRoutingNo, String iban, String accountNo, String bank) async{
       var response = await http.post(

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {
@@ -49,4 +51,9 @@ class AuthManager {
     await prefs.remove('user_name');
     await prefs.remove('altpay_qr_code');
   }
+
+  Future<void> signOut(BuildContext context) async {
+    await removeAuthToken();
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute( builder: (context) => const SignIn()), ((route) => false));
+  }  
 }

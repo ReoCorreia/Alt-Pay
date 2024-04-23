@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount1.dart';
-import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/color.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 
 class PaymentAmount extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -13,6 +15,7 @@ class PaymentAmount extends StatefulWidget {
 
 class _PaymentAmountState extends State<PaymentAmount> {
   final TextEditingController _amount = TextEditingController();
+  final AuthManager authManager = AuthManager();
 
   void _getCCYAmount(BuildContext context){
     Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentAmount1()));
@@ -21,7 +24,21 @@ class _PaymentAmountState extends State<PaymentAmount> {
   @override
   Widget build(BuildContext context) {
       return Scaffold(
-        appBar: appBar('New Payment'),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: themeBtnOrange,
+          title: Text(
+            'New Payment',
+            style: themeTextField,
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.exit_to_app), // Sign out icon
+              onPressed: () async {await authManager.signOut(context);}
+            ),
+          ],
+        ),
+
         body: Padding(
           padding: const EdgeInsets.all(25.0),
           child: ListView(

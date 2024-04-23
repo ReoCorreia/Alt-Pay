@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount2.dart';
-import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/color.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 
 class PaymentAmount1 extends StatefulWidget {
   const PaymentAmount1({super.key});
@@ -11,10 +13,26 @@ class PaymentAmount1 extends StatefulWidget {
 }
 
 class _PaymentAmount1State extends State<PaymentAmount1> {
+
+  final AuthManager authManager = AuthManager();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('CCY Amount'),
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: themeBtnOrange,
+          title: Text(
+            'CCY Amount',
+            style: themeTextField,
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.exit_to_app), // Sign out icon
+              onPressed: () async {await authManager.signOut(context);}
+            ),
+          ],
+        ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: Column(
