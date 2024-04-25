@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
-import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
@@ -24,17 +23,20 @@ class _ValidatePhoneState extends State<ValidatePhone> {
   final ApiService apiService = ApiService();
 
   void _validatePhone() async{
-
-    bool verified = await apiService.verifySignUpOTP(widget.mobile, _otp);
-
-    if(verified){
-      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EnterName(data: widget.mobile)));
-    }else if(!verified){
-      setState(() {
-        incorrectOTP = true;
-      });
-      snackBarError(context, 'OTP Incorrect');
-      return;
+    try {
+      bool verified = await apiService.verifySignUpOTP(widget.mobile, _otp);
+      if(verified){
+        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => EnterName(data: widget.mobile)));
+      }else if(!verified){
+        setState(() {
+          incorrectOTP = true;
+        });
+        snackBarError(context, 'OTP Incorrect');
+        return;
+      }
+    } catch (e) {
+      print('Exception occurred: $e');
+      snackBarError(context, '$e');
     }
   }
 
@@ -53,19 +55,16 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       print('waiting');
     }else{
       print('OTP resent');
-      try {
-        http.Response response = await apiService.receiveOTP(widget.mobile);
-        if (response.statusCode == 200) {
-          snackBarMessage(context, 'Otp Resent');    
-        } else {
-          print('Failed to send OTP. Status code: ${response.statusCode}');
-          print('Error response: ${response.body}');
-          snackBarError(context, 'Failed to send OTP');                  
-        }
+
+      try {    
+        Map<String, dynamic> responseData = await apiService.receiveOTP(widget.mobile);
+        print(responseData['data']['OTP']);
+        String receivedOtp = responseData['data']['OTP'].toString();      
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(mobile: widget.mobile, receivedOtp: receivedOtp)));
       } catch (e) {
         print('Error sending OTP: $e');
-      }      
-      //logic for resend otp
+        snackBarError(context, '$e');
+      }
     }
   }
 

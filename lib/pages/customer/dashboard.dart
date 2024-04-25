@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/api_services.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -112,62 +114,82 @@ class _DashboardState extends State<Dashboard>{
                     ), 
                   ),
                   Card(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            // First Child (Lottie Animation)
-                            Expanded(
-                              child: Lottie.asset(
-                                'lib/assets/welcome.json',
-                                width: 175,
-                                height: 175,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: <Widget>[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              // First Child (Lottie Animation)
+                              Expanded(
+                                child: Lottie.asset(
+                                  'lib/assets/welcome.json',
+                                  width: 150,
+                                  height: 150,
+                                ),
                               ),
-                            ),
-                            // Second Child (Buttons)
-                            Expanded(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  // First Button
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        FloatingActionButton(
-                                          onPressed: () => scanQR(),
-                                          foregroundColor: themeBtnOrange,
-                                          backgroundColor: themeBtnOrange,
-                                          child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        titleBox('Scan QR & Pay'),                        
-                                      ],
+                              // Second Child (Buttons)
+                              Expanded(
+                                flex: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    // First Button
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          FloatingActionButton(
+                                            onPressed: () => scanQR(),
+                                            foregroundColor: themeBtnOrange,
+                                            backgroundColor: themeBtnOrange,
+                                            child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          titleBox('Scan QR & Pay'),                        
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  // Second Button
-                                  Expanded(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        FloatingActionButton(
-                                          onPressed: () => scanQR(),
-                                          foregroundColor: themeBtnOrange,
-                                          backgroundColor: themeBtnOrange,
-                                          child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        titleBox('New Payment'),                        
-                                      ],
+                                    // Second Button
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          FloatingActionButton(
+                                            onPressed: () => scanQR(),
+                                            foregroundColor: themeBtnOrange,
+                                            backgroundColor: themeBtnOrange,
+                                            child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          titleBox('New Payment'),                        
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          FloatingActionButton(
+                                            onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
+                                            foregroundColor: themeBtnOrange,
+                                            backgroundColor: themeBtnOrange,
+                                            child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          titleBox('Add Bank'),                        
+                                        ],
+                                      ),
+                                    ),
+                      
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

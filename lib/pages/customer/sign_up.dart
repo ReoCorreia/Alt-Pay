@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_services.dart';
@@ -7,7 +6,6 @@ import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../themes/button.dart';
 import '../../themes/hint_style.dart';
@@ -35,25 +33,14 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-  try {
-    http.Response response = await apiService.receiveOTP(mobile);
-
-    if (response.statusCode == 200) {
-      
-      var responseData = jsonDecode(response.body);
-      print(responseData['data']['OTP']);
-      String receivedOtp = responseData['data']['OTP'].toString();      
-      Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(mobile: mobile, receivedOtp: receivedOtp)));
-    
-    } else {
-      
-      print('Failed to send OTP. Status code: ${response.statusCode}');
-      print('Error response: ${response.body}');
-      snackBarError(context, 'Enter valid Phone Number');
-
-    }
+  try {    
+    Map<String, dynamic> responseData = await apiService.receiveOTP(mobile);
+    print(responseData['data']['OTP']);
+    String receivedOtp = responseData['data']['OTP'].toString();      
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(mobile: mobile, receivedOtp: receivedOtp)));
   } catch (e) {
     print('Error sending OTP: $e');
+    snackBarError(context, '$e');
   }
 
 }  

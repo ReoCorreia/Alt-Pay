@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/validate_complete.dart';
+import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import '../../themes/button.dart';
 import '../../themes/hint_style.dart';
@@ -7,8 +7,8 @@ import '../../themes/text.dart';
 
 class ValidateCredentials extends StatefulWidget {
 
-  final String name, phone, ibanNo, bankingRoutingNo, accountNo;
-  const ValidateCredentials({super.key, required this.name, required this.phone, required this.ibanNo, required this.bankingRoutingNo, required this.accountNo});
+  final String ibanNo, bankingRoutingNo, accountNo;
+  const ValidateCredentials({super.key, required this.ibanNo, required this.bankingRoutingNo, required this.accountNo});
 
   @override
   State<ValidateCredentials> createState() => _ValidateCredentialsState();
@@ -18,7 +18,7 @@ class _ValidateCredentialsState extends State<ValidateCredentials> {
 
   void _validate(BuildContext context){
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ValidateComplete(name: widget.name ,phone: widget.phone, ibanNo: widget.ibanNo, bankingRoutingNo: widget.bankingRoutingNo, accountNo: widget.accountNo)));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const Dashboard()));
   }
 
   Text ibanOrBankingRoutingNo(){

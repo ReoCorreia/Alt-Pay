@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
+import 'package:flutter_application_1/pages/customer/password_setup.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import '../../themes/button.dart';
 
@@ -14,10 +14,6 @@ class IssuePartner extends StatefulWidget {
 }
 
 class _IssuePartnerState extends State<IssuePartner> {
-
-  void _credentialsPage(BuildContext context){
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => CredentialSetup(name: widget.name ,phone: widget.phone)));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +51,7 @@ class _IssuePartnerState extends State<IssuePartner> {
             ),
             const SizedBox(height: 20.0),
             ElevatedButton(
-                onPressed: () => _credentialsPage(context),
+                onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordSetup(name: widget.name ,phone: widget.phone)))},
                 style: themeBtn2,
                 child: const Text('OK & Continue')
             ),

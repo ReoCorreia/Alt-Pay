@@ -84,8 +84,9 @@ class ApiService{
     }
   }
 
-  Future<http.Response> receiveOTP(String mobile) async{
-    return await http.post(
+  Future<Map<String, dynamic>> receiveOTP(String mobile) async{
+    print(mobile);
+    var response = await http.post(
       Uri.parse(_baseUrl + _signUpEndpoint),
       headers: <String, String>{
         'accept': 'application/json',
@@ -96,6 +97,18 @@ class ApiService{
         'type': "signup"
       }),
     );
+
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    if(jsonResponse.containsKey('error')){
+      if (!jsonResponse['error']) {
+        return jsonResponse;
+      } else{
+        throw Exception(jsonResponse['message']);  
+      }      
+    } else{
+      throw Exception(jsonResponse['detail']);
+    }     
   }
 
   Future<http.Response> signInViaOTP(String mobile) async{

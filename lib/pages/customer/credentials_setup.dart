@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
+import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
@@ -10,9 +11,7 @@ import '../../themes/text.dart';
 
 class CredentialSetup extends StatefulWidget {
 
-  final String name, phone;
-
-  const CredentialSetup({super.key, required this.name, required this.phone});
+  const CredentialSetup({super.key});
 
   @override
   State<CredentialSetup> createState() => _CredentialSetupState();
@@ -21,6 +20,7 @@ class CredentialSetup extends StatefulWidget {
 class _CredentialSetupState extends State<CredentialSetup> {
 
   final ApiService apiService = ApiService();
+  final AuthManager authManager = AuthManager();
   final TextEditingController _ibanNo = TextEditingController();
   final TextEditingController _bankingRoutingNo = TextEditingController();
   final TextEditingController _accountNo = TextEditingController();
@@ -35,9 +35,12 @@ class _CredentialSetupState extends State<CredentialSetup> {
       return;
     }
 
-    await apiService.addBank(widget.name, widget.phone, _bankingRoutingNo.text, _ibanNo.text.toUpperCase(), _accountNo.text, "bank");
+    Map<String, dynamic>? userData = await authManager.getAuthData();
+    String mobile = userData?['mobile_number'];
+    String name = userData?['user_name']; 
+    await apiService.addBank(name, mobile, _bankingRoutingNo.text, _ibanNo.text.toUpperCase(), _accountNo.text, "bank");
     snackBarMessage(context, 'Bank details saved successfully');    
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ValidateCredentials(name: widget.name ,phone: widget.phone, ibanNo: _ibanNo.text, bankingRoutingNo: _bankingRoutingNo.text, accountNo: _accountNo.text)));
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ValidateCredentials(ibanNo: _ibanNo.text, bankingRoutingNo: _bankingRoutingNo.text, accountNo: _accountNo.text)));
   }
 
   ElevatedButton btnOrange(){
