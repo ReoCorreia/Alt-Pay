@@ -3,7 +3,6 @@ import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/screens/splash_screen.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'pages/home_page.dart';
-import 'pages/customer/customer_home.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
@@ -26,8 +25,7 @@ class MyApp extends StatelessWidget {
       home: authToken == null ? const SplashScreen() : const Dashboard(),
       theme: _buildTheme(Brightness.light),
       routes: {
-        '/welcome': (context) => const HomePage(),
-        '/customerhome': (context) => const CustomerHome(),
+        '/welcome': (context) => const HomePage()
       },
     );
   }

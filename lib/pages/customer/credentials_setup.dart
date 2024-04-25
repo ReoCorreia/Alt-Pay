@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import '../../themes/button.dart';
-import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 import '../../themes/text.dart';
 
@@ -29,39 +28,16 @@ class _CredentialSetupState extends State<CredentialSetup> {
   Future<void> _submit() async {
 
     if(_ibanNo.text.isEmpty && _bankingRoutingNo.text.isEmpty){
-      snackBarMessage('Please fill IBAN No or Banking Routing No');
+      snackBarError(context, 'Please fill IBAN No or Banking Routing No');
       return;
     }else if(_accountNo.text.isEmpty){
-      snackBarMessage('Please fill Account No');
+      snackBarError(context, 'Please fill Account No');
       return;
     }
 
     await apiService.addBank(widget.name, widget.phone, _bankingRoutingNo.text, _ibanNo.text.toUpperCase(), _accountNo.text, "bank");
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          duration: const Duration(seconds: 2),
-          content: Text(
-            textAlign: TextAlign.center,
-            'Bank details saved successfully',
-            style: themeTextFieldError,
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-          backgroundColor: themeBtnOrange
-      ),
-    );    
+    snackBarMessage(context, 'Bank details saved successfully');    
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ValidateCredentials(name: widget.name ,phone: widget.phone, ibanNo: _ibanNo.text, bankingRoutingNo: _bankingRoutingNo.text, accountNo: _accountNo.text)));
-  }
-
-  void snackBarMessage(error){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            '$error',
-            style: themeTextFieldError,
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-          backgroundColor: themeBtnOrange
-      ),
-    );
   }
 
   ElevatedButton btnOrange(){
@@ -116,7 +92,7 @@ class _CredentialSetupState extends State<CredentialSetup> {
             btnOrange(),
           ],
         ),
-      ),      
+      ),
     );
   }
 }

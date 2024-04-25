@@ -66,7 +66,7 @@ class _IssuePartnerState extends State<IssuePartner> {
             ),
           ],
         ),
-      ),      
+      ),
     );
   }
 }

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
-import 'package:flutter_application_1/variables/api_variables.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:lottie/lottie.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -22,14 +19,15 @@ class _DashboardState extends State<Dashboard>{
 
   // ignore: unused_field
   String _scanBarcode = '';
-  final AuthManager authManager = AuthManager(); 
+  final AuthManager authManager = AuthManager();
+  final ApiService apiService = ApiService(); 
 
   @override
   void initState() {
     super.initState();
   }
 
-  Future<void> scanQR(BuildContext context) async {
+  Future<void> scanQR() async {
     String qrString;
 
     try {
@@ -37,7 +35,7 @@ class _DashboardState extends State<Dashboard>{
           '#fffc5a3b', 'Cancel', true, ScanMode.QR);
       if (qrString != "-1") {
         print("Upi url: $qrString");
-        await fetchData(context, qrString);
+        await fetchData(qrString);
       }
     } on PlatformException {
       qrString = 'Failed to get platform version.';
@@ -50,32 +48,11 @@ class _DashboardState extends State<Dashboard>{
     });
   }
 
-  Future<void> fetchData(BuildContext context, String qrString) async {
-    var url = Uri.http(
-        apiDomain, '/masters/v1/decodeLankaQR/', {'qrstring': qrString});
-
-    final response = await http.get(url);
-    var jsonResponse = jsonDecode(response.body);
-    var data = jsonResponse['data'];
-
-    // Navigate to the next page while passing the data as arguments
+  Future<void> fetchData(String qrString) async {
+    Map<String, dynamic> data = await apiService.qrData(qrString);
     Navigator.push(context, MaterialPageRoute( builder: (context) => PaymentAmount(data: data)));
   }  
-
-  void snackBarMessage(String error){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            error,
-            style: themeTextField,            
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
-          backgroundColor: themeBtnOrange
-        ),
-      );    
-  }
   
-
   Widget titleBox(String title) {
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -159,7 +136,7 @@ class _DashboardState extends State<Dashboard>{
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         FloatingActionButton(
-                                          onPressed: () => scanQR(context),
+                                          onPressed: () => scanQR(),
                                           foregroundColor: themeBtnOrange,
                                           backgroundColor: themeBtnOrange,
                                           child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
@@ -175,7 +152,7 @@ class _DashboardState extends State<Dashboard>{
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         FloatingActionButton(
-                                          onPressed: () => scanQR(context),
+                                          onPressed: () => scanQR(),
                                           foregroundColor: themeBtnOrange,
                                           backgroundColor: themeBtnOrange,
                                           child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),

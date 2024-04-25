@@ -22,3 +22,8 @@ final TextStyle themeTextFieldError = GoogleFonts.lato(
   fontWeight: FontWeight.bold,
   letterSpacing: 0.7,
 );
+
+final TextStyle toggleTextStyle = GoogleFonts.lato(
+  fontWeight: FontWeight.bold,
+  letterSpacing: 0.7,
+);

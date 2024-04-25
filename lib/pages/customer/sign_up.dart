@@ -5,11 +5,11 @@ import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../themes/button.dart';
-import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 
 class SignUp extends StatefulWidget {
@@ -31,16 +31,7 @@ class _SignUpState extends State<SignUp> {
       setState(() {
         incorrectPhone = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-              textAlign: TextAlign.center,
-              'Phone Incorrect',
-              style: themeTextField,
-            ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
-            backgroundColor: themeBtnOrange
-        ),
-      );
+      snackBarError(context, 'Phone Incorrect');
       return;
     }
 
@@ -58,16 +49,7 @@ class _SignUpState extends State<SignUp> {
       
       print('Failed to send OTP. Status code: ${response.statusCode}');
       print('Error response: ${response.body}');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-              textAlign: TextAlign.center,
-              'Enter valid Phone Number ',
-              style: themeTextField,
-            ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
-            backgroundColor: themeBtnOrange
-        ),
-      );
+      snackBarError(context, 'Enter valid Phone Number');
 
     }
   } catch (e) {

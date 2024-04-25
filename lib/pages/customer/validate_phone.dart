@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:flutter_application_1/pages/customer/enter_name.dart';
 import '../../themes/button.dart';
-import '../../themes/color.dart';
 
 class ValidatePhone extends StatefulWidget {
   final String mobile, receivedOtp;
@@ -36,22 +33,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       setState(() {
         incorrectOTP = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-              textAlign: TextAlign.center,
-              'OTP Incorrect',
-              style: GoogleFonts.getFont(
-                'Lato',
-                fontSize: 18,
-                color: textWhite,
-                fontWeight: FontWeight.bold,
-                letterSpacing: .7,
-              ),
-            ).animate(target: incorrectOTP ? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
-            backgroundColor: themeBtnOrange
-        ),
-      );
+      snackBarError(context, 'OTP Incorrect');
       return;
     }
   }
@@ -74,29 +56,11 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       try {
         http.Response response = await apiService.receiveOTP(widget.mobile);
         if (response.statusCode == 200) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-                  textAlign: TextAlign.center,
-                  'Enter valid Phone Number ',
-                  style: themeTextField,
-                ),
-                backgroundColor: themeBtnOrange
-            ),
-          );        
+          snackBarMessage(context, 'Otp Resent');    
         } else {
           print('Failed to send OTP. Status code: ${response.statusCode}');
           print('Error response: ${response.body}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-                  textAlign: TextAlign.center,
-                  'Failed to send OTP',
-                  style: themeTextField,
-                ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-                backgroundColor: themeBtnOrange
-            ),
-          );                  
+          snackBarError(context, 'Failed to send OTP');                  
         }
       } catch (e) {
         print('Error sending OTP: $e');

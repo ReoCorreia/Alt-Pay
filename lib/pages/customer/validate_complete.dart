@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/password_setup.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-
 import '../../themes/button.dart';
-import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 import '../../themes/text.dart';
 
@@ -21,19 +18,6 @@ class _ValidateCompleteState extends State<ValidateComplete> {
 
   void _submit(BuildContext context){
     Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordSetup(name: widget.name ,phone: widget.phone)));
-  }
-
-  void snackBarMessage(error){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            '$error',
-            style: themeTextField,
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-          backgroundColor: themeBtnOrange
-      ),
-    );
   }
 
   Text ibanOrBankingRoutingNo(){
@@ -85,7 +69,7 @@ class _ValidateCompleteState extends State<ValidateComplete> {
             btnOrange(),
           ],
           ),
-      ),      
+      ),
     );
   }
 }

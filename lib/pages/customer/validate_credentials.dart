@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/validate_complete.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-
 import '../../themes/button.dart';
-import '../../themes/color.dart';
 import '../../themes/hint_style.dart';
 import '../../themes/text.dart';
 
@@ -22,19 +19,6 @@ class _ValidateCredentialsState extends State<ValidateCredentials> {
   void _validate(BuildContext context){
 
     Navigator.push(context, MaterialPageRoute(builder: (context) => ValidateComplete(name: widget.name ,phone: widget.phone, ibanNo: widget.ibanNo, bankingRoutingNo: widget.bankingRoutingNo, accountNo: widget.accountNo)));
-  }
-
-  void snackBarMessage(error){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            '$error',
-            style: themeTextField,
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-          backgroundColor: themeBtnOrange
-      ),
-    );
   }
 
   Text ibanOrBankingRoutingNo(){

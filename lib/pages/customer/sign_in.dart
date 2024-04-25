@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_application_1/pages/customer/otp_sign_in.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
@@ -40,7 +40,7 @@ class _SignInState extends State<SignIn> {
   Future<void> _submit(BuildContext context) async {
     if (mobile.isEmpty) {
       setState(() => incorrectPhone = true);
-      snackBarMessage('Phone field cannot be empty');
+      snackBarError(context, 'Phone field cannot be empty');
       return;
     }
 
@@ -58,17 +58,7 @@ class _SignInState extends State<SignIn> {
           
           print('Failed to send OTP. Status code: ${response.statusCode}');
           print('Error response: ${response.body}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(
-                  textAlign: TextAlign.center,
-                  'Enter valid Phone Number ',
-                  style: themeTextField,
-                ).animate(target: incorrectPhone? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
-                backgroundColor: themeBtnOrange
-            ),
-          );
-
+          snackBarError(context, 'Enter valid Phone Number');
         }
       } catch (e) {
         print('Error sending OTP: $e');
@@ -76,39 +66,16 @@ class _SignInState extends State<SignIn> {
     } else {
       if (_password.text.isEmpty) {
         setState(() => incorrectPassword = true);
-        snackBarMessage('Password cannot be empty');
+        snackBarError(context, 'Password cannot be empty');
         return;
       }
       // Implement password login functionality here
       await apiService.login(mobile, _password.text);      
       await apiService.addDevice();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          duration: const  Duration(seconds: 2),
-          content: Text(
-            textAlign: TextAlign.center,
-            'Sign In Successfull',
-            style: whiteSnackBar            
-          ), 
-          backgroundColor: textWhite
-        ),
-      );
+      snackBarMessage(context, 'Sign In Successfull');
       // Assuming login is successful
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()), (route) => false);      
     }
-  }
-
-  void snackBarMessage(String error) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          error,
-          textAlign: TextAlign.center,
-          style: themeTextField,
-        ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-        backgroundColor: themeBtnOrange,
-      ),
-    );
   }
 
   @override
@@ -119,27 +86,42 @@ class _SignInState extends State<SignIn> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Image.asset('lib/images/login.png', width: 300, height: 300),
-            ToggleButtons(
-              isSelected: [!isOtpLogin, isOtpLogin],
-              fillColor: themeBtnOrange,
-              onPressed: (int index) {
-                setState(() {
-                  isOtpLogin = index == 1;
-                });
-              },
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('Password', style: themeTextField),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Text('OTP', style: themeTextField),
-                ),
-              ],
+            Image.asset('lib/images/login.png', width: 250, height: 250),
+            Center(
+              child: Column(
+                children: [
+                  // Text('Sign In via', style: themeTextField4),
+                  // SvgPicture.asset('lib/images/direction-arrow.svg', width: 48, height: 48,),
+                  ToggleButtons(
+                    isSelected: [!isOtpLogin, isOtpLogin],
+                    fillColor: themeBtnOrange,
+                    color: Colors.black54,
+                    selectedColor: Colors.white,
+                    borderColor: Colors.grey,
+                    selectedBorderColor: themeBtnOrange,
+                    borderWidth: 1.0, // This might need to be set via the BorderSide in a custom BoxDecoration
+                    borderRadius: BorderRadius.circular(8), // Optional, for rounded corners
+                    renderBorder: true,
+                    onPressed: (int index) {
+                      setState(() {
+                        isOtpLogin = index == 1;
+                      });
+                    },
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text('Sign In via Password', style: toggleTextStyle),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text('Sign In via OTP', style: toggleTextStyle),
+                      ),
+                    ],                
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 20.0),            
+            const SizedBox(height: 40.0),            
             IntlPhoneField(
               initialCountryCode: 'GB',
               disableLengthCheck: true,
@@ -157,18 +139,6 @@ class _SignInState extends State<SignIn> {
               decoration: decorate('Enter your password'),
               controller: _password,
             ),
-            // const SizedBox(height: 20.0),
-            // showOTPField && isOtpLogin ? OTPTextField(
-            //   length: 4,
-            //   width: MediaQuery.of(context).size.width,
-            //   style: const TextStyle(
-            //     fontSize: 17
-            //   ),
-            //   textFieldAlignment: MainAxisAlignment.spaceAround,
-            //   fieldStyle: FieldStyle.underline,
-              
-            //   onCompleted: (pin) {setState(() { _otp = pin;});}
-            // ) : const SizedBox(),
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () => _submit(context),

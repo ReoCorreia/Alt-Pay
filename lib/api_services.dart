@@ -9,6 +9,7 @@ class ApiService{
   final AuthManager authManager = AuthManager();
 
   static const String _baseUrl = 'http://65.1.187.138:8000';
+  static const String _apiDomain = "65.1.187.138:8000";
 
   // endpoints
   static const String _loginEndpoint = '/users/v1/login';
@@ -16,6 +17,7 @@ class ApiService{
   static const String _verifyOTPEndpoint = '/users/v1/verify_otp';
   static const String _addDeviceEndpoint = '/users/v1/add_device';
   static const String _addBankEndpoint = '/users/v1/add_bank';
+  static const String _lankaQrDetailsEndpoint = '/masters/v1/decodeLankaQR/';
 
   Future<void> login(String mobile, String password) async{
     var response = await http.post(
@@ -146,6 +148,7 @@ class ApiService{
       );
       Map<String,dynamic> jsonResponse = jsonDecode(response.body);
       if (!jsonResponse['error']) {
+        print(jsonResponse['data']['user_data']);
         await authManager.saveAuthToken(jsonResponse['data']['user_data']);
         return jsonResponse['data']['OTPVerified'];
       } else {
@@ -177,5 +180,17 @@ class ApiService{
       }    
   }
 
+  Future<Map<String, dynamic>> qrData(String qrString) async{
+    var url = Uri.http(
+        _apiDomain, _lankaQrDetailsEndpoint, {'qrstring': qrString});
+
+    final response = await http.get(url);
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    if (!jsonResponse['error']) {
+      return jsonResponse['data'];
+    } else {
+      throw Exception('Failed to add bank: ${jsonResponse['message']}');
+    }    
+  }  
 
 }

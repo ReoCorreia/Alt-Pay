@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/issue_partner.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 class EnterName extends StatefulWidget {
@@ -26,32 +25,19 @@ class _EnterNameState extends State<EnterName> {
   void saveName(){
     
     if(_firstName.text.isEmpty){
-      snackBarMessage('Please fill First Name');
+      snackBarError(context, 'Please fill First Name');
     }else if(_lastName.text.isEmpty){
-      snackBarMessage('Please fill Last Name');
+      snackBarError(context, 'Please fill Last Name');
     }else if(_emailController.text.isEmpty){
-      snackBarMessage('Please fill Email Id');
+      snackBarError(context, 'Please fill Email Id');
     }
 
     if(!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(_emailController.text)){
-      snackBarMessage('Email address invalid');
+      snackBarError(context, 'Email address invalid');
       return;
     }
 
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: '${_firstName.text} ${_lastName.text}', phone: widget.data)));
-  }
-
-  void snackBarMessage(String error){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            error,
-            style: themeTextField,            
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic), 
-          backgroundColor: themeBtnOrange
-        ),
-      );    
   }
 
   ElevatedButton btnOrange(){

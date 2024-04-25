@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 class PasswordSetup extends StatefulWidget {
@@ -23,11 +22,11 @@ class _PasswordSetupState extends State<PasswordSetup> {
 
   void _submit(BuildContext context){
     if(_password.text.isEmpty || _cpassword.text.isEmpty){
-      snackBarMessage('Please enter password and confirm password');
+      snackBarError(context, 'Please enter password and confirm password');
     }else if(_password.text != _cpassword.text){
-      snackBarMessage('Both passwords must match');
+      snackBarError(context, 'Both passwords must match');
     }else{
-      snackBarMessageNormal('Sign Up Successful, redirecting to Login...');
+      snackBarMessage(context, 'Sign Up Successful, redirecting to Login...');
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pushReplacement(
           context,
@@ -35,33 +34,6 @@ class _PasswordSetupState extends State<PasswordSetup> {
         );
       });
     }
-  }
-
-  void snackBarMessage(error){
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            '$error',
-            style: themeTextFieldError,
-          ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
-          backgroundColor: themeBtnOrange
-      ),
-    );
-  }
-
-  void snackBarMessageNormal(String error){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            textAlign: TextAlign.center,
-            error,
-            style: themeTextField,            
-          ),
-          duration: const Duration(seconds: 2),
-          backgroundColor: themeBtnOrange
-        ),
-      );    
   }  
 
   TextFormField textFieldContainer(hintText, TextEditingController controller){
@@ -99,7 +71,7 @@ class _PasswordSetupState extends State<PasswordSetup> {
             btnOrange(),
           ],
         ),
-      ),      
+      ),
     );
   }
 }
