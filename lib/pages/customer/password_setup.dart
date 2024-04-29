@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
@@ -17,22 +18,27 @@ class PasswordSetup extends StatefulWidget {
 
 class _PasswordSetupState extends State<PasswordSetup> {
 
+  final ApiService apiService = ApiService();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _cpassword = TextEditingController();
 
-  void _submit(BuildContext context){
+  Future<void> _submit(BuildContext context) async{
     if(_password.text.isEmpty || _cpassword.text.isEmpty){
       snackBarError(context, 'Please enter password and confirm password');
     }else if(_password.text != _cpassword.text){
       snackBarError(context, 'Both passwords must match');
     }else{
-      snackBarMessage(context, 'Sign Up Successful, redirecting to Login...');
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const SignIn()),
-        );
-      });
+
+      try {
+        await apiService.setPassword(widget.phone, _password.text);
+        snackBarMessage(context, 'Sign Up Successful, redirecting to Login...');
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignIn()));
+        });
+      } catch (e) {
+        snackBarError(context, 'Error Saving User details: $e');
+      }
+      
     }
   }  
 

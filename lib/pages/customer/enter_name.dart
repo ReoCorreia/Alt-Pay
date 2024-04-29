@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/issue_partner.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
@@ -18,11 +19,12 @@ class EnterName extends StatefulWidget {
 
 class _EnterNameState extends State<EnterName> {
 
+  final ApiService apiService = ApiService();
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  void saveName(){
+  Future<void> saveName() async{
     
     if(_firstName.text.isEmpty){
       snackBarError(context, 'Please fill First Name');
@@ -37,7 +39,14 @@ class _EnterNameState extends State<EnterName> {
       return;
     }
 
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: '${_firstName.text} ${_lastName.text}', phone: widget.data)));
+    try {
+      String userName = '${_firstName.text} ${_lastName.text}';
+      await apiService.updateUserData(widget.data, userName, widget.data.substring(0, 2), _emailController.text);
+      snackBarMessage(context, 'Details  saved successfully');
+      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => IssuePartner(name: userName, phone: widget.data)));
+    } catch (e) {
+      snackBarError(context, 'Error Saving User details: $e');
+    }
   }
 
   ElevatedButton btnOrange(){

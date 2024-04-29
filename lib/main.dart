@@ -5,7 +5,7 @@ import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'pages/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final AuthManager authManager = AuthManager();
   final String? authToken = await authManager.getAuthToken();

@@ -6,6 +6,7 @@ import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 
 class ApiService{
+
   final AuthManager authManager = AuthManager();
 
   static const String _baseUrl = 'http://65.1.187.138:8000';
@@ -18,6 +19,7 @@ class ApiService{
   static const String _addDeviceEndpoint = '/users/v1/add_device';
   static const String _addBankEndpoint = '/users/v1/add_bank';
   static const String _lankaQrDetailsEndpoint = '/masters/v1/decodeLankaQR/';
+  static const String _updateUserDetails = '/users/v1/update_user'; // same url for password setup and updating user data
 
   Future<void> login(String mobile, String password) async{
     var response = await http.post(
@@ -85,7 +87,6 @@ class ApiService{
   }
 
   Future<Map<String, dynamic>> receiveOTP(String mobile) async{
-    print(mobile);
     var response = await http.post(
       Uri.parse(_baseUrl + _signUpEndpoint),
       headers: <String, String>{
@@ -99,7 +100,6 @@ class ApiService{
     );
 
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
     if(jsonResponse.containsKey('error')){
       if (!jsonResponse['error']) {
         return jsonResponse;
@@ -125,25 +125,28 @@ class ApiService{
     );
   }  
 
-    Future<bool> verifySignUpOTP(String mobile, String otp) async{
-      var response = await http.post(
-        Uri.parse(_baseUrl + _verifyOTPEndpoint),
-        headers: <String, String>{
-          'accept': 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'type': 'signup'
-        },
-        body: jsonEncode(<String, String>{
-          "mobile": mobile,
-          "otp": otp
-        }),
-      );
-      Map<String,dynamic> jsonResponse = jsonDecode(response.body);
-      if (!jsonResponse['error']) {
-        return jsonResponse['data']['OTPVerified'];
-      } else {
-        throw Exception('Failed to verify: ${jsonResponse['message']}');
-      }
+  Future<bool> verifySignUpOTP(String mobile, String otp) async{
+    var response = await http.post(
+      Uri.parse(_baseUrl + _verifyOTPEndpoint),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'type': 'signup'
+      },
+      body: jsonEncode(<String, String>{
+        "mobile": mobile,
+        "otp": otp
+      }),
+    );
+    Map<String,dynamic> jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    if (!jsonResponse['error']) {
+      print('object');
+      await authManager.saveSignUpAuthToken(jsonResponse['data']['auth_token']);
+      return jsonResponse['data']['OTPVerified'];
+    } else {
+      throw Exception('Failed to verify: ${jsonResponse['message']}');
+    }
   }
 
     Future<bool> verifyLoginOTP(String mobile, String otp) async{
@@ -161,7 +164,6 @@ class ApiService{
       );
       Map<String,dynamic> jsonResponse = jsonDecode(response.body);
       if (!jsonResponse['error']) {
-        print(jsonResponse['data']['user_data']);
         await authManager.saveAuthToken(jsonResponse['data']['user_data']);
         return jsonResponse['data']['OTPVerified'];
       } else {
@@ -170,12 +172,13 @@ class ApiService{
   }  
 
   Future<Map<String, dynamic>> addBank(String name, String phone, String bankingRoutingNo, String iban, String accountNo, String bank) async{
+      final String? authToken = await authManager.getAuthToken();
       var response = await http.post(
         Uri.parse(_baseUrl + _addBankEndpoint),
         headers: <String, String>{
           'accept': 'application/json',
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': 'gAAAAABmIN1LP2Hz8XWjtlQGnZpNlxCWfkybWuRKvgA0xmt-DRVhi_z6IS-qPIO3Bw7q44fR0XL8aiUCvagHSJgaCoYyi987UjGhtsbp3jLpNtO7PHwbot9HrI6UhUbf9Hg1GuZmjSmx-PTrmkRT85F9NtrcpjXNfQ=='
+          'Authorization': authToken.toString()
         },
         body: jsonEncode(<String, String>{
           "mobile": phone,
@@ -204,6 +207,57 @@ class ApiService{
     } else {
       throw Exception('Failed to add bank: ${jsonResponse['message']}');
     }    
-  }  
+  }
+
+  Future<Map<String, dynamic>> updateUserData(String mobile, String userName, String countryId, String emailId) async{
+    final String? signUpAuthToken = await authManager.getSignUpAuthToken();
+    var response = await http.put(
+      Uri.parse(_baseUrl + _updateUserDetails),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': signUpAuthToken.toString()
+      },
+      body: jsonEncode(<String, String>{
+        "mobile": mobile,
+        "user_name": userName,
+        "country_id": countryId,
+        "email_id": emailId        
+      }),
+    );
+    
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
+    
+    if (!jsonResponse['error']) {
+      return jsonResponse;
+    } else {
+      throw Exception('${jsonResponse['message']}');
+    }
+  }    
+
+  Future<Map<String, dynamic>> setPassword(String mobile, String password) async{
+    final String? signUpAuthToken = await authManager.getSignUpAuthToken();
+    var response = await http.put(
+      Uri.parse(_baseUrl + _updateUserDetails),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': signUpAuthToken.toString()
+      },
+      body: jsonEncode(<String, String>{
+        "mobile": mobile,
+        "password_hash": password        
+      }),
+    );
+    
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    
+    if (!jsonResponse['error']) {
+      return jsonResponse;
+    } else {
+      throw Exception('${jsonResponse['message']}');
+    }
+  }    
 
 }

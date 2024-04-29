@@ -8,6 +8,11 @@ class AuthManager {
     return prefs.getString('authToken');
   }
 
+  Future<String?> getSignUpAuthToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('signUpAuthToken');
+  }  
+
   Future<String?> getMobile() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('mobile_number');
@@ -25,7 +30,7 @@ class AuthManager {
     // Create a map to hold all the authentication data
     Map<String, dynamic> authData = {
       'authToken': authToken,
-      'country': prefs.getString('country') ?? '', // Using ?? to provide a default value
+      'country': prefs.getString('country') ?? '', // Using ?? to provide a default value (REMOVE LATER)
       'mobile_number': prefs.getString('mobile_number') ?? '',
       'user_name': prefs.getString('user_name') ?? '',
       'altpay_qr_code': prefs.getString('altpay_qr_code') ?? '',
@@ -41,6 +46,11 @@ class AuthManager {
     await prefs.setString('mobile_number', response['mobile_number'] ?? 'found null');
     await prefs.setString('user_name', response['user_name'] ?? 'found null');
     await prefs.setString('altpay_qr_code', response['altpay_qr_code'] ?? 'found null');
+  }
+
+  Future<void> saveSignUpAuthToken(String authToken) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('signUpAuthToken', authToken);
   }  
 
   Future<void> removeAuthToken() async {

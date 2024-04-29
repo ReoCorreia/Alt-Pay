@@ -36,7 +36,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
       }
     } catch (e) {
       print('Exception occurred: $e');
-      snackBarError(context, '$e');
+      snackBarError(context, 'Some error occured');
     }
   }
 
