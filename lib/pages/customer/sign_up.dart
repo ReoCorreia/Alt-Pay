@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_services.dart';
+import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/pages/customer/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
@@ -36,7 +37,7 @@ class _SignUpState extends State<SignUp> {
   try {    
     Map<String, dynamic> responseData = await apiService.receiveOTP(mobile);
     print(responseData['data']['OTP']);
-    String receivedOtp = responseData['data']['OTP'].toString();      
+    String receivedOtp = responseData['data']['OTP'].toString();
     Navigator.push(context, MaterialPageRoute(builder: (context) => ValidatePhone(mobile: mobile, receivedOtp: receivedOtp)));
   } catch (e) {
     print('Error sending OTP: $e');
@@ -47,6 +48,10 @@ class _SignUpState extends State<SignUp> {
 
   void _navigateToHome() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+  }
+
+  Future<void> _signIn() async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()));
   }
 
   @override
@@ -104,7 +109,26 @@ class _SignUpState extends State<SignUp> {
                 ),
                 const SizedBox(width: 5.0),
               ],
-            )
+            ),
+            const SizedBox(height: 10.0),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("Already have an account? "),
+                  GestureDetector(
+                    onTap: () => _signIn(),
+                    child: const Text(
+                      'Sign In',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

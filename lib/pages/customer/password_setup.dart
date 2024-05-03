@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_services.dart';
+import 'package:flutter_application_1/pages/customer/forgot_password.dart';
 import 'package:flutter_application_1/pages/customer/sign_in.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
@@ -40,7 +41,7 @@ class _PasswordSetupState extends State<PasswordSetup> {
       }
       
     }
-  }  
+  }
 
   TextFormField textFieldContainer(hintText, TextEditingController controller){
     return TextFormField(

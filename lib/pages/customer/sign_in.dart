@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/customer/otp_sign_in.dart';
+import 'package:flutter_application_1/pages/customer/sign_up.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:flutter_application_1/api_services.dart';
+
+import 'forgot_password.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -78,6 +81,14 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  Future<void> _signUp() async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()));
+  }
+
+  Future<void> _forgotPassword() async {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPassword()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,13 +150,52 @@ class _SignInState extends State<SignIn> {
               decoration: decorate('Enter your password'),
               controller: _password,
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             ElevatedButton(
               onPressed: () => _submit(context),
               style: themeBtn2,
               child: Text(
                 isOtpLogin ? 'Send OTP' : 'Sign In',
                 style: themeTextField,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            isOtpLogin ? const SizedBox(
+            ) : Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("Forgot Password? "),
+                  GestureDetector(
+                    onTap: () => _forgotPassword(),
+                    child: const Text(
+                      'Reset Password',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("Don't have an account? "),
+                  GestureDetector(
+                    onTap: () => _signUp(),
+                    child: const Text(
+                      'Sign Up',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
