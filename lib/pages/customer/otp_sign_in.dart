@@ -29,7 +29,7 @@ class OtpSignInState extends State<OtpSignIn> {
     bool verified = await apiService.verifyLoginOTP(widget.mobile, _otp);
 
     if(verified){
-      await apiService.addDevice();
+      // await apiService.addDevice();
       snackBarMessage(context, 'Sign In Successfull');      
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()), (route) => false);
     }else if(!verified){
