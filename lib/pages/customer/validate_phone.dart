@@ -78,7 +78,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
         child: ListView(
           children: <Widget>[
 
-            Text("Enter otp: ${widget.receivedOtp}"),
+            // Text("Enter otp: ${widget.receivedOtp}"),
 
             const SizedBox(height: 30.0),
 

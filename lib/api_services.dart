@@ -36,7 +36,8 @@ class ApiService{
     
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
     
-    if (!jsonResponse['error']) {        
+    if (!jsonResponse['error']) {  
+      print(jsonResponse);      
       await authManager.saveAuthToken(jsonResponse['data']);
     } else {
       throw Exception('${jsonResponse['message']}');
@@ -141,7 +142,6 @@ class ApiService{
     Map<String,dynamic> jsonResponse = jsonDecode(response.body);
     print(jsonResponse);
     if (!jsonResponse['error']) {
-      print('object');
       await authManager.saveSignUpAuthToken(jsonResponse['data']['auth_token']);
       return jsonResponse['data']['OTPVerified'];
     } else {
@@ -227,8 +227,6 @@ class ApiService{
     );
     
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-    print(jsonResponse);
-    
     if (!jsonResponse['error']) {
       return jsonResponse;
     } else {
@@ -254,6 +252,7 @@ class ApiService{
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
     
     if (!jsonResponse['error']) {
+      print(jsonResponse);
       return jsonResponse;
     } else {
       throw Exception('${jsonResponse['message']}');

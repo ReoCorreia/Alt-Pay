@@ -78,90 +78,164 @@ class OtpSignInState extends State<OtpSignIn> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-
-            Text("Enter otp: ${_otp.isEmpty ? widget.receivedOtp : _otp}"),
-
-            const SizedBox(height: 30.0),
-
-            const Center(
-              child: Text(
-                'Verification OTP',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
             Center(
-              child: Text(
-                'OTP sent to ${maskPhoneNumber(widget.mobile)}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(   
                 children: <Widget>[
-                  const Text("Didn't receive the OTP? "),
-                  GestureDetector(
-                    onTap: () => !waiting? _resendOTP() : null,
-                    child: const Text(
-                      'Resend OTP',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
+                  Image.asset('lib/images/t-logo.png', width: 250, height: 250),
+                  const Text(
+                    'Verification OTP',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Text("  "),
-                  TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 30, end: 0),
-                    duration: const Duration(seconds: 30),
-                    builder: (context, value, child) => Text(
-                      '00:${value.toInt()}',
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  Text(
+                    'OTP sent to ${maskPhoneNumber(widget.mobile)}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
-                    onEnd: () {
-                      // Add your logic here
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text("Didn't receive the OTP? "),
+                      GestureDetector(
+                        onTap: () => !waiting? _resendOTP() : null,
+                        child: const Text(
+                          'Resend OTP',
+                          style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                      const Text("  "),
+                      TweenAnimationBuilder(
+                        tween: Tween<double>(begin: 30, end: 0),
+                        duration: const Duration(seconds: 30),
+                        builder: (context, value, child) => Text(
+                          '00:${value.toInt()}',
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onEnd: () {
+                          // Add your logic here
+                          setState(() {
+                            waiting = false;
+                          });
+                        },
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 30.0),
+                  OTPTextField(
+                    length: 4,
+                    width: MediaQuery.of(context).size.width,
+                    style: const TextStyle(
+                      fontSize: 17
+                    ),
+                    textFieldAlignment: MainAxisAlignment.spaceAround,
+                    fieldStyle: FieldStyle.underline,
+                    
+                    onCompleted: (pin) {
                       setState(() {
-                        waiting = false;
+                        _otp = pin;
                       });
                     },
-                  )
+                  ),
+                  const SizedBox(height: 20.0),
+
+                  ElevatedButton(
+                    onPressed: _otp.length == 4? () => _validatePhone() : null,
+                    style: themeBtn2,
+                    child: const Text('Verify OTP'),
+                  ),                  
                 ],
               ),
             ),
-
-            const SizedBox(height: 30.0),
-            OTPTextField(
-              length: 4,
-              width: MediaQuery.of(context).size.width,
-              style: const TextStyle(
-                fontSize: 17
-              ),
-              textFieldAlignment: MainAxisAlignment.spaceAround,
-              fieldStyle: FieldStyle.underline,
+            // const Center(
               
-              onCompleted: (pin) {
-                setState(() {
-                  _otp = pin;
-                });
-              },
-            ),
-            const SizedBox(height: 20.0),
+            //   child: Text(
+            //     'Verification OTP',
+            //     style: TextStyle(
+            //       fontSize: 32,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
+            // Center(
+            //   child: Text(
+            //     'OTP sent to ${maskPhoneNumber(widget.mobile)}',
+            //     style: const TextStyle(
+            //       fontSize: 16,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
 
-            ElevatedButton(
-              onPressed: _otp.length == 4? () => _validatePhone() : null,
-              style: themeBtn2,
-              child: const Text('Verify OTP'),
-            ),
+            // Center(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       const Text("Didn't receive the OTP? "),
+            //       GestureDetector(
+            //         onTap: () => !waiting? _resendOTP() : null,
+            //         child: const Text(
+            //           'Resend OTP',
+            //           style: TextStyle(
+            //             color: Colors.blue,
+            //             decoration: TextDecoration.underline,
+            //           ),
+            //         ),
+            //       ),
+            //       const Text("  "),
+            //       TweenAnimationBuilder(
+            //         tween: Tween<double>(begin: 30, end: 0),
+            //         duration: const Duration(seconds: 30),
+            //         builder: (context, value, child) => Text(
+            //           '00:${value.toInt()}',
+            //           style: const TextStyle(
+            //             color: Colors.blue,
+            //             fontWeight: FontWeight.bold,
+            //           ),
+            //         ),
+            //         onEnd: () {
+            //           // Add your logic here
+            //           setState(() {
+            //             waiting = false;
+            //           });
+            //         },
+            //       )
+            //     ],
+            //   ),
+            // ),
+
+            // const SizedBox(height: 30.0),
+            // OTPTextField(
+            //   length: 4,
+            //   width: MediaQuery.of(context).size.width,
+            //   style: const TextStyle(
+            //     fontSize: 17
+            //   ),
+            //   textFieldAlignment: MainAxisAlignment.spaceAround,
+            //   fieldStyle: FieldStyle.underline,
+              
+            //   onCompleted: (pin) {
+            //     setState(() {
+            //       _otp = pin;
+            //     });
+            //   },
+            // ),
+            // const SizedBox(height: 20.0),
+
+            // ElevatedButton(
+            //   onPressed: _otp.length == 4? () => _validatePhone() : null,
+            //   style: themeBtn2,
+            //   child: const Text('Verify OTP'),
+            // ),
           ],
         ),
       )

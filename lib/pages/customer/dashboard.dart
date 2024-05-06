@@ -36,7 +36,6 @@ class _DashboardState extends State<Dashboard>{
       qrString = await FlutterBarcodeScanner.scanBarcode(
           '#fffc5a3b', 'Cancel', true, ScanMode.QR);
       if (qrString != "-1") {
-        print("Upi url: $qrString");
         await fetchData(qrString);
       }
     } on PlatformException {
@@ -94,24 +93,26 @@ class _DashboardState extends State<Dashboard>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const Card(
+                  Card(
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        children: <Widget>[
-                          Text('Welcome to Lanka-Pay'),
-                          SizedBox(height: 20.0),
-                          Text(
-                            'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
-                            style: TextStyle(
-                              color: Color(0xFF777779),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                      padding: const EdgeInsets.all(10.0),
+                      child: Center(
+                        child: Column(
+                          children: <Widget>[
+                            const Text('Welcome to Alt-Pay'),
+                            Image.asset('lib/images/t-logo.png', width: 150, height: 150),
+                            const Text(
+                              'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
+                              style: TextStyle(
+                                color: Color(0xFF777779),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),                      
-                    ), 
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   Card(
                     child: Padding(

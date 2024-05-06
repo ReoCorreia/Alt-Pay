@@ -18,7 +18,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
   final AuthManager authManager = AuthManager();
 
   void _getCCYAmount(BuildContext context){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentAmount1()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount1(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text)));
   }
 
   @override
@@ -70,19 +70,38 @@ class _PaymentAmountState extends State<PaymentAmount> {
               Center(
                 child: Column(
                   children: <Widget>[
-                    TextFormField(
-                      textAlign: TextAlign.center,
-                      controller: _amount,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintText: '   0',
-                      ),
-                      style: const TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Expanded(
+                          child: Text(
+                            'LKR',
+                            style: TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3, // Adjust flex as needed to balance the layout
+                          child: TextFormField(
+                            textAlign: TextAlign.center,
+                            controller: _amount,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              enabledBorder: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              hintText: '0',
+                            ),
+                            style: const TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20.0),                  
                     const Text('EUR Exchange Rate: LKR 336.10'),                  

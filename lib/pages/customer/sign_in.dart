@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/customer/otp_sign_in.dart';
+import 'package:flutter_application_1/pages/customer/sign_up.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
@@ -48,16 +50,11 @@ class _SignInState extends State<SignIn> {
       try {
         http.Response response = await apiService.signInViaOTP(mobile);
         if (response.statusCode == 200) {
-          
           var responseData = jsonDecode(response.body);
-          print(responseData['data']['OTP']);
           String receivedOtp = responseData['data']['OTP'].toString();      
           Navigator.push(context, MaterialPageRoute(builder: (context) => OtpSignIn(mobile: mobile, receivedOtp: receivedOtp)));
         
         } else {
-          
-          print('Failed to send OTP. Status code: ${response.statusCode}');
-          print('Error response: ${response.body}');
           snackBarError(context, 'Enter valid Phone Number');
         }
       } catch (e) {
@@ -70,7 +67,11 @@ class _SignInState extends State<SignIn> {
         return;
       }
       // Implement password login functionality here
-      await apiService.login(mobile, _password.text);      
+      try {
+        await apiService.login(mobile, _password.text);
+      } catch (e) {
+        snackBarError(context, e.toString());
+      }      
       await apiService.addDevice();
       snackBarMessage(context, 'Sign In Successfull');
       // Assuming login is successful
@@ -86,21 +87,19 @@ class _SignInState extends State<SignIn> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Image.asset('lib/images/login.png', width: 250, height: 250),
             Center(
               child: Column(
                 children: [
-                  // Text('Sign In via', style: themeTextField4),
-                  // SvgPicture.asset('lib/images/direction-arrow.svg', width: 48, height: 48,),
+                  Image.asset('lib/images/t-logo.png', width: 250, height: 250),
                   ToggleButtons(
                     isSelected: [!isOtpLogin, isOtpLogin],
                     fillColor: themeBtnOrange,
-                    color: Colors.black54,
+                    // color: Colors.black54,
                     selectedColor: Colors.white,
                     borderColor: Colors.grey,
                     selectedBorderColor: themeBtnOrange,
-                    borderWidth: 1.0, // This might need to be set via the BorderSide in a custom BoxDecoration
-                    borderRadius: BorderRadius.circular(8), // Optional, for rounded corners
+                    borderWidth: 1.0,
+                    borderRadius: BorderRadius.circular(8),
                     renderBorder: true,
                     onPressed: (int index) {
                       setState(() {
@@ -118,34 +117,46 @@ class _SignInState extends State<SignIn> {
                       ),
                     ],                
                   ),
+                  const SizedBox(height: 40.0),            
+                  IntlPhoneField(
+                    initialCountryCode: 'GB',
+                    disableLengthCheck: true,
+                    decoration: decorate('Enter your phone'),
+                    onChanged: (phone) {
+                      setState(() {
+                        mobile = phone.completeNumber;
+                      });
+                    },
+                  ).animate(target: incorrectPhone ? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
+                  const SizedBox(height: 20.0),
+                  isOtpLogin ? const SizedBox(
+                  ) : TextFormField(
+                    obscureText: true,
+                    decoration: decorate('Enter your password'),
+                    controller: _password,
+                  ),
+                  const SizedBox(height: 20.0),
+                  ElevatedButton(
+                    onPressed: () => _submit(context),
+                    style: themeBtn2,
+                    child: Text(
+                      isOtpLogin ? 'Send OTP' : 'Sign In',
+                      style: themeTextField,
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+                  Column(
+                    children: [
+                      const Text('New User?'),
+                      GestureDetector(
+                        onTap: () => {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUp()))
+                        },
+                        child: const Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold)),
+                      )
+                    ],                  
+                  )
                 ],
-              ),
-            ),
-            const SizedBox(height: 40.0),            
-            IntlPhoneField(
-              initialCountryCode: 'GB',
-              disableLengthCheck: true,
-              decoration: decorate('Enter your phone'),
-              onChanged: (phone) {
-                setState(() {
-                  mobile = phone.completeNumber;
-                });
-              },
-            ).animate(target: incorrectPhone ? 1 : 0).shakeX(hz: 14, curve: Curves.easeInOutCubic),
-            const SizedBox(height: 20.0),
-            isOtpLogin ? const SizedBox(
-            ) : TextFormField(
-              obscureText: true,
-              decoration: decorate('Enter your password'),
-              controller: _password,
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () => _submit(context),
-              style: themeBtn2,
-              child: Text(
-                isOtpLogin ? 'Send OTP' : 'Sign In',
-                style: themeTextField,
               ),
             ),
           ],
