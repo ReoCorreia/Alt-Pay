@@ -29,7 +29,7 @@ class OtpSignInState extends State<OtpSignIn> {
     bool verified = await apiService.verifyLoginOTP(widget.mobile, _otp);
 
     if(verified){
-      await apiService.addDevice();
+      // await apiService.addDevice();
       snackBarMessage(context, 'Sign In Successfull');      
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()), (route) => false);
     }else if(!verified){
@@ -156,86 +156,6 @@ class OtpSignInState extends State<OtpSignIn> {
                 ],
               ),
             ),
-            // const Center(
-              
-            //   child: Text(
-            //     'Verification OTP',
-            //     style: TextStyle(
-            //       fontSize: 32,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-            // Center(
-            //   child: Text(
-            //     'OTP sent to ${maskPhoneNumber(widget.mobile)}',
-            //     style: const TextStyle(
-            //       fontSize: 16,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            // ),
-
-            // Center(
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       const Text("Didn't receive the OTP? "),
-            //       GestureDetector(
-            //         onTap: () => !waiting? _resendOTP() : null,
-            //         child: const Text(
-            //           'Resend OTP',
-            //           style: TextStyle(
-            //             color: Colors.blue,
-            //             decoration: TextDecoration.underline,
-            //           ),
-            //         ),
-            //       ),
-            //       const Text("  "),
-            //       TweenAnimationBuilder(
-            //         tween: Tween<double>(begin: 30, end: 0),
-            //         duration: const Duration(seconds: 30),
-            //         builder: (context, value, child) => Text(
-            //           '00:${value.toInt()}',
-            //           style: const TextStyle(
-            //             color: Colors.blue,
-            //             fontWeight: FontWeight.bold,
-            //           ),
-            //         ),
-            //         onEnd: () {
-            //           // Add your logic here
-            //           setState(() {
-            //             waiting = false;
-            //           });
-            //         },
-            //       )
-            //     ],
-            //   ),
-            // ),
-
-            // const SizedBox(height: 30.0),
-            // OTPTextField(
-            //   length: 4,
-            //   width: MediaQuery.of(context).size.width,
-            //   style: const TextStyle(
-            //     fontSize: 17
-            //   ),
-            //   textFieldAlignment: MainAxisAlignment.spaceAround,
-            //   fieldStyle: FieldStyle.underline,
-              
-            //   onCompleted: (pin) {
-            //     setState(() {
-            //       _otp = pin;
-            //     });
-            //   },
-            // ),
-            // const SizedBox(height: 20.0),
-
-            // ElevatedButton(
-            //   onPressed: _otp.length == 4? () => _validatePhone() : null,
-            //   style: themeBtn2,
-            //   child: const Text('Verify OTP'),
-            // ),
           ],
         ),
       )

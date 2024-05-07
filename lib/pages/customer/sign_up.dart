@@ -111,7 +111,7 @@ class _SignUpState extends State<SignUp> {
                     onTap: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const SignIn()))
                     },
-                    child: const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text('Sign In', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue,decoration: TextDecoration.underline)),
                   )
                 ],                  
               )

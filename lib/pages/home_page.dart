@@ -28,42 +28,61 @@ class _HomePageState extends State<HomePage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  ClipPath(
-                    clipper: WaveClipperTwo(),
-                    child: Container(
-                      width: double.infinity,
-                      height: 120.0,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            // Color(0xFFFFE5DC),
-                            // Color(0xFFFC7A69),
-                          Color(0xFFB3E5FC), // Lighter shade of blue
-                          Color(0xFF015A78),                             
-                          ],
+                  Stack(
+                    children: [
+                      ClipPath(
+                        clipper: WaveClipperTwo(),
+                        child: Container(
+                          width: double.infinity,
+                          height: 120.0,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                // Color(0xFFFFE5DC),
+                                Color(0xFFf89224),
+                                Color(0xFFf89224),                                
+                                // Color(0xFFFC7A69),
+                                // Color(0xFFFC7A69),
+                                // Color(0xFFB3E5FC), // Lighter shade of blue
+                                // Color(0xFF015A78),                             
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 35),
-                    child: Text(
-                      'Welcome To',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                      Positioned(
+                        left: 15,
+                        top: 0,
+                        child: Image.asset(
+                          'lib/images/clipper-logo.png',
+                          width: 150, // Adjust width as needed
+                          height: 100, // Adjust height as needed
+                          fit: BoxFit.fitWidth, // Adjust the fit as needed                          
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+
                   const SizedBox(height: 40.0),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: Image.asset(
-                      'lib/images/t-logo.png',
-                      width: 250,
+                      'lib/images/lanka-pay-logo.png',
+                      width: 400,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 35),
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      'Pay using QR Codes in Sri Lanka',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 60),
@@ -112,8 +131,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30,),
-                  //ElevatedButton(onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => const Tmain()))}, child: Text("Go")),
                 ],
               ),
             ],

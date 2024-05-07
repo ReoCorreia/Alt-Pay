@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // theme buttons
 Color themeBtnGrey = const Color(0xFF464646);
-Color themeBtnOrange = const Color(0xFFFC7A69);
+Color themeBtnOrange = const Color(0xFFf89224);
 
 //theme text
 Color textWhite= const Color.fromARGB(255, 241, 241, 244);

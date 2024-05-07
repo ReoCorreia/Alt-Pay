@@ -40,7 +40,7 @@ class _PasswordSetupState extends State<PasswordSetup> {
       }
       
     }
-  }  
+  }
 
   TextFormField textFieldContainer(hintText, TextEditingController controller){
     return TextFormField(
