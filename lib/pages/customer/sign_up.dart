@@ -54,7 +54,7 @@ class _SignUpState extends State<SignUp> {
         child: Center(
           child: ListView(
             children: <Widget>[
-              Image.asset('lib/images/login.png', width: 300, height: 300),
+              Image.asset('lib/images/t-logo.png', width: 300, height: 300),
               Row(
                 children: [                
                   Expanded(

@@ -75,93 +75,95 @@ class _ValidatePhoneState extends State<ValidatePhone> {
 
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: ListView(
-          children: <Widget>[
+        child: Center(
+          child: ListView(
+            children: <Widget>[
+          
+              Image.asset('lib/images/t-logo.png', width: 300, height: 300),
 
-            // Text("Enter otp: ${widget.receivedOtp}"),
-
-            const SizedBox(height: 30.0),
-
-            const Center(
-              child: Text(
-                'Verification OTP',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Center(
-              child: Text(
-                'OTP sent to ${maskPhoneNumber(widget.mobile)}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text("Didn't receive the OTP? "),
-                  GestureDetector(
-                    onTap: () => !waiting? _resendOTP() : null,
-                    child: const Text(
-                      'Resend OTP',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
+              const SizedBox(height: 30.0),
+          
+              const Center(
+                child: Text(
+                  'Verification OTP',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const Text("  "),
-                  TweenAnimationBuilder(
-                    tween: Tween<double>(begin: 30, end: 0),
-                    duration: const Duration(seconds: 30),
-                    builder: (context, value, child) => Text(
-                      '00:${value.toInt()}',
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+                ),
+              ),
+              Center(
+                child: Text(
+                  'OTP sent to ${maskPhoneNumber(widget.mobile)}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+          
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Didn't receive the OTP? "),
+                    GestureDetector(
+                      onTap: () => !waiting? _resendOTP() : null,
+                      child: const Text(
+                        'Resend OTP',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
-                    onEnd: () {
-                      // Add your logic here
-                      setState(() {
-                        waiting = false;
-                      });
-                    },
-                  )
-                ],
+                    const Text("  "),
+                    TweenAnimationBuilder(
+                      tween: Tween<double>(begin: 30, end: 0),
+                      duration: const Duration(seconds: 30),
+                      builder: (context, value, child) => Text(
+                        '00:${value.toInt()}',
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onEnd: () {
+                        // Add your logic here
+                        setState(() {
+                          waiting = false;
+                        });
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
-
-            const SizedBox(height: 30.0),
-            OTPTextField(
-              length: 4,
-              width: MediaQuery.of(context).size.width,
-              style: const TextStyle(
-                fontSize: 17
+          
+              const SizedBox(height: 30.0),
+              OTPTextField(
+                length: 4,
+                width: MediaQuery.of(context).size.width,
+                style: const TextStyle(
+                  fontSize: 17
+                ),
+                textFieldAlignment: MainAxisAlignment.spaceAround,
+                fieldStyle: FieldStyle.underline,
+                
+                onCompleted: (pin) {
+                  setState(() {
+                    _otp = pin;
+                  });
+                },
               ),
-              textFieldAlignment: MainAxisAlignment.spaceAround,
-              fieldStyle: FieldStyle.underline,
-              
-              onCompleted: (pin) {
-                setState(() {
-                  _otp = pin;
-                });
-              },
-            ),
-            const SizedBox(height: 20.0),
-
-            ElevatedButton(
-              onPressed: _otp.length == 4? () => _validatePhone() : null,
-              style: themeBtn2,
-              child: const Text('Verify OTP'),
-            ),
-          ],
+              const SizedBox(height: 20.0),
+          
+              ElevatedButton(
+                onPressed: _otp.length == 4? () => _validatePhone() : null,
+                style: themeBtn2,
+                child: const Text('Verify OTP'),
+              ),
+            ],
+          ),
         ),
       )
     );

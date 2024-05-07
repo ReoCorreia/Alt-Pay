@@ -71,9 +71,9 @@ class _HomePageState extends State<HomePage> {
                     child: Image.asset(
                       'lib/images/lanka-pay-logo.png',
                       width: 400,
+                      height: 250,
                     ),
                   ),
-                  const SizedBox(height: 20),
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 35),
                     child: Text(

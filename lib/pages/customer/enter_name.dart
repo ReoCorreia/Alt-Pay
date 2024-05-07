@@ -67,35 +67,38 @@ class _EnterNameState extends State<EnterName> {
       appBar: appBar('User Details'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: ListView(
-          children: <Widget>[
-            TextFormField(
-              readOnly: true,
-              controller: TextEditingController(text: widget.data),
-              keyboardType: TextInputType.phone,
-              decoration: decorate('Phone')
-            ),
-            const SizedBox(height: 20,),  
-            TextFormField(
-              controller: _firstName,
-              keyboardType: TextInputType.name,
-              decoration: decorate('First Name')
-            ),
-            const SizedBox(height: 20,),
-            TextFormField(
-              controller: _lastName,
-              keyboardType: TextInputType.name,
-              decoration: decorate('Last Name')
-            ),
-            const SizedBox(height: 20,),
-            TextFormField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: decorate('Email')                
-            ),
-            const SizedBox(height: 20,),                          
-            btnOrange()              
-          ],
+        child: Center(
+          child: ListView(
+            children: <Widget>[
+              Image.asset('lib/images/t-logo.png', width: 300, height: 300),
+              TextFormField(
+                readOnly: true,
+                controller: TextEditingController(text: widget.data),
+                keyboardType: TextInputType.phone,
+                decoration: decorate('Phone')
+              ),
+              const SizedBox(height: 20,),  
+              TextFormField(
+                controller: _firstName,
+                keyboardType: TextInputType.name,
+                decoration: decorate('First Name')
+              ),
+              const SizedBox(height: 20,),
+              TextFormField(
+                controller: _lastName,
+                keyboardType: TextInputType.name,
+                decoration: decorate('Last Name')
+              ),
+              const SizedBox(height: 20,),
+              TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: decorate('Email')                
+              ),
+              const SizedBox(height: 20,),                          
+              btnOrange()              
+            ],
+          ),
         ),
       ),
     );

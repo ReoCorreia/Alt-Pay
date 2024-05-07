@@ -68,14 +68,17 @@ class _PasswordSetupState extends State<PasswordSetup> {
       appBar: appBar('Password Setup'),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: ListView(
-          children: <Widget>[
-            textFieldContainer('New Password', _password),
-            const SizedBox(height: 30,),
-            textFieldContainer('Confirm Password', _cpassword),
-            const SizedBox(height: 20,),
-            btnOrange(),
-          ],
+        child: Center(
+          child: ListView(
+            children: <Widget>[
+              Image.asset('lib/images/t-logo.png', width: 300, height: 300),
+              textFieldContainer('New Password', _password),
+              const SizedBox(height: 30,),
+              textFieldContainer('Confirm Password', _cpassword),
+              const SizedBox(height: 20,),
+              btnOrange(),
+            ],
+          ),
         ),
       ),
     );
