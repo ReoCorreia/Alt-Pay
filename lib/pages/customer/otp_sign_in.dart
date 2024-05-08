@@ -4,6 +4,7 @@ import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
@@ -30,7 +31,7 @@ class OtpSignInState extends State<OtpSignIn> {
 
     if(verified){
       // await apiService.addDevice();
-      snackBarMessage(context, 'Sign In Successfull');      
+      snackBarMessageWhite(context, 'Sign In Successfull');      
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()), (route) => false);
     }else if(!verified){
       setState(() {
@@ -78,83 +79,81 @@ class OtpSignInState extends State<OtpSignIn> {
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
-            Center(
-              child: Column(   
-                children: <Widget>[
-                  Image.asset('lib/images/t-logo.png', width: 250, height: 250),
-                  const Text(
-                    'Verification OTP',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                    ),
+            Column(   
+              children: <Widget>[
+                const SizedBox(height: 30.0,),
+                const Text(
+                  'Verification OTP',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Text(
-                    'OTP sent to ${maskPhoneNumber(widget.mobile)}',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                Text(
+                  'OTP sent to ${maskPhoneNumber(widget.mobile)}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text("Didn't receive the OTP? "),
-                      GestureDetector(
-                        onTap: () => !waiting? _resendOTP() : null,
-                        child: const Text(
-                          'Resend OTP',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline,
-                          ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("Didn't receive the OTP? "),
+                    GestureDetector(
+                      onTap: () => !waiting? _resendOTP() : null,
+                      child: const Text(
+                        'Resend OTP',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
-                      const Text("  "),
-                      TweenAnimationBuilder(
-                        tween: Tween<double>(begin: 30, end: 0),
-                        duration: const Duration(seconds: 30),
-                        builder: (context, value, child) => Text(
-                          '00:${value.toInt()}',
-                          style: const TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        onEnd: () {
-                          // Add your logic here
-                          setState(() {
-                            waiting = false;
-                          });
-                        },
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 30.0),
-                  OTPTextField(
-                    length: 4,
-                    width: MediaQuery.of(context).size.width,
-                    style: const TextStyle(
-                      fontSize: 17
                     ),
-                    textFieldAlignment: MainAxisAlignment.spaceAround,
-                    fieldStyle: FieldStyle.underline,
-                    
-                    onCompleted: (pin) {
-                      setState(() {
-                        _otp = pin;
-                      });
-                    },
+                    const Text("  "),
+                    TweenAnimationBuilder(
+                      tween: Tween<double>(begin: 30, end: 0),
+                      duration: const Duration(seconds: 30),
+                      builder: (context, value, child) => Text(
+                        '00:${value.toInt()}',
+                        style: const TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onEnd: () {
+                        // Add your logic here
+                        setState(() {
+                          waiting = false;
+                        });
+                      },
+                    )
+                  ],
+                ),
+                const SizedBox(height: 30.0),
+                OTPTextField(
+                  length: 4,
+                  width: MediaQuery.of(context).size.width,
+                  style: const TextStyle(
+                    fontSize: 17
                   ),
-                  const SizedBox(height: 20.0),
-
-                  ElevatedButton(
-                    onPressed: _otp.length == 4? () => _validatePhone() : null,
-                    style: themeBtn2,
-                    child: const Text('Verify OTP'),
-                  ),                  
-                ],
-              ),
+                  textFieldAlignment: MainAxisAlignment.spaceAround,
+                  fieldStyle: FieldStyle.underline,
+                  
+                  onCompleted: (pin) {
+                    setState(() {
+                      _otp = pin;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20.0),
+            
+                ElevatedButton(
+                  onPressed: _otp.length == 4? () => _validatePhone() : null,
+                  style: themeBtn2,
+                  child: Text('Verify OTP', style: themeTextField),
+                ),                  
+              ],
             ),
           ],
         ),

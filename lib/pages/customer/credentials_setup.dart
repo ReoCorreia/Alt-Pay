@@ -58,11 +58,12 @@ class _CredentialSetupState extends State<CredentialSetup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar('Credentials Setup'),
+      appBar: appBarAfterSignIn(context),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: <Widget>[
+            const SizedBox(height: 30.0),
             Text(
               'Partner: Monzo',
               style: themeTextField2,
@@ -74,7 +75,7 @@ class _CredentialSetupState extends State<CredentialSetup> {
               decoration: decorate('Enter IBAN No')
             ),
             const SizedBox(height: 20,),
-
+        
             Text(
               '( OR )',
               style: themeTextField4,

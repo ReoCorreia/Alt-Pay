@@ -29,3 +29,16 @@ void snackBarMessage(BuildContext context, String error){
       ),
     );    
 }
+
+void snackBarMessageWhite(BuildContext context, String error){
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        textAlign: TextAlign.center,
+        error,
+        style: themeTextField,            
+      ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
+      backgroundColor: textWhite
+    ),
+  );    
+}

@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/customer/otp_sign_in.dart';
@@ -75,7 +74,7 @@ class _SignInState extends State<SignIn> {
         snackBarError(context, e.toString());
       }      
       await apiService.addDevice();
-      snackBarMessage(context, 'Sign In Successfull');
+      snackBarMessageWhite(context, 'Sign In Successfull');
       // Assuming login is successful
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Dashboard()), (route) => false);      
     }
@@ -98,9 +97,9 @@ class _SignInState extends State<SignIn> {
         child: Center(
           child: ListView(
             children: <Widget>[
+              const SizedBox(height: 30.0,),
               Column(
                 children: [
-                  Image.asset('lib/images/t-logo.png', width: 250, height: 250),
                   ToggleButtons(
                     isSelected: [!isOtpLogin, isOtpLogin],
                     fillColor: themeBtnOrange,

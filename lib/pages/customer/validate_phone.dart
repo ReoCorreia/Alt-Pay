@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -83,13 +84,10 @@ class _ValidatePhoneState extends State<ValidatePhone> {
 
               const SizedBox(height: 30.0),
           
-              const Center(
+              Center(
                 child: Text(
                   'Verification OTP',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: themeTextFieldBlack
                 ),
               ),
               Center(
@@ -160,7 +158,7 @@ class _ValidatePhoneState extends State<ValidatePhone> {
               ElevatedButton(
                 onPressed: _otp.length == 4? () => _validatePhone() : null,
                 style: themeBtn2,
-                child: const Text('Verify OTP'),
+                child: Text('Verify OTP', style: themeTextField,),
               ),
             ],
           ),

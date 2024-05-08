@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount1.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/hint_style.dart';
 
 class PaymentAmount extends StatefulWidget {
@@ -24,13 +24,11 @@ class _PaymentAmountState extends State<PaymentAmount> {
   @override
   Widget build(BuildContext context) {
       return Scaffold(
+        
         appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: themeBtnOrange,
-          title: Text(
-            'New Payment',
-            style: themeTextField,
-          ),
+          leading: IconButton(onPressed: (()=>{
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute( builder: (context) => const Dashboard()), (route) => false)
+          }), icon: const Icon(Icons.close)),
           actions: [
             IconButton(
               icon: const Icon(Icons.exit_to_app), // Sign out icon
@@ -67,57 +65,56 @@ class _PaymentAmountState extends State<PaymentAmount> {
                 ],
               ),
               const SizedBox(height: 60.0),
-              Center(
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Expanded(
-                          child: Text(
-                            'LKR',
-                            style: TextStyle(
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                            textAlign: TextAlign.end,
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Expanded(
+                        child: Text(
+                          'LKR',
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.end,
+                        ),
+                      ),
+                      Expanded(
+                        flex: 3, // Adjust flex as needed to balance the layout
+                        child: TextFormField(
+                          textAlign: TextAlign.center,
+                          controller: _amount,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: '0',
+                          ),
+                          style: const TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Expanded(
-                          flex: 3, // Adjust flex as needed to balance the layout
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            controller: _amount,
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              enabledBorder: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              hintText: '0',
-                            ),
-                            style: const TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20.0),                  
-                    const Text('EUR Exchange Rate: LKR 336.10'),                  
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),                  
+                  const Text('EUR Exchange Rate: LKR 336.10'),                  
+                ],
               ),
               const SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 ,child: const Text('Get CCY Amount')),
+                    flex: 2,
+                    child: ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 ,child: Text('Get CCY Amount', style: themeTextField, textAlign: TextAlign.center,)),
                   ),
-                  const SizedBox(width: 25.0),
+                  const SizedBox(width: 15.0),
                   Expanded(
-                    child: ElevatedButton(onPressed: () => {}, style: themeBtn1 ,child: const Text('Cancel')),
+                    child: ElevatedButton(onPressed: () => {}, style: themeBtn1 ,child: Text('Cancel', style: themeTextField)),
                   ),
                 ],
               ),

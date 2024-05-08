@@ -39,7 +39,7 @@ class _PaymentAmount1State extends State<PaymentAmount1> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('lib/images/t-logo.png', width: 250, height: 230),
+            Image.asset('lib/images/t-logo.png', width: 200, height: 200),
               const SizedBox(height: 20.0),
               const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00'),
               const SizedBox(height: 20.0),
@@ -49,14 +49,14 @@ class _PaymentAmount1State extends State<PaymentAmount1> {
                   Expanded(
                     child: ElevatedButton(onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.storeName, amount: widget.amount)))
-                    }, style: themeBtn2, child: const Text('Pay')),
+                    }, style: themeBtn2, child: Text('Pay', style: themeTextField)),
                   ),
                   const SizedBox(width: 25.0),
                   Expanded(
-                    child: ElevatedButton(onPressed: () => {}, style: themeBtn1, child: const Text('Cancel')),
-                  ),                  
+                    child: ElevatedButton(onPressed: () => {}, style: themeBtn1, child: Text('Cancel', style: themeTextField)),
+                  ),
                 ],
-              ),              
+              ),
           ],
         ),
 

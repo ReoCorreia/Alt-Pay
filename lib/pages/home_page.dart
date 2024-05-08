@@ -70,8 +70,8 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: Image.asset(
                       'lib/images/lanka-pay-logo.png',
-                      width: 400,
-                      height: 250,
+                      width: 200,
+                      height: 200,
                     ),
                   ),
                   const Padding(

@@ -71,17 +71,17 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: ElevatedButton(onPressed: () => {
+                    child: ElevatedButton(
+                      onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.storeName, amount: widget.amount)))
-                    }, style: themeBtn2, child: const Text(
-                      'Bill Photo Using Camera',
-                      textAlign: TextAlign.center,
-                      )
+                    }, 
+                    style: themeBtn2,
+                    child: Text('Bill Photo Using Camera', textAlign: TextAlign.center, style: themeTextField)
                     ),
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(
-                    child: ElevatedButton(onPressed: () => {}, style: themeBtn2, child: const Text('Upload Bill File')),
+                    child: ElevatedButton(onPressed: () => {}, style: themeBtn2, child: Text('Upload Bill File', textAlign: TextAlign.center, style: themeTextField)),
                   ),
                 ],
               ),
@@ -97,13 +97,13 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                   Expanded(
                     child: ElevatedButton(onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const Dashboard()))
-                    }, style: themeBtn2, child: const Text('Submit & Continue')),
+                    }, style: themeBtn2, child: Text('Submit & Continue', textAlign: TextAlign.center, style: themeTextField)),
                   ),
                   const SizedBox(width: 25.0),
                   Expanded(
                     child: ElevatedButton(onPressed: () => {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>const Dashboard()))
-                    }, style: themeBtn2, child: const Text('Cancel')),
+                    }, style: themeBtn2, child: Text('Cancel', textAlign: TextAlign.center, style: themeTextField)),
                   ),
                 ],
               ), 

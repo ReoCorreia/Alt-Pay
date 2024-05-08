@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -34,7 +34,7 @@ class _DashboardState extends State<Dashboard>{
 
     try {
       qrString = await FlutterBarcodeScanner.scanBarcode(
-          '#fffc5a3b', 'Cancel', true, ScanMode.QR);
+          '#fff89224', 'Cancel', true, ScanMode.QR);
       if (qrString != "-1") {
         await fetchData(qrString);
       }
@@ -69,21 +69,7 @@ class _DashboardState extends State<Dashboard>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeBtnOrange,
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeBtnOrange,
-        title: Text(
-          'Dashboard',
-          style: themeTextField,
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.exit_to_app), // Sign out icon
-            onPressed: () async {await authManager.signOut(context);}
-          ),
-        ],
-      ),
+      appBar: appBarDashboard(context),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: ListView(
@@ -93,27 +79,27 @@ class _DashboardState extends State<Dashboard>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Center(
-                        child: Column(
-                          children: <Widget>[
-                            const Text('Welcome to Alt-Pay'),
-                            Image.asset('lib/images/t-logo.png', width: 150, height: 150),
-                            const Text(
-                              'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
-                              style: TextStyle(
-                                color: Color(0xFF777779),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Card(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(10.0),
+                  //     child: Center(
+                  //       child: Column(
+                  //         children: <Widget>[
+                  //           const Text('Welcome to Alt-Pay'),
+                  //           Image.asset('lib/images/t-logo.png', width: 150, height: 150),
+                  //           const Text(
+                  //             'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
+                  //             style: TextStyle(
+                  //               color: Color(0xFF777779),
+                  //               fontWeight: FontWeight.bold,
+                  //               fontSize: 18,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   Card(
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),

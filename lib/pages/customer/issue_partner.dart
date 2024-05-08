@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/password_setup.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/hint_style.dart';
 import '../../themes/button.dart';
 
 class IssuePartner extends StatefulWidget {
@@ -55,7 +56,7 @@ class _IssuePartnerState extends State<IssuePartner> {
               ElevatedButton(
                   onPressed: () => {Navigator.push(context, MaterialPageRoute(builder: (context) => PasswordSetup(name: widget.name ,phone: widget.phone)))},
                   style: themeBtn2,
-                  child: const Text('OK & Continue')
+                  child: Text('OK & Continue', style: themeTextField,)
               ),
               const SizedBox(height: 20.0),
               const Text(
