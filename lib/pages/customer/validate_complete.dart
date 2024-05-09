@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/password_setup.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import '../../themes/button.dart';
-import '../../themes/hint_style.dart';
+import '../../themes/text_style.dart';
 import '../../themes/text.dart';
 
 class ValidateComplete extends StatefulWidget {

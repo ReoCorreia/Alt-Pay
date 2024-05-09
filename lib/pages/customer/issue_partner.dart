@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/password_setup.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
 import '../../themes/button.dart';
 
 class IssuePartner extends StatefulWidget {
@@ -25,7 +25,7 @@ class _IssuePartnerState extends State<IssuePartner> {
         child: Center(
           child: ListView(
             children: <Widget>[
-              Image.asset('lib/images/t-logo.png', width: 300, height: 300),
+              const SizedBox(height: 30.0),
               Text(
                 'Dear ${widget.name}, Welcome to Alt-Pay',
                 textAlign: TextAlign.start,

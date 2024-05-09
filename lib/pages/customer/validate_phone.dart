@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -79,8 +79,6 @@ class _ValidatePhoneState extends State<ValidatePhone> {
         child: Center(
           child: ListView(
             children: <Widget>[
-          
-              Image.asset('lib/images/t-logo.png', width: 300, height: 300),
 
               const SizedBox(height: 30.0),
           

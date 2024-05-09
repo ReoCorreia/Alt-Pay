@@ -3,7 +3,7 @@ import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount1.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
 
 class PaymentAmount extends StatefulWidget {
   final Map<String, dynamic> data;

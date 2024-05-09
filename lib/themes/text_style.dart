@@ -30,6 +30,12 @@ final TextStyle themeTextFieldError = GoogleFonts.lato(
   letterSpacing: 0.7,
 );
 
+final TextStyle cardHeading = GoogleFonts.lato(
+  fontSize: 20,
+  color: textBlack, // Assuming textWhite is defined somewhere
+  fontWeight: FontWeight.bold,
+);
+
 final TextStyle toggleTextStyle = GoogleFonts.lato(
   fontWeight: FontWeight.bold,
   letterSpacing: 0.7,

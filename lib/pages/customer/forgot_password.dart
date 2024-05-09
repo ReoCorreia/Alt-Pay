@@ -4,7 +4,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../api_services.dart';
 import '../../themes/app_bar.dart';
 import '../../themes/button.dart';
-import '../../themes/hint_style.dart';
+import '../../themes/text_style.dart';
 import '../../themes/text_field_decoration.dart';
 
 class ForgotPassword extends StatefulWidget {

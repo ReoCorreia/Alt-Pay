@@ -10,7 +10,7 @@ import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:flutter_application_1/api_services.dart';
@@ -103,7 +103,6 @@ class _SignInState extends State<SignIn> {
                   ToggleButtons(
                     isSelected: [!isOtpLogin, isOtpLogin],
                     fillColor: themeBtnOrange,
-                    // color: Colors.black54,
                     selectedColor: Colors.white,
                     borderColor: Colors.grey,
                     selectedBorderColor: themeBtnOrange,

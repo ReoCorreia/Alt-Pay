@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/text_field_decoration.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
 
 class PaymentAmount2 extends StatefulWidget {
   final String storeName, amount;
@@ -21,26 +22,12 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: themeBtnOrange,
-          title: Text(
-            'Bill',
-            style: themeTextField,
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.exit_to_app), // Sign out icon
-              onPressed: () async {await authManager.signOut(context);}
-            ),
-          ],
-        ),
+      appBar: appBarAfterSignIn(context),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView(
           children: [
-              Image.asset('lib/images/t-logo.png', height: 200, width: 200,),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 30.0),
               Text(widget.storeName, style: const TextStyle(fontSize: 28)),
               const SizedBox(height: 20.0),
               const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00'),
@@ -58,12 +45,9 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                 height: 20,
               ),
               const SizedBox(height: 20.0),
-              const Text('Enter bill Ref No.'),
               TextField(
                 controller: _billRef,
-                decoration: const InputDecoration(
-                  hintText: 'Enter Bill Ref No.',
-                ),
+                decoration: decorate('Enter Bill Ref No.')
                 ),
               const SizedBox(height: 20.0),
               Row(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/hint_style.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
 
 void snackBarError(BuildContext context, String error){
   ScaffoldMessenger.of(context).showSnackBar(
@@ -36,7 +36,7 @@ void snackBarMessageWhite(BuildContext context, String error){
       content: Text(
         textAlign: TextAlign.center,
         error,
-        style: themeTextField,            
+        style: whiteSnackBar,            
       ).animate().shakeX(hz: 14, curve: Curves.easeInOutCubic),
       backgroundColor: textWhite
     ),

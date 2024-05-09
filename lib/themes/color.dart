@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+// qr theme color
+const String qrColor = '#fff89224';
+
 Color themeOrange = const Color(0xFFf89224);
 
 // theme buttons
