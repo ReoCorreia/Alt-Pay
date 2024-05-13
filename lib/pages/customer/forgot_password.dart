@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import '../../api_services.dart';
+import '../../api_service/api_services.dart';
 import '../../themes/app_bar.dart';
 import '../../themes/button.dart';
 import '../../themes/text_style.dart';

@@ -13,7 +13,7 @@ import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:flutter_application_1/api_services.dart';
+import 'package:flutter_application_1/api_service/api_services.dart';
 
 import 'forgot_password.dart';
 

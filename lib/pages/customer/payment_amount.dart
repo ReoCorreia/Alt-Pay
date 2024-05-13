@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount1.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
 
 class PaymentAmount extends StatefulWidget {
@@ -14,11 +16,22 @@ class PaymentAmount extends StatefulWidget {
 }
 
 class _PaymentAmountState extends State<PaymentAmount> {
+
+  bool _ccyAmountGenerated = false;
   final TextEditingController _amount = TextEditingController();
   final AuthManager authManager = AuthManager();
+  final TransactionService transactionService = TransactionService();
 
-  void _getCCYAmount(BuildContext context){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount1(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text)));
+  Future<void> _getCCYAmount(BuildContext context) async{
+    try {
+      await transactionService.initiateTransaction();
+      setState(() {
+        _ccyAmountGenerated = true;
+      });
+    } catch (e) {
+      snackBarError(context, "Failed to get CCY Amount");
+    }
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount1(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text)));
   }
 
   @override
@@ -85,6 +98,9 @@ class _PaymentAmountState extends State<PaymentAmount> {
                         flex: 3, // Adjust flex as needed to balance the layout
                         child: TextFormField(
                           textAlign: TextAlign.center,
+                          onChanged: (value) => setState(() {
+                            _ccyAmountGenerated = false;
+                          }),
                           controller: _amount,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
@@ -101,7 +117,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
                     ],
                   ),
                   const SizedBox(height: 20.0),                  
-                  const Text('EUR Exchange Rate: LKR 336.10'),                  
+                  _ccyAmountGenerated ? const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00') : const SizedBox(),                  
                 ],
               ),
               const SizedBox(height: 20.0),
@@ -110,7 +126,9 @@ class _PaymentAmountState extends State<PaymentAmount> {
                 children: [
                   Expanded(
                     flex: 2,
-                    child: ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 ,child: Text('Get CCY Amount', style: themeTextField, textAlign: TextAlign.center,)),
+                    child: 
+                    _ccyAmountGenerated ? ElevatedButton(onPressed: () => {}, style: themeBtn2 ,child: Text('Pay', style: themeTextField, textAlign: TextAlign.center,)) 
+                    : ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 ,child: Text('Get CCY Amount', style: themeTextField, textAlign: TextAlign.center,)),
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(

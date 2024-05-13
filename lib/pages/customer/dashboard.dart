@@ -2,7 +2,7 @@ import 'package:flutter_application_1/model/transaction.dart';
 import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/api_services.dart';
+import 'package:flutter_application_1/api_service/api_services.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
 import 'package:flutter_application_1/pages/customer/transactions.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
@@ -116,7 +116,7 @@ class _DashboardState extends State<Dashboard>{
       }
     // ignore: unused_catch_clause
     } on Exception catch (e) {
-      snackBarError(context, 'Error Scanning QR');
+      snackBarError(context, 'Error Scanning QR $e');
     }
   }  
   
