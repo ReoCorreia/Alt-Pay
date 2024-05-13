@@ -197,10 +197,16 @@ class ApiService{
   }
 
   Future<Map<String, dynamic>> qrData(String qrString) async{
+    final String? authToken = await authManager.getAuthToken();
     var url = Uri.http(
         _apiDomain, _lankaQrDetailsEndpoint, {'qrstring': qrString});
 
-    final response = await http.get(url);
+    final response = await http.get(url, headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': authToken.toString()      
+    });
+
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
     if (!jsonResponse['error']) {
       return jsonResponse['data'];

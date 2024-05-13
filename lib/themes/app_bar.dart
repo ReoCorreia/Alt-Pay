@@ -80,3 +80,34 @@ AppBar appBarDashboard(BuildContext context) {
     ),
   );
 }
+
+  AppBar appBarTransactions(BuildContext context) {
+    return AppBar(
+      toolbarHeight: 180,
+      centerTitle: true,
+      backgroundColor: themeOrange,
+      automaticallyImplyLeading: false,
+      title: Column(
+        children: [
+          const Text(
+            'Transactions',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Handle button press to select transactions by date
+                  // You can navigate to another screen or show a date picker dialog
+                },
+                child: const Text('Select Date Range'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+

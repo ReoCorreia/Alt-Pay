@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/api_services.dart';
 import 'package:flutter_application_1/pages/customer/payment_amount.dart';
+import 'package:flutter_application_1/pages/customer/transactions.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
@@ -78,8 +79,8 @@ class _DashboardState extends State<Dashboard>{
       amount: 120.0,
       timestamp: DateTime.now().subtract(Duration(minutes: 30)),
     ),
-  ];   
-
+  ];
+  
   @override
   void initState() {
     super.initState();
@@ -133,6 +134,7 @@ class _DashboardState extends State<Dashboard>{
 
   @override
   Widget build(BuildContext context) {
+    transactions.sort((a, b) => b.timestamp.compareTo(a.timestamp));
     return Scaffold(
       appBar: appBarDashboard(context),
       floatingActionButton: FloatingActionButton(
@@ -156,84 +158,75 @@ class _DashboardState extends State<Dashboard>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.0),
-                      border: Border.all(color: Colors.black12)
-                    ),
-                    child: Card(
-                      color: Colors.white,
-                      margin: const EdgeInsets.all(0),
-                      // elevation: 4,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text('Money Transfer', style: cardHeading,),
-                            const SizedBox(height: 20.0,),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      // First Button
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            FloatingActionButton(
-                                              onPressed: () => scanQR(),
-                                              foregroundColor: themeBtnOrange,
-                                              backgroundColor: themeBtnOrange,
-                                              child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            titleBox('Scan QR & Pay'),                        
-                                          ],
-                                        ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text('Money Transfer', style: cardHeading,),
+                          const SizedBox(height: 20.0,),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    // First Button
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          FloatingActionButton(
+                                            onPressed: () => scanQR(),
+                                            foregroundColor: themeBtnOrange,
+                                            backgroundColor: themeBtnOrange,
+                                            child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          titleBox('Scan QR & Pay'),                        
+                                        ],
                                       ),
-                                      // Second Button
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            FloatingActionButton(
-                                              onPressed: () => scanQR(),
-                                              foregroundColor: themeBtnOrange,
-                                              backgroundColor: themeBtnOrange,
-                                              child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            titleBox('New Payment'),                        
-                                          ],
-                                        ),
+                                    ),
+                                    // Second Button
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          FloatingActionButton(
+                                            onPressed: () => scanQR(),
+                                            foregroundColor: themeBtnOrange,
+                                            backgroundColor: themeBtnOrange,
+                                            child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          titleBox('New Payment'),                        
+                                        ],
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            FloatingActionButton(
-                                              onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
-                                              foregroundColor: themeOrange,
-                                              backgroundColor: themeOrange,
-                                              child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            titleBox('Add Bank'),                        
-                                          ],
-                                        ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          FloatingActionButton(
+                                            onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
+                                            foregroundColor: themeOrange,
+                                            backgroundColor: themeOrange,
+                                            child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
+                                          ),
+                                          const SizedBox(height: 10),
+                                          titleBox('Add Bank'),                        
+                                        ],
                                       ),
-                        
-                                    ],
-                                  ),
+                                    ),
+                      
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -245,6 +238,9 @@ class _DashboardState extends State<Dashboard>{
                         children: <Widget>[
                           Expanded(flex: 6, child: Text('Recent Transactions', style: cardHeading),),
                           Expanded(child: GestureDetector(
+                            onTap:() => {
+                              Navigator.push(context, MaterialPageRoute( builder: (context) => const Transactions()))
+                            },
                             child: const Text('View All', style: TextStyle(decoration: TextDecoration.underline),),
                           )),
                         ],
