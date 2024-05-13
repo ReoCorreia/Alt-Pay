@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/model/transaction.dart';
 import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -23,7 +25,60 @@ class _DashboardState extends State<Dashboard>{
   // ignore: unused_field
   String _scanBarcode = '';
   final AuthManager authManager = AuthManager();
-  final ApiService apiService = ApiService(); 
+  final ApiService apiService = ApiService();
+
+  List<Transaction> transactions = [
+    Transaction(
+      id: '1',
+      type: 'DEBIT',
+      senderName: 'Alice',
+      senderAccount: 'alice@upi',
+      receiverName: 'Bob',
+      receiverAccount: 'bob@upi',
+      amount: 100.0,
+      timestamp: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Transaction(
+      id: '2',
+      type: 'DEBIT',
+      senderName: 'Charlie',
+      senderAccount: 'charlie@upi',
+      receiverName: 'Alice',
+      receiverAccount: 'alice@upi',
+      amount: 50.0,
+      timestamp: DateTime.now().subtract(Duration(days: 1)),
+    ),
+    Transaction(
+      id: '3',
+      type: 'DEBIT',
+      senderName: 'David',
+      senderAccount: 'david@upi',
+      receiverName: 'Alice',
+      receiverAccount: 'alice@upi',
+      amount: 200.0,
+      timestamp: DateTime.now(),
+    ),
+    Transaction(
+      id: '4',
+      type: 'DEBIT',
+      senderName: 'Eve',
+      senderAccount: 'eve@upi',
+      receiverName: 'Alice',
+      receiverAccount: 'alice@upi',
+      amount: 75.0,
+      timestamp: DateTime.now().subtract(Duration(hours: 2)),
+    ),
+    Transaction(
+      id: '5',
+      type: 'DEBIT',
+      senderName: 'Frank',
+      senderAccount: 'frank@upi',
+      receiverName: 'Alice',
+      receiverAccount: 'alice@upi',
+      amount: 120.0,
+      timestamp: DateTime.now().subtract(Duration(minutes: 30)),
+    ),
+  ];   
 
   @override
   void initState() {
@@ -85,7 +140,7 @@ class _DashboardState extends State<Dashboard>{
         onPressed: () => scanQR(),
         foregroundColor: themeBtnOrange,
         backgroundColor: themeBtnOrange,
-        child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
+        child: SvgPicture.asset('lib/images/qr-btn-icon.svg', width: 30, height: 30,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,      
       bottomNavigationBar: const _DemoBottomAppBar(
@@ -93,7 +148,7 @@ class _DashboardState extends State<Dashboard>{
         shape: CircularNotchedRectangle(),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(10.0),
         child: ListView(
           children: <Widget>[
             Center(
@@ -101,36 +156,15 @@ class _DashboardState extends State<Dashboard>{
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  // Card(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(10.0),
-                  //     child: Center(
-                  //       child: Column(
-                  //         children: <Widget>[
-                  //           const Text('Welcome to Alt-Pay'),
-                  //           Image.asset('lib/images/t-logo.png', width: 150, height: 150),
-                  //           const Text(
-                  //             'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
-                  //             style: TextStyle(
-                  //               color: Color(0xFF777779),
-                  //               fontWeight: FontWeight.bold,
-                  //               fontSize: 18,
-                  //             ),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12.0),
                       border: Border.all(color: Colors.black12)
                     ),
                     child: Card(
-                      color: const Color.fromARGB(255, 251, 249, 249),
+                      color: Colors.white,
                       margin: const EdgeInsets.all(0),
-                      elevation: 4,
+                      // elevation: 4,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -183,8 +217,8 @@ class _DashboardState extends State<Dashboard>{
                                           children: <Widget>[
                                             FloatingActionButton(
                                               onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
-                                              foregroundColor: themeBtnOrange,
-                                              backgroundColor: themeBtnOrange,
+                                              foregroundColor: themeOrange,
+                                              backgroundColor: themeOrange,
                                               child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
                                             ),
                                             const SizedBox(height: 10),
@@ -203,7 +237,59 @@ class _DashboardState extends State<Dashboard>{
                       ),
                     ),
                   ),
-                ],
+                  const SizedBox(height: 20.0),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(flex: 6, child: Text('Recent Transactions', style: cardHeading),),
+                          Expanded(child: GestureDetector(
+                            child: const Text('View All', style: TextStyle(decoration: TextDecoration.underline),),
+                          )),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: transactions.length,
+                            itemBuilder: (context, index) {
+                              final transaction = transactions[index];
+                              return Container(
+                                margin: const EdgeInsets.symmetric(vertical: 5.0), // Add margin for spacing
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    const Expanded(
+                                      child: Icon(Icons.payment_sharp)
+                                    ),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text('${transaction.senderAccount} to ${transaction.receiverAccount}', overflow: TextOverflow.clip), // Replace with senderAccount and receiverAccount
+                                          Text('${transaction.timestamp}', overflow: TextOverflow.clip), // Replace with formatted timestamp
+                                        ],
+                                      )
+                                    ),
+                                    Expanded(
+                                      child: Text('\$${transaction.amount.toString()}'), // Replace with formatted amount
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),                ],
               ),
             ),
           ],
