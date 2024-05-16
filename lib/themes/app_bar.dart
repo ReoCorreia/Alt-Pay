@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/themes/bottom_sheet.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
+import 'package:flutter_application_1/themes/text.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 final AuthManager authManager = AuthManager();
 
@@ -81,33 +85,38 @@ AppBar appBarDashboard(BuildContext context) {
   );
 }
 
-  AppBar appBarTransactions(BuildContext context) {
-    return AppBar(
-      toolbarHeight: 180,
-      centerTitle: true,
-      backgroundColor: themeOrange,
-      automaticallyImplyLeading: false,
-      title: Column(
-        children: [
-          const Text(
-            'Transactions',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Handle button press to select transactions by date
-                  // You can navigate to another screen or show a date picker dialog
-                },
-                child: const Text('Select Date Range'),
-              ),
-            ],
-          ),
-        ],
+AppBar appBarTransactions(BuildContext context) {
+  return AppBar(
+    centerTitle: true,
+    backgroundColor: themeOrange,
+    automaticallyImplyLeading: false,
+    title: Text(
+          'Transactions',
+          style: themeTextField5,
+        ),
+    bottom: PreferredSize(
+      preferredSize: const Size.fromHeight(80), // Adjust height as needed
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(onTap: ()=>{}, child: SvgPicture.asset('lib/images/less-than.svg', width: 30, height: 30,),),
+            Text('May 2024', style: themeTextField,),
+            GestureDetector(onTap: ()=>{}, child: SvgPicture.asset('lib/images/greater-than.svg', width: 30, height: 30,),),
+          ],
+        ),
       ),
-    );
-  }
+    ),
+    actions: <Widget>[
+      Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: GestureDetector(onTap: ()=>{
+          transactionBottomSheet(context)
+        }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
+      ),
+    ],
+  );
+}
+
 

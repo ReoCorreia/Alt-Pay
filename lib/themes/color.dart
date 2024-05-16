@@ -13,6 +13,8 @@ Color themeBtnOrange = const Color(0xFFf89224);
 Color textWhite= const Color.fromARGB(255, 241, 241, 244);
 Color textBlack = const Color.fromARGB(255, 0, 0, 0);
 Color textRed = const Color.fromARGB(255, 255, 0, 0);
+Color whitest = const Color.fromARGB(255, 255, 255, 255);
 
 Color orange = Colors.orange;
 Color purple = Colors.purple;
+Color grey = Colors.grey;

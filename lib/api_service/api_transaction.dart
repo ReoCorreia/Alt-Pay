@@ -12,7 +12,7 @@ class TransactionService{
   // endpoints
   static const String _initiateTransaction = '/users/v1/initiate_transaction';
   static const String _getTransaction = '/users/v1/transactions/{transaction_id}';
-  static const String _allTransactions = '/users/v1/transactions/?transactionType=DEBIT';  
+  static const String _allTransactions = '/users/v1/transactions/';  
 
   Future<Map<String, dynamic>> getTransaction(String transactionId) async{
     final String? authToken = await authManager.getAuthToken();
@@ -36,7 +36,7 @@ class TransactionService{
     Future<Map<String, dynamic>> getAllTransactions() async{
     final String? authToken = await authManager.getAuthToken();
     var url = Uri.http(
-        _apiDomain, _allTransactions, {'transactionType': "DEBIT"});
+        _apiDomain, _allTransactions, {'transactionType': 'DEBIT'});
 
     final response = await http.get(url, headers: <String, String>{
         'accept': 'application/json',
@@ -46,13 +46,13 @@ class TransactionService{
 
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
     if (!jsonResponse['error']) {
-      return jsonResponse['data'];
+      return jsonResponse;
     } else {
       throw Exception('Failed to transactions: ${jsonResponse['message']}');
     }    
   } 
 
-  Future<void> initiateTransaction() async{
+  Future<Map<String, dynamic>> initiateTransaction(int amount) async{
     final String? authToken = await authManager.getAuthToken();
     var response = await http.post(
       Uri.parse(_baseUrl + _initiateTransaction),
@@ -65,7 +65,7 @@ class TransactionService{
         "origination_country": "Germany",
         "recipient_country": "Sri Lanka",
         "transaction_type": "DEBIT",
-        "amount_recipient_country": 300,
+        "amount_recipient_country": amount,
         "user_bank_id": 11
       }),
     );
@@ -73,7 +73,7 @@ class TransactionService{
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
     
     if (!jsonResponse['error']) {        
-      await authManager.saveAuthToken(jsonResponse['data']);
+      return jsonResponse['data']; 
     } else {
       throw Exception('${jsonResponse['message']}');
     }

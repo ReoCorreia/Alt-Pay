@@ -29,3 +29,17 @@ final TextStyle themeTextField4 = GoogleFonts.lato(
   // fontWeight: FontWeight.bold,
   letterSpacing: 0.7,
 );
+
+final TextStyle themeTextField5 = GoogleFonts.lato(
+  fontSize: 18,
+  color: textWhite, // Assuming textWhite is defined somewhere
+  fontWeight: FontWeight.bold,
+  letterSpacing: 0.7,
+);
+
+final TextStyle transactionTimeText = GoogleFonts.lato(
+  fontSize: 12,
+  color: grey, // Assuming textWhite is defined somewhere
+  fontWeight: FontWeight.bold,
+  letterSpacing: 0.3,
+);

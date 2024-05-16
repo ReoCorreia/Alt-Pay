@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
-import 'package:flutter_application_1/pages/customer/payment_amount1.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
@@ -18,14 +17,17 @@ class PaymentAmount extends StatefulWidget {
 class _PaymentAmountState extends State<PaymentAmount> {
 
   bool _ccyAmountGenerated = false;
+  late Map<String, dynamic> _rates;
   final TextEditingController _amount = TextEditingController();
   final AuthManager authManager = AuthManager();
   final TransactionService transactionService = TransactionService();
 
   Future<void> _getCCYAmount(BuildContext context) async{
     try {
-      await transactionService.initiateTransaction();
+      Map<String, dynamic> rates = await transactionService.initiateTransaction(int.parse(_amount.text)); 
+      print(rates);
       setState(() {
+        _rates = rates;
         _ccyAmountGenerated = true;
       });
     } catch (e) {
@@ -117,7 +119,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
                     ],
                   ),
                   const SizedBox(height: 20.0),                  
-                  _ccyAmountGenerated ? const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00') : const SizedBox(),                  
+                  _ccyAmountGenerated ? Text('MCY Amount: LKR ${_amount.text} \nExchange Rate: LKR ${_rates['conversion_rate_applied']} \nCCY Amount: EUR ${_rates['amount_origination_country']}') : const SizedBox(),                  
                 ],
               ),
               const SizedBox(height: 20.0),
