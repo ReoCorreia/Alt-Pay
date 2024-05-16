@@ -5,6 +5,7 @@ import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/helper/date_format.dart';
 import 'package:flutter_application_1/themes/text.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Transactions extends StatefulWidget {
@@ -43,13 +44,12 @@ class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarTransactions(context),
+      appBar: appBarTransactions(context, filterTransactionsByAmount),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
           child: _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
           : ListView(
               children: <Widget>[
-                ElevatedButton(onPressed: () => {filterTransactionsByAmount(30000, 40000)}, child: const Text('filter')),
                 ElevatedButton(onPressed: () => {clearFilters()}, child: const Text('clear filter')),
                 Column(
                   children: [
@@ -67,7 +67,7 @@ class _TransactionsState extends State<Transactions> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  const Icon(Icons.payment_sharp),
+                                  SvgPicture.asset('lib/images/transaction-icon.svg', width: 25, height: 25,),
                                   Expanded(
                                     flex: 4,
                                     child: Padding(

@@ -85,7 +85,7 @@ AppBar appBarDashboard(BuildContext context) {
   );
 }
 
-AppBar appBarTransactions(BuildContext context) {
+AppBar appBarTransactions(BuildContext context, Function(double, double) filterCallback) {
   return AppBar(
     centerTitle: true,
     backgroundColor: themeOrange,
@@ -112,7 +112,7 @@ AppBar appBarTransactions(BuildContext context) {
       Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: GestureDetector(onTap: ()=>{
-          transactionBottomSheet(context)
+          transactionBottomSheet(context, filterCallback)
         }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
       ),
     ],

@@ -1,4 +1,5 @@
-import 'package:flutter_application_1/model/transaction.dart';
+import 'package:flutter_application_1/api_service/api_transaction.dart';
+import 'package:flutter_application_1/helper/date_format.dart';
 import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_application_1/pages/customer/transactions.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -27,62 +29,12 @@ class _DashboardState extends State<Dashboard>{
   String _scanBarcode = '';
   final AuthManager authManager = AuthManager();
   final ApiService apiService = ApiService();
-
-  List<Transaction> transactions = [
-    Transaction(
-      id: '1',
-      type: 'DEBIT',
-      senderName: 'Alice',
-      senderAccount: 'alice@upi',
-      receiverName: 'Bob',
-      receiverAccount: 'bob@upi',
-      amount: 100.0,
-      timestamp: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    Transaction(
-      id: '2',
-      type: 'DEBIT',
-      senderName: 'Charlie',
-      senderAccount: 'charlie@upi',
-      receiverName: 'Alice',
-      receiverAccount: 'alice@upi',
-      amount: 50.0,
-      timestamp: DateTime.now().subtract(Duration(days: 1)),
-    ),
-    Transaction(
-      id: '3',
-      type: 'DEBIT',
-      senderName: 'David',
-      senderAccount: 'david@upi',
-      receiverName: 'Alice',
-      receiverAccount: 'alice@upi',
-      amount: 200.0,
-      timestamp: DateTime.now(),
-    ),
-    Transaction(
-      id: '4',
-      type: 'DEBIT',
-      senderName: 'Eve',
-      senderAccount: 'eve@upi',
-      receiverName: 'Alice',
-      receiverAccount: 'alice@upi',
-      amount: 75.0,
-      timestamp: DateTime.now().subtract(Duration(hours: 2)),
-    ),
-    Transaction(
-      id: '5',
-      type: 'DEBIT',
-      senderName: 'Frank',
-      senderAccount: 'frank@upi',
-      receiverName: 'Alice',
-      receiverAccount: 'alice@upi',
-      amount: 120.0,
-      timestamp: DateTime.now().subtract(Duration(minutes: 30)),
-    ),
-  ];
+  final TransactionService transactionService = TransactionService();
+  List<dynamic> _filteredTransactions = [];
   
   @override
   void initState() {
+    fetchTransactions();
     super.initState();
   }
 
@@ -134,7 +86,6 @@ class _DashboardState extends State<Dashboard>{
 
   @override
   Widget build(BuildContext context) {
-    transactions.sort((a, b) => b.timestamp.compareTo(a.timestamp));
     return Scaffold(
       appBar: appBarDashboard(context),
       floatingActionButton: FloatingActionButton(
@@ -155,8 +106,8 @@ class _DashboardState extends State<Dashboard>{
           children: <Widget>[
             Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   Card(
                     child: Padding(
@@ -246,46 +197,37 @@ class _DashboardState extends State<Dashboard>{
                         ],
                       ),
                       const SizedBox(height: 10.0),
-                      SingleChildScrollView(
-                        child: Column(
-                          children: [
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: transactions.length,
-                            itemBuilder: (context, index) {
-                              final transaction = transactions[index];
-                              return Container(
-                                margin: const EdgeInsets.symmetric(vertical: 5.0), // Add margin for spacing
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    const Expanded(
-                                      child: Icon(Icons.payment_sharp)
-                                    ),
-                                    Expanded(
-                                      flex: 4,
+                      _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
+                      : Column(
+                          children: _filteredTransactions.map((transaction) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  SvgPicture.asset('lib/images/transaction-icon.svg', width: 25, height: 25,),
+                                  Expanded(
+                                    flex: 4,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text('${transaction.senderAccount} to ${transaction.receiverAccount}', overflow: TextOverflow.clip), // Replace with senderAccount and receiverAccount
-                                          Text('${transaction.timestamp}', overflow: TextOverflow.clip), // Replace with formatted timestamp
+                                          Text('${transaction['transaction_id']}', overflow: TextOverflow.ellipsis, style: themeTextField2,), // Replace with senderAccount and receiverAccount
+                                          Text(formatTransactionDate(transaction['transaction_date']), overflow: TextOverflow.ellipsis, style: transactionTimeText,), // Replace with formatted timestamp
                                         ],
-                                      )
-                                    ),
-                                    Expanded(
-                                      child: Text('\$${transaction.amount.toString()}'), // Replace with formatted amount
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),                ],
+                                      ),
+                                    )
+                                  ),
+                                  Text('LKR ${transaction['amount_recipient_country']}'),
+                                ],
+                              ),
+                            );
+                          }).toList(),
+                        )
+                      ],
+                  ),
+                ],
               ),
             ),
           ],
@@ -293,6 +235,20 @@ class _DashboardState extends State<Dashboard>{
       ),
     );
   }
+
+Future<void> fetchTransactions() async {
+  Map<String, dynamic> response = await transactionService.getAllTransactions();
+  List<Map<String, dynamic>> transactions = (response['data'] as List<dynamic>).cast<Map<String, dynamic>>();
+    
+  // Sort transactions in descending order by transaction_date
+  transactions.sort((a, b) => b['transaction_date'].compareTo(a['transaction_date']));
+
+  setState(() {
+    _filteredTransactions = transactions.take(5).toList(); // Assign the first 5 transactions to _filteredTransactions
+  });
+
+  print(_filteredTransactions[0]['id']);
+}
 }
 
 class _DemoBottomAppBar extends StatelessWidget {

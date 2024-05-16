@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
 
-Future transactionBottomSheet(BuildContext context){
+Future transactionBottomSheet(BuildContext context, Function(double, double) filterCallback){
   return showModalBottomSheet(
     context: context,
     // color is applied to main screen when modal bottom screen is displayed
@@ -29,15 +29,15 @@ Future transactionBottomSheet(BuildContext context){
               Divider(
                 color: textBlack,
               ),
-              const Row(
+              Row(
                 children: <Widget>[
-                  Column(
+                  const Column(
                     children: <Widget>[
                       Text('Type'),
                       Text('Amount'),
                     ],
                   ),
-                  VerticalDivider(
+                  const VerticalDivider(
                     width: 20,
                     thickness: 4,
                     indent: 20,
@@ -48,8 +48,7 @@ Future transactionBottomSheet(BuildContext context){
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('data')
-                        // GestureDetector(onTap: () => {TransactionFilter.filterTransactionsByAmount(transactions, 30000, 40000)}, child: const Text('filter'))
+                        GestureDetector(onTap: () => {filterCallback(30000, 40000)}, child: const Text('filter'))
                       ],
                     ),
                   ),
