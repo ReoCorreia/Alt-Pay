@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/themes/bottom_sheet.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/text.dart';
@@ -112,7 +111,7 @@ AppBar appBarTransactions(BuildContext context, Function(double, double) filterC
       Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: GestureDetector(onTap: ()=>{
-          transactionBottomSheet(context, filterCallback)
+          // transactionBottomSheet(context, filterCallback)
         }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
       ),
     ],

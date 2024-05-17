@@ -244,7 +244,7 @@ Future<void> fetchTransactions() async {
   transactions.sort((a, b) => b['transaction_date'].compareTo(a['transaction_date']));
 
   setState(() {
-    _filteredTransactions = transactions.take(5).toList(); // Assign the first 5 transactions to _filteredTransactions
+    _filteredTransactions = transactions.take(5).toList();
   });
 
   print(_filteredTransactions[0]['id']);

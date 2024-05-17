@@ -36,6 +36,12 @@ final TextStyle cardHeading = GoogleFonts.lato(
   fontWeight: FontWeight.bold,
 );
 
+final TextStyle bottomSheetHeading = GoogleFonts.lato(
+  fontSize: 16,
+  color: textBlack, // Assuming textWhite is defined somewhere
+  fontWeight: FontWeight.bold,
+);
+
 final TextStyle toggleTextStyle = GoogleFonts.lato(
   fontWeight: FontWeight.bold,
   letterSpacing: 0.7,

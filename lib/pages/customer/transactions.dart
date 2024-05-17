@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
-import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/helper/date_format.dart';
+import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
+import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/widgets/transaction_bottom_sheet.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,7 +46,38 @@ class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarTransactions(context, filterTransactionsByAmount),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: themeOrange,
+        automaticallyImplyLeading: false,
+        title: Text(
+              'Transactions',
+              style: themeTextField5,
+            ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(80), // Adjust height as needed
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(onTap: ()=>{}, child: SvgPicture.asset('lib/images/less-than.svg', width: 30, height: 30,),),
+                Text('May 2024', style: themeTextField,),
+                GestureDetector(onTap: ()=>{}, child: SvgPicture.asset('lib/images/greater-than.svg', width: 30, height: 30,),),
+              ],
+            ),
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: GestureDetector(onTap: ()=>{
+            openTransactionBottomSheet(context, filterTransactionsByAmount, clearFilters)              
+              // transactionBottomSheet(context, filterCallback)
+            }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
           child: _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
@@ -75,7 +108,7 @@ class _TransactionsState extends State<Transactions> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text('${transaction['transaction_id']}', overflow: TextOverflow.ellipsis, style: themeTextField2,), // Replace with senderAccount and receiverAccount
+                                          Text('${transaction['merchant_name']}', overflow: TextOverflow.ellipsis, style: themeTextField2,), // Replace with senderAccount and receiverAccount
                                           Text(formatTransactionDate(transaction['transaction_date']), overflow: TextOverflow.ellipsis, style: transactionTimeText,), // Replace with formatted timestamp
                                         ],
                                       ),
@@ -100,7 +133,6 @@ class _TransactionsState extends State<Transactions> {
 
   Future<Map<String, dynamic>> fetchTransactions() async{
     Map<String, dynamic> transactions =  await transactionService.getAllTransactions();
-    
     // Serialize transactions to JSON string
     String transactionsJson = jsonEncode(transactions);
 
@@ -111,6 +143,7 @@ class _TransactionsState extends State<Transactions> {
     setState(() {
       _filteredTransactions = transactions;
     });
+    // print(transactions);
     return _filteredTransactions;
   }
 

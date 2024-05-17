@@ -36,7 +36,7 @@ class TransactionService{
     Future<Map<String, dynamic>> getAllTransactions() async{
     final String? authToken = await authManager.getAuthToken();
     var url = Uri.http(
-        _apiDomain, _allTransactions, {'transactionType': 'DEBIT'});
+        _apiDomain, _allTransactions, {'size': '15', 'offset': '0'});
 
     final response = await http.get(url, headers: <String, String>{
         'accept': 'application/json',
