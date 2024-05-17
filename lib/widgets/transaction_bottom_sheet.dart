@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
 
 class TransactionBottomSheet extends StatefulWidget {
   final Function(double, double) filterCallback;
-  final Function clearFilterCallback;
-  const TransactionBottomSheet({super.key, required this.filterCallback, required this.clearFilterCallback});
+  const TransactionBottomSheet({super.key, required this.filterCallback});
 
   @override
   State<TransactionBottomSheet> createState() => _TransactionBottomSheetState();
@@ -20,7 +20,17 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
       children: [
         // NavigationRail starts here
         NavigationRail(
-          leading: const Text('Filter'),
+          leading: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Filter', style: bottomSheetHeading),
+              ),
+              Divider(
+                color: textBlack,
+              ),
+            ],          
+          ),
           backgroundColor: whitest,
           selectedIndex: _selectedIndex,
           onDestinationSelected: (int index) {
@@ -51,13 +61,23 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(14.0),
-                child: _selectedIndex == 0 ? Text('Amount', style: bottomSheetHeading) : Text('Type', style: bottomSheetHeading),
+                child: _selectedIndex == 0 
+                ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: 
+                    [
+                      Text('Amount', style: bottomSheetHeading), ElevatedButton(onPressed: () =>{
+                        widget.filterCallback(0,0)
+                      }, style: themeBtn1, child: const Text('Clear'))
+                    ],
+                  )
+                : Text('Type', style: bottomSheetHeading),
               ),
               Divider(
                 color: textBlack,
               ),
               _selectedIndex == 0
-                  ? RadioExample(filterCallback: widget.filterCallback, clearFilterCallback: widget.clearFilterCallback)
+                  ? RadioExample(filterCallback: widget.filterCallback)
                   : Text('Hello second', style: bottomSheetHeading),
             ],
           ),
@@ -67,14 +87,14 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
   }
 }
 
-void openTransactionBottomSheet(BuildContext context, Function(double, double) filterCallback, Function clearFilterCallback) {
+void openTransactionBottomSheet(BuildContext context, Function(double, double) filterCallback) {
   showModalBottomSheet(
     context: context,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12.0),
     ),
     backgroundColor: whitest,
-    builder: (context) => TransactionBottomSheet(filterCallback: filterCallback, clearFilterCallback: clearFilterCallback),
+    builder: (context) => TransactionBottomSheet(filterCallback: filterCallback),
   );
 }
 
@@ -82,7 +102,8 @@ enum SingingCharacter {
   filter1,
   filter2,
   filter3,
-  filter4
+  filter4,
+  filter5
 }
 
 extension SingingCharacterExtension on SingingCharacter {
@@ -93,9 +114,11 @@ extension SingingCharacterExtension on SingingCharacter {
       case SingingCharacter.filter2:
         return '100-200';
       case SingingCharacter.filter3:
-        return '1000-2000';
+        return '250-1000';        
       case SingingCharacter.filter4:
-        return '30000-40000';
+        return '1000-2000';
+      case SingingCharacter.filter5:
+        return '30000-40000';     
     }
   }
 
@@ -106,17 +129,18 @@ extension SingingCharacterExtension on SingingCharacter {
       case SingingCharacter.filter2:
         return const RangeValues(100, 200);
       case SingingCharacter.filter3:
-        return const RangeValues(1000, 2000);
+        return const RangeValues(200, 1000);
       case SingingCharacter.filter4:
-        return const RangeValues(30000, 40000);
+        return const RangeValues(1000, 2000);
+      case SingingCharacter.filter5:
+        return const RangeValues(30000, 40000);               
     }
   }
 }
 
 class RadioExample extends StatefulWidget {
   final Function(double, double) filterCallback;
-  final Function clearFilterCallback;
-  const RadioExample({super.key, required this.filterCallback, required this.clearFilterCallback});
+  const RadioExample({super.key, required this.filterCallback});
 
   @override
   State<RadioExample> createState() => _RadioExampleState();
@@ -138,10 +162,8 @@ class _RadioExampleState extends State<RadioExample> {
               onChanged: (SingingCharacter? value) {
                 setState(() {
                   _character = value;
-                });
-                widget.clearFilterCallback;               
+                });               
                 widget.filterCallback(character.range.start, character.range.end);
-                print('Selected range: ${character.range.start} - ${character.range.end}');
               },
             ),
           ),

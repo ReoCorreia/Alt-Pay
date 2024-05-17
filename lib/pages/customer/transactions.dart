@@ -22,17 +22,28 @@ class _TransactionsState extends State<Transactions> {
   final TransactionService transactionService = TransactionService();
   Map<String, dynamic> _filteredTransactions = {};
 
-  void filterTransactionsByAmount(double minAmount, double maxAmount) {
-    setState(() {
-      // Use the 'where' method to filter transactions by amount range
-      _filteredTransactions['data'] = _filteredTransactions['data'].where((transaction) {
-        double amount = transaction['amount_recipient_country']; // Assuming 'amount_recipient_country' holds the transaction amount as a string
-        return amount >= minAmount && amount <= maxAmount;
-      }).toList();
-    });
+  Future<void> filterTransactionsByAmount(double minAmount, double maxAmount) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? transactionsJson = prefs.getString('transactions');
+    if (transactionsJson != null) {
+      Map<String, dynamic> transactions = jsonDecode(transactionsJson);
+      setState(() {
+        _filteredTransactions = transactions;
+      });
+    }
+    if(minAmount != maxAmount){
+      setState(() {
+        // Use the 'where' method to filter transactions by amount range
+        _filteredTransactions['data'] = _filteredTransactions['data'].where((transaction) {
+          double amount = transaction['amount_recipient_country']; // Assuming 'amount_recipient_country' holds the transaction amount as a string
+          return amount >= minAmount && amount <= maxAmount;
+        }).toList();
+      });
+    }
   }
 
   void clearFilters() {
+    print('object');
     loadFilteredTransactionsFromPrefs();
   }
 
@@ -72,7 +83,7 @@ class _TransactionsState extends State<Transactions> {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: GestureDetector(onTap: ()=>{
-            openTransactionBottomSheet(context, filterTransactionsByAmount, clearFilters)              
+            openTransactionBottomSheet(context, filterTransactionsByAmount)              
               // transactionBottomSheet(context, filterCallback)
             }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
           ),
