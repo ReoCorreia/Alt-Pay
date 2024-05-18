@@ -52,7 +52,7 @@ class TransactionService{
     }    
   } 
 
-  Future<Map<String, dynamic>> initiateTransaction(int amount) async{
+  Future<Map<String, dynamic>> initiateTransaction(int amount, String merchantId, String merchantName) async{
     final String? authToken = await authManager.getAuthToken();
     var response = await http.post(
       Uri.parse(_baseUrl + _initiateTransaction),
@@ -66,7 +66,9 @@ class TransactionService{
         "recipient_country": "Sri Lanka",
         "transaction_type": "DEBIT",
         "amount_recipient_country": amount,
-        "user_bank_id": 11
+        "user_bank_id": 11,
+        "merchant_id": 0, // for now 0
+        "merchant_name": merchantName
       }),
     );
     

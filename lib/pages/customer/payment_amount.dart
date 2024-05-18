@@ -24,14 +24,13 @@ class _PaymentAmountState extends State<PaymentAmount> {
 
   Future<void> _getCCYAmount(BuildContext context) async{
     try {
-      Map<String, dynamic> rates = await transactionService.initiateTransaction(int.parse(_amount.text)); 
-      print(rates);
+      Map<String, dynamic> rates = await transactionService.initiateTransaction(int.parse(_amount.text), widget.data["Point of Initiation Method"]["data"], widget.data["Merchant Name"]["data"]);
       setState(() {
         _rates = rates;
         _ccyAmountGenerated = true;
       });
     } catch (e) {
-      snackBarError(context, "Failed to get CCY Amount");
+      snackBarError(context, "Failed to get CCY Amount $e");
     }
     // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount1(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text)));
   }
@@ -54,7 +53,8 @@ class _PaymentAmountState extends State<PaymentAmount> {
 
         body: Padding(
           padding: const EdgeInsets.all(25.0),
-          child: ListView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +79,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
                   ),
                 ],
               ),
-              const SizedBox(height: 60.0),
+              
               Column(
                 children: <Widget>[
                   Row(
@@ -122,19 +122,19 @@ class _PaymentAmountState extends State<PaymentAmount> {
                   _ccyAmountGenerated ? Text('MCY Amount: LKR ${_amount.text} \nExchange Rate: LKR ${_rates['conversion_rate_applied']} \nCCY Amount: EUR ${_rates['amount_origination_country']}') : const SizedBox(),                  
                 ],
               ),
-              const SizedBox(height: 20.0),
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
                     flex: 2,
                     child: 
-                    _ccyAmountGenerated ? ElevatedButton(onPressed: () => {}, style: themeBtn2 ,child: Text('Pay', style: themeTextField, textAlign: TextAlign.center,)) 
-                    : ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 ,child: Text('Get CCY Amount', style: themeTextField, textAlign: TextAlign.center,)),
+                    _ccyAmountGenerated ? ElevatedButton(onPressed: () => {}, style: themeBtn2 , child: Text('Pay', style: themeTextField, textAlign: TextAlign.center,)) 
+                    : ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 , child: Text('Get CCY Amount', style: themeTextField, textAlign: TextAlign.center,)),
                   ),
                   const SizedBox(width: 15.0),
                   Expanded(
-                    child: ElevatedButton(onPressed: () => {}, style: themeBtn1 ,child: Text('Cancel', style: themeTextField)),
+                    child: ElevatedButton(onPressed: () => {}, style: themeBtn1 , child: Text('Cancel', style: themeTextField)),
                   ),
                 ],
               ),

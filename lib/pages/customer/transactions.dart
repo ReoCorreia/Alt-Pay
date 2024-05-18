@@ -6,7 +6,7 @@ import 'package:flutter_application_1/helper/date_format.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
-import 'package:flutter_application_1/widgets/transaction_bottom_sheet.dart';
+import 'package:flutter_application_1/widgets/bottom_sliders/transaction_bs.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,7 +94,7 @@ class _TransactionsState extends State<Transactions> {
           child: _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
           : ListView(
               children: <Widget>[
-                ElevatedButton(onPressed: () => {clearFilters()}, child: const Text('clear filter')),
+                // ElevatedButton(onPressed: () => {clearFilters()}, child: const Text('clear filter')),
                 Column(
                   children: [
                     SingleChildScrollView(

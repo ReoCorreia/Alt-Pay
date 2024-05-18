@@ -61,7 +61,7 @@ AppBar appBarDashboard(BuildContext context) {
             children: [
               Image.asset('lib/images/clipper-logo.png', height: 100, width: 100,),
               IconButton(
-                icon: const Icon(Icons.exit_to_app), // Sign out icon
+                icon: SvgPicture.asset('lib/images/logout.svg', height: 35, width: 35,), // Sign out icon
                 onPressed: () async {await authManager.signOut(context);}
               ),
             ],
