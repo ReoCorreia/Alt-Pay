@@ -37,6 +37,13 @@ final TextStyle themeTextField5 = GoogleFonts.lato(
   letterSpacing: 0.7,
 );
 
+final TextStyle transactionHeadingText = GoogleFonts.lato(
+  fontSize: 14,
+  color: textBlack, // Assuming textWhite is defined somewhere
+  //fontWeight: FontWeight.bold,
+  letterSpacing: 0.7,
+);
+
 final TextStyle transactionTimeText = GoogleFonts.lato(
   fontSize: 12,
   color: grey, // Assuming textWhite is defined somewhere

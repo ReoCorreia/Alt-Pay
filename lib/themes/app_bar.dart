@@ -47,40 +47,38 @@ AppBar appBarAfterSignIn(BuildContext context){
 
 AppBar appBarDashboard(BuildContext context) {
   return AppBar(
-    toolbarHeight: 180,
+    // toolbarHeight: 90,
     centerTitle: false,
     backgroundColor: themeOrange,
     automaticallyImplyLeading: false,
-    title: Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset('lib/images/clipper-logo.png', height: 100, width: 100,),
-              IconButton(
-                icon: SvgPicture.asset('lib/images/logout.svg', height: 35, width: 35,), // Sign out icon
-                onPressed: () async {await authManager.signOut(context);}
-              ),
-            ],
-          ),
-          const Center(child: Text('Welcome to Alt-Pay', textAlign: TextAlign.center,)),
-          const SizedBox(height: 8), // Add space between lines of text
-          const Center(
-            child: Text(
-              'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-          ),
-          const SizedBox(height: 40),
-        ],
+    title: Image.asset('lib/images/clipper-logo.png', height: 100, width: 100,),
+    actions: [
+      IconButton(
+        icon: SvgPicture.asset('lib/images/logout.svg', height: 35, width: 35,), // Sign out icon
+        onPressed: () async {await authManager.signOut(context);}
       ),
-    ),
+    ],
+    // bottom: PreferredSize(
+    //   preferredSize: const Size.fromHeight(80), 
+    //   child: Container(
+    //     color: whitest,
+    //     child: const Column(
+    //       children: <Widget>[
+    //         Center(child: Text('Welcome to Alt-Pay')),
+    //         SizedBox(height: 8), // Add space between lines of text
+    //         Center(
+    //           child: Text(
+    //             'Our partner in United Kingdom is \nMonzo \nwww.monzo.com',
+    //             textAlign: TextAlign.center,
+    //             style: TextStyle(
+    //               fontSize: 18,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   )
+    // )
   );
 }
 

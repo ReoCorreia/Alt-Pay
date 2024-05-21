@@ -5,6 +5,7 @@ import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/widgets/bottom_sliders/select_bank_bs.dart';
 
 class PaymentAmount extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -129,7 +130,9 @@ class _PaymentAmountState extends State<PaymentAmount> {
                   Expanded(
                     flex: 2,
                     child: 
-                    _ccyAmountGenerated ? ElevatedButton(onPressed: () => {}, style: themeBtn2 , child: Text('Pay', style: themeTextField, textAlign: TextAlign.center,)) 
+                    _ccyAmountGenerated ? ElevatedButton(onPressed: () => {
+                      openSelectBankBottomSheet(context, _amount.text)
+                    }, style: themeBtn2 , child: Text('Pay', style: themeTextField, textAlign: TextAlign.center,)) 
                     : ElevatedButton(onPressed: () => _getCCYAmount(context), style: themeBtn2 , child: Text('Get CCY Amount', style: themeTextField, textAlign: TextAlign.center,)),
                   ),
                   const SizedBox(width: 15.0),

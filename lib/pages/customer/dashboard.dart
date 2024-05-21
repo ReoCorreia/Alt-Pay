@@ -87,6 +87,7 @@ class _DashboardState extends State<Dashboard>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFFAF0),
       appBar: appBarDashboard(context),
       floatingActionButton: FloatingActionButton(
         shape: const CircleBorder(),
@@ -100,94 +101,126 @@ class _DashboardState extends State<Dashboard>{
         fabLocation: FloatingActionButtonLocation.centerDocked,
         shape: CircularNotchedRectangle(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ListView(
-          children: <Widget>[
-            Center(
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.2), // Shadow color
+                        offset: const Offset(0, 4), // Horizontal and vertical offset
+                        blurRadius: 10, // Blur radius
+                        spreadRadius: 2, // Spread radius                        
+                      ),
+                    ],
+                    color: whitest,
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all(
+                      color: whitest,
+                      width: 2
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Money Transfer', style: cardHeading,),
+                      const SizedBox(height: 20.0,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Text('Money Transfer', style: cardHeading,),
-                          const SizedBox(height: 20.0,),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    // First Button
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          FloatingActionButton(
-                                            onPressed: () => scanQR(),
-                                            foregroundColor: themeBtnOrange,
-                                            backgroundColor: themeBtnOrange,
-                                            child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          titleBox('Scan QR & Pay'),                        
-                                        ],
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                // First Button
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      FloatingActionButton(
+                                        onPressed: () => scanQR(),
+                                        foregroundColor: themeBtnOrange,
+                                        backgroundColor: themeBtnOrange,
+                                        child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
                                       ),
-                                    ),
-                                    // Second Button
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          FloatingActionButton(
-                                            onPressed: () => scanQR(),
-                                            foregroundColor: themeBtnOrange,
-                                            backgroundColor: themeBtnOrange,
-                                            child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          titleBox('New Payment'),                        
-                                        ],
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: <Widget>[
-                                          FloatingActionButton(
-                                            onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
-                                            foregroundColor: themeOrange,
-                                            backgroundColor: themeOrange,
-                                            child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
-                                          ),
-                                          const SizedBox(height: 10),
-                                          titleBox('Add Bank'),                        
-                                        ],
-                                      ),
-                                    ),
-                      
-                                  ],
+                                      const SizedBox(height: 10),
+                                      titleBox('Scan QR & Pay'),                        
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                // Second Button
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      FloatingActionButton(
+                                        onPressed: () => {},
+                                        foregroundColor: themeBtnOrange,
+                                        backgroundColor: themeBtnOrange,
+                                        child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      titleBox('New Payment'),                        
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      FloatingActionButton(
+                                        onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
+                                        foregroundColor: themeOrange,
+                                        backgroundColor: themeOrange,
+                                        child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      titleBox('Add Bank'),                        
+                                    ],
+                                  ),
+                                ),
+                  
+                              ],
+                            ),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                  const SizedBox(height: 20.0),
-                  Column(
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2), // Shadow color
+                      offset: const Offset(0, 4), // Horizontal and vertical offset
+                      blurRadius: 10, // Blur radius
+                      spreadRadius: 2, // Spread radius                        
+                    ),
+                  ],
+                  color: whitest,
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(
+                    color: whitest,
+                    width: 2
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Expanded(flex: 6, child: Text('Recent Transactions', style: cardHeading),),
+                          Expanded(flex: 5, child: Text('Recent Transactions', style: cardHeading),),
                           Expanded(child: GestureDetector(
                             onTap:() => {
                               Navigator.push(context, MaterialPageRoute( builder: (context) => const Transactions()))
@@ -213,7 +246,7 @@ class _DashboardState extends State<Dashboard>{
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text('${transaction['transaction_id']}', overflow: TextOverflow.ellipsis, style: themeTextField2,), // Replace with senderAccount and receiverAccount
+                                          Text('${transaction['merchant_name']}', overflow: TextOverflow.ellipsis, style: transactionHeadingText,), // Replace with senderAccount and receiverAccount
                                           Text(formatTransactionDate(transaction['transaction_date']), overflow: TextOverflow.ellipsis, style: transactionTimeText,), // Replace with formatted timestamp
                                         ],
                                       ),
@@ -227,11 +260,11 @@ class _DashboardState extends State<Dashboard>{
                         )
                       ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -281,15 +314,15 @@ class _DemoBottomAppBar extends StatelessWidget {
             ),
             if (centerLocations.contains(fabLocation)) const Spacer(),
             IconButton(
-              tooltip: 'Search',
-              icon: const Icon(Icons.person),
+              tooltip: 'Transactions',
+              icon: const Icon(Icons.payment),
               onPressed: () {},
             ),
             IconButton(
-              tooltip: 'Favorite',
-              icon: const Icon(Icons.favorite),
+              tooltip: 'Search',
+              icon: const Icon(Icons.person),
               onPressed: () {},
-            ),
+            ),            
           ],
         ),
       ),

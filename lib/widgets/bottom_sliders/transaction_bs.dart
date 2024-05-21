@@ -16,8 +16,6 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    Color? _amountColor = _selectedIndex == 0 ? grey : null;
-    Color? _typeColor = _selectedIndex == 1 ? grey : null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -26,7 +24,7 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
             width: double.infinity,
             height: double.infinity,
             color: Colors.grey[200],
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -36,7 +34,7 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
           )
         ),
         Expanded(
-          flex: 8,
+          flex: 5,
           child: Row(
             children: <Widget>[
               Expanded(
@@ -45,23 +43,61 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      GestureDetector(onTap: () => {
-                        setState(() {
-                          _selectedIndex = 0;
-                        })
-                      }, child: Container(height: 40, width: double.infinity, color: _amountColor, child: Center(child: Text('Amount'))),),
-                      GestureDetector(onTap: () => {
-                        setState(() {
-                          _selectedIndex = 1;
-                        })
-                      }, child: Container(height: 40, width: double.infinity, color: _typeColor, child: Center(child: Text('Type'))),),                  
+                      Container(
+                        width: double.infinity,
+                        color: _selectedIndex == 0 ? grey : null,                        
+                        child: TextButton(
+                          onPressed: () {
+                            setState(() {
+                              _selectedIndex = 0;
+                            });
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: _selectedIndex == 0 ? MaterialStateProperty.all<Color>(grey) : MaterialStateProperty.all<Color>(Colors.transparent),
+                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero, // Make it a rectangle
+                                side: BorderSide.none, // No border
+                              ),
+                            ),
+                            overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
+                            shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
+                            foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
+                          ),
+                          child: Text('Amount', style: filterByText,),
+                        ),
+                      ),
+                      // Container(
+                      //   width: double.infinity,
+                      //   color: _selectedIndex == 1 ? grey : null,
+                      //   child: TextButton(
+                      //     onPressed: () {
+                      //       setState(() {
+                      //         _selectedIndex = 1;
+                      //       });
+                      //     },
+                      //     style: ButtonStyle(
+                      //       backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                      //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      //         const RoundedRectangleBorder(
+                      //           borderRadius: BorderRadius.zero, // Make it a rectangle
+                      //           side: BorderSide.none, // No border
+                      //         ),
+                      //       ),
+                      //       overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
+                      //       shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
+                      //       foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
+                      //     ),                        
+                      //     child: Text('Type', style: filterByText,),
+                      //   ),
+                      // )
                     ],
                   ),
                 )
               ),
               _selectedIndex == 0 
               ? Expanded(
-                flex: 4, 
+                flex: 2, 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -72,86 +108,63 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
                       }, 
                       style: themeBtn1, child: const Text('Clear')
                     ),
-                  ),                  
+                  ),
                     RadioFilter(filterCallback: widget.filterCallback),
                   ],
                 )
               )
-              : Expanded(flex: 4, child: Text('type'))
+              : Expanded(flex: 2, child: Text('type'))
             ],
           ),
         ),
+        Expanded(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero, // Make it a rectangle
+                          side: BorderSide(color: textBlack, width: 2), // No border
+                        ),
+                      ),
+                      overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
+                      shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
+                    ),
+                    child: Text('Clear All', style: clearAll,),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(black),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero, // Make it a rectangle
+                          side: BorderSide.none, // No border
+                        ),
+                      ),
+                      overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
+                      shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
+                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
+                    ),
+                    child: Text('Apply', style: apply,),
+                  ),
+                ],
+              ),
+            ),
+          )
+        ),
+
       ],
     );
 
-    // return Row(
-    //   children: [
-    //     Padding(
-    //       padding: const EdgeInsets.all(14.0),
-    //       child: _selectedIndex == 0 
-    //       ? Row(
-    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //         children: 
-    //           [
-    //             Text('Amount', style: bottomSheetHeading), ElevatedButton(onPressed: () =>{
-    //               widget.filterCallback(0,0)
-    //             }, style: themeBtn1, child: const Text('Clear'))
-    //           ],
-    //         )
-    //       : Text('Type', style: bottomSheetHeading),
-    //     ),
-    //     Divider(
-    //       color: textBlack,
-    //     ),
-    //     // NavigationRail starts here
-    //     NavigationRail(
-    //       leading: Column(
-    //         children: [
-    //           Padding(
-    //             padding: const EdgeInsets.all(8.0),
-    //             child: Text('Filter', style: bottomSheetHeading),
-    //           ),
-    //           Divider(
-    //             color: textBlack,
-    //           ),
-    //         ],          
-    //       ),
-    //       backgroundColor: whitest,
-    //       selectedIndex: _selectedIndex,
-    //       onDestinationSelected: (int index) {
-    //         setState(() {
-    //           _selectedIndex = index;
-    //         });
-    //       },
-    //       labelType: NavigationRailLabelType.selected,
-    //       destinations: const [
-    //         NavigationRailDestination(
-    //           icon: Icon(Icons.monetization_on),
-    //           selectedIcon: Icon(Icons.monetization_on),
-    //           label: Text('Filter'),
-    //         ),
-    //         NavigationRailDestination(
-    //           icon: Icon(Icons.timeline),
-    //           selectedIcon: Icon(Icons.sort),
-    //           label: Text('Sort'),
-    //         ),
-    //       ],
-    //     ),
-    //     // Divider between navigation rail and content
-    //     const VerticalDivider(thickness: 1, width: 1),
-    //     // Content area
-    //     Expanded(
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           _selectedIndex == 0
-    //               ? RadioFilter(filterCallback: widget.filterCallback)
-    //               : Text('Hello second', style: bottomSheetHeading),
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
   }
 }
 
@@ -224,7 +237,8 @@ class _RadioFilter extends State<RadioFilter> {
         for (SingingCharacter character in SingingCharacter.values)
           ListTile(
             title: Text(character.label),
-            leading: Radio<SingingCharacter>(
+            trailing: Radio<SingingCharacter>(
+              activeColor: grey,
               value: character,
               groupValue: _character,
               onChanged: (SingingCharacter? value) {

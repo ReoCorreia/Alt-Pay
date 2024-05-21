@@ -3,10 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/date_format.dart';
-import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
-import 'package:flutter_application_1/widgets/bottom_sliders/transaction_bs.dart';
+import 'package:flutter_application_1/widgets/app_bars/dashboard_ab.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +41,6 @@ class _TransactionsState extends State<Transactions> {
   }
 
   void clearFilters() {
-    print('object');
     loadFilteredTransactionsFromPrefs();
   }
 
@@ -57,38 +54,7 @@ class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: themeOrange,
-        automaticallyImplyLeading: false,
-        title: Text(
-              'Transactions',
-              style: themeTextField5,
-            ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(80), // Adjust height as needed
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(onTap: ()=>{}, child: SvgPicture.asset('lib/images/less-than.svg', width: 30, height: 30,),),
-                Text('May 2024', style: themeTextField,),
-                GestureDetector(onTap: ()=>{}, child: SvgPicture.asset('lib/images/greater-than.svg', width: 30, height: 30,),),
-              ],
-            ),
-          ),
-        ),
-        actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: GestureDetector(onTap: ()=>{
-            openTransactionBottomSheet(context, filterTransactionsByAmount)              
-              // transactionBottomSheet(context, filterCallback)
-            }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
-          ),
-        ],
-      ),
+      appBar: PreferredSize(preferredSize: const Size.fromHeight(180), child: AppBarDashboard(filterCallback: filterTransactionsByAmount)),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
           child: _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
@@ -119,7 +85,7 @@ class _TransactionsState extends State<Transactions> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text('${transaction['merchant_name']}', overflow: TextOverflow.ellipsis, style: themeTextField2,), // Replace with senderAccount and receiverAccount
+                                          Text('${transaction['merchant_name']}', overflow: TextOverflow.ellipsis, style: transactionHeadingText,), // Replace with senderAccount and receiverAccount
                                           Text(formatTransactionDate(transaction['transaction_date']), overflow: TextOverflow.ellipsis, style: transactionTimeText,), // Replace with formatted timestamp
                                         ],
                                       ),
