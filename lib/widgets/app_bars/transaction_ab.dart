@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/customer/report.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/widgets/bottom_sliders/time_period_bs.dart';
@@ -78,9 +79,16 @@ class _AppBarTransactionState extends State<AppBarTransaction> {
       actions: <Widget>[
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
-          child: GestureDetector(onTap: ()=>{
-            openTransactionBottomSheet(context, widget.filterByAmount)
-          }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
+          child: Row(
+            children: [
+              GestureDetector(onTap: () => {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const Report()))
+              }, child: SvgPicture.asset('lib/images/excel.svg', width: 35, height: 35,)),
+              GestureDetector(onTap: ()=>{
+                openTransactionBottomSheet(context, widget.filterByAmount)
+              }, child: SvgPicture.asset('lib/images/filter.svg', width: 35, height: 35,),),
+            ],
+          ),
         ),
       ],
 
