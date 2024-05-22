@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 
 class TransactionBottomSheet extends StatefulWidget {
   final Function(double, double) filterCallback;
@@ -16,6 +16,7 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/customer/password_setup.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import '../../themes/button.dart';
 
 class IssuePartner extends StatefulWidget {

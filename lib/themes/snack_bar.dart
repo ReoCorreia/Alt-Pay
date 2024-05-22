@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 
 void snackBarError(BuildContext context, String error){
   ScaffoldMessenger.of(context).showSnackBar(

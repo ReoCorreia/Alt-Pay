@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 
 class SelectBank extends StatefulWidget {
   final String payAmount;

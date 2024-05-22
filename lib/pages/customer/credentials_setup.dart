@@ -6,7 +6,6 @@ import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import '../../themes/button.dart';
-import '../../themes/text_style.dart';
 import '../../themes/text.dart';
 
 class CredentialSetup extends StatefulWidget {

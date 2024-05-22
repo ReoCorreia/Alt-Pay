@@ -10,7 +10,6 @@ import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,6 +35,12 @@ class _DashboardState extends State<Dashboard>{
   void initState() {
     fetchTransactions();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    Navigator.pop(context, _filteredTransactions);
+    super.dispose();
   }
 
   Future<void> scanQR() async {
@@ -90,10 +95,15 @@ class _DashboardState extends State<Dashboard>{
       backgroundColor: const Color(0xFFFFFAF0),
       appBar: appBarDashboard(context),
       floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
+        elevation: 0,
+        shape: CircleBorder(
+          side: BorderSide(
+            color: lightGrey
+          )
+        ),        
         onPressed: () => scanQR(),
-        foregroundColor: themeBtnOrange,
-        backgroundColor: themeBtnOrange,
+        foregroundColor: whitest,
+        backgroundColor: whitest,
         child: SvgPicture.asset('lib/images/qr-btn-icon.svg', width: 30, height: 30,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,      
@@ -144,10 +154,16 @@ class _DashboardState extends State<Dashboard>{
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       FloatingActionButton(
+                                        elevation: 0,
+                                        shape: CircleBorder(
+                                          side: BorderSide(
+                                            color: lightGrey
+                                          )
+                                        ),
                                         onPressed: () => scanQR(),
-                                        foregroundColor: themeBtnOrange,
-                                        backgroundColor: themeBtnOrange,
-                                        child: Image.asset('lib/images/qr-btn-icon.png', width: 30, height: 30,),
+                                        foregroundColor: whitest,
+                                        backgroundColor: whitest,
+                                        child: SvgPicture.asset('lib/images/qr-btn-icon.svg', width: 30, height: 30,),
                                       ),
                                       const SizedBox(height: 10),
                                       titleBox('Scan QR & Pay'),                        
@@ -160,10 +176,16 @@ class _DashboardState extends State<Dashboard>{
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       FloatingActionButton(
-                                        onPressed: () => {},
-                                        foregroundColor: themeBtnOrange,
-                                        backgroundColor: themeBtnOrange,
-                                        child: Image.asset('lib/images/plus-1.png', width: 30, height: 30,),
+                                        elevation: 0,
+                                        shape: CircleBorder(
+                                          side: BorderSide(
+                                            color: lightGrey
+                                          )
+                                        ),
+                                        onPressed: () => scanQR(),
+                                        foregroundColor: whitest,
+                                        backgroundColor: whitest,
+                                        child: SvgPicture.asset('lib/images/plus.svg', width: 30, height: 30,),
                                       ),
                                       const SizedBox(height: 10),
                                       titleBox('New Payment'),                        
@@ -175,9 +197,15 @@ class _DashboardState extends State<Dashboard>{
                                     mainAxisSize: MainAxisSize.min,
                                     children: <Widget>[
                                       FloatingActionButton(
+                                        elevation: 0,
+                                        shape: CircleBorder(
+                                          side: BorderSide(
+                                            color: lightGrey
+                                          )
+                                        ),
                                         onPressed: () => {Navigator.push(context, MaterialPageRoute( builder: (context) => const CredentialSetup()))},
-                                        foregroundColor: themeOrange,
-                                        backgroundColor: themeOrange,
+                                        foregroundColor: whitest,
+                                        backgroundColor: whitest,
                                         child: SvgPicture.asset('lib/images/bank-logo.svg', width: 30, height: 30,),
                                       ),
                                       const SizedBox(height: 10),
@@ -246,7 +274,7 @@ class _DashboardState extends State<Dashboard>{
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          Text('${transaction['merchant_name']}', overflow: TextOverflow.ellipsis, style: transactionHeadingText,), // Replace with senderAccount and receiverAccount
+                                          Text('${transaction['merchant_name']}', overflow: TextOverflow.clip, style: transactionHeadingText,), // Replace with senderAccount and receiverAccount
                                           Text(formatTransactionDate(transaction['transaction_date']), overflow: TextOverflow.ellipsis, style: transactionTimeText,), // Replace with formatted timestamp
                                         ],
                                       ),
@@ -279,8 +307,6 @@ Future<void> fetchTransactions() async {
   setState(() {
     _filteredTransactions = transactions.take(5).toList();
   });
-
-  print(_filteredTransactions[0]['id']);
 }
 }
 
@@ -301,6 +327,7 @@ class _DemoBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
+      
       shape: shape,
       color: themeOrange,
       child: IconTheme(

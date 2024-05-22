@@ -3,7 +3,7 @@ import 'package:flutter_application_1/api_service/api_services.dart';
 import 'package:flutter_application_1/pages/customer/issue_partner.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 

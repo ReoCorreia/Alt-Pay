@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 InputDecoration decorate(String labelText){
   return InputDecoration(
-    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: themeBtnOrange), borderRadius: BorderRadius.circular(8.0)),
-    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeBtnOrange), borderRadius: BorderRadius.circular(8.0)),                
+    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: lightGrey), borderRadius: BorderRadius.circular(8.0)),
+    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: lightGrey), borderRadius: BorderRadius.circular(8.0)),                
     labelText: labelText,
     labelStyle: GoogleFonts.getFont(
       'Lato',

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/date_format.dart';
 import 'package:flutter_application_1/themes/text.dart';
-import 'package:flutter_application_1/widgets/app_bars/dashboard_ab.dart';
+import 'package:flutter_application_1/widgets/app_bars/transaction_ab.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,31 +20,6 @@ class _TransactionsState extends State<Transactions> {
   final TransactionService transactionService = TransactionService();
   Map<String, dynamic> _filteredTransactions = {};
 
-  Future<void> filterTransactionsByAmount(double minAmount, double maxAmount) async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? transactionsJson = prefs.getString('transactions');
-    if (transactionsJson != null) {
-      Map<String, dynamic> transactions = jsonDecode(transactionsJson);
-      setState(() {
-        _filteredTransactions = transactions;
-      });
-    }
-    if(minAmount != maxAmount){
-      setState(() {
-        // Use the 'where' method to filter transactions by amount range
-        _filteredTransactions['data'] = _filteredTransactions['data'].where((transaction) {
-          double amount = transaction['amount_recipient_country']; // Assuming 'amount_recipient_country' holds the transaction amount as a string
-          return amount >= minAmount && amount <= maxAmount;
-        }).toList();
-      });
-    }
-  }
-
-  void clearFilters() {
-    loadFilteredTransactionsFromPrefs();
-  }
-
-
   @override 
   void initState() { 
     fetchTransactions();  
@@ -54,13 +29,12 @@ class _TransactionsState extends State<Transactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(preferredSize: const Size.fromHeight(180), child: AppBarDashboard(filterCallback: filterTransactionsByAmount)),
+      appBar: PreferredSize(preferredSize: const Size.fromHeight(180), child: AppBarTransaction(filterByAmount: filterTransactionsByAmount, filterByMonth: filterTransactionsByMonth,)),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
           child: _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
           : ListView(
               children: <Widget>[
-                // ElevatedButton(onPressed: () => {clearFilters()}, child: const Text('clear filter')),
                 Column(
                   children: [
                     SingleChildScrollView(
@@ -108,7 +82,7 @@ class _TransactionsState extends State<Transactions> {
     );
   }
 
-  Future<Map<String, dynamic>> fetchTransactions() async{
+  Future<void> fetchTransactions() async{
     Map<String, dynamic> transactions =  await transactionService.getAllTransactions();
     // Serialize transactions to JSON string
     String transactionsJson = jsonEncode(transactions);
@@ -120,8 +94,6 @@ class _TransactionsState extends State<Transactions> {
     setState(() {
       _filteredTransactions = transactions;
     });
-    // print(transactions);
-    return _filteredTransactions;
   }
 
   Future<void> loadFilteredTransactionsFromPrefs() async {
@@ -133,5 +105,52 @@ class _TransactionsState extends State<Transactions> {
         _filteredTransactions = transactions;
       });
     }
-  }  
+  }
+
+  Future<void> filterTransactionsByAmount(double minAmount, double maxAmount) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? transactionsJson = prefs.getString('transactions');
+    if (transactionsJson != null) {
+      Map<String, dynamic> transactions = jsonDecode(transactionsJson);
+      setState(() {
+        _filteredTransactions = transactions;
+      });
+    }
+    if(minAmount != maxAmount){
+      setState(() {
+        // Use the 'where' method to filter transactions by amount range
+        _filteredTransactions['data'] = _filteredTransactions['data'].where((transaction) {
+          double amount = transaction['amount_recipient_country']; // Assuming 'amount_recipient_country' holds the transaction amount as a string
+          return amount >= minAmount && amount <= maxAmount;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> filterTransactionsByMonth(String month, String year) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? transactionsJson = prefs.getString('transactions');
+    
+    if (transactionsJson != null) {
+      Map<String, dynamic> transactions = jsonDecode(transactionsJson);
+      setState(() {
+        _filteredTransactions = transactions;
+      });
+    }
+
+    setState(() {
+      _filteredTransactions['data'] = _filteredTransactions['data'].where((transaction) {
+        Map<String, String> formattedData = formatTransactionDateMap(transaction['transaction_date']);
+        String currTransactionMonth = formattedData['month'].toString();
+        String currTransactionYear =  formattedData['year'].toString();
+        return month == currTransactionMonth && year == currTransactionYear;
+      }).toList();
+    });
+  }
+
+
+  void clearFilters() {
+    loadFilteredTransactionsFromPrefs();
+  }
+
 }

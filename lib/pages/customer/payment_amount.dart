@@ -4,7 +4,7 @@ import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/widgets/bottom_sliders/select_bank_bs.dart';
 
 class PaymentAmount extends StatefulWidget {

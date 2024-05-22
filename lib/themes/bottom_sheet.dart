@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/themes/color.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
+import 'package:flutter_application_1/themes/text.dart';
 
 Future transactionBottomSheet(BuildContext context, Function(double, double) filterCallback) {
   return showModalBottomSheet(

@@ -3,8 +3,8 @@ import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
 
 class PaymentAmount2 extends StatefulWidget {
   final String storeName, amount;

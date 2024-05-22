@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/text.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 final AuthManager authManager = AuthManager();
@@ -92,7 +91,7 @@ AppBar appBarTransactions(BuildContext context, Function(double, double) filterC
           style: themeTextField5,
         ),
     bottom: PreferredSize(
-      preferredSize: const Size.fromHeight(80), // Adjust height as needed
+      preferredSize: const Size.fromHeight(40), // Adjust height as needed
       child: Padding(
         padding: const EdgeInsets.only(left: 8, right: 8, bottom: 8),
         child: Row(

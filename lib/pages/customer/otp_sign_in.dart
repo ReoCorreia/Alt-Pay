@@ -4,8 +4,8 @@ import 'package:flutter_application_1/api_service/api_services.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';
-import 'package:flutter_application_1/themes/text_style.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import 'package:http/http.dart' as http;
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -152,7 +152,7 @@ class OtpSignInState extends State<OtpSignIn> {
                   onPressed: _otp.length == 4? () => _validatePhone() : null,
                   style: themeBtn2,
                   child: Text('Verify OTP', style: themeTextField),
-                ),                  
+                ),
               ],
             ),
           ],
