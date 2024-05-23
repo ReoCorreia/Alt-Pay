@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/date_format.dart';
-import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/widgets/app_bars/transaction_ab.dart';
 import 'package:flutter_application_1/widgets/loaders/jumping_dots.dart';
@@ -23,7 +22,7 @@ class _TransactionsState extends State<Transactions> {
   ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   int _offset = 1;
-  final AuthManager auth = AuthManager();
+  
 
   @override
   void initState() {
@@ -36,10 +35,6 @@ class _TransactionsState extends State<Transactions> {
   void dispose() {
     _scrollController.removeListener(_scrollListener);
     super.dispose();
-  }
-
-  Future<void> func() async{
-    print(await auth.getAuthToken());
   }
 
   @override

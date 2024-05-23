@@ -11,6 +11,7 @@ import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
+import 'package:flutter_application_1/widgets/loaders/jumping_dots.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,10 +31,14 @@ class _DashboardState extends State<Dashboard>{
   final ApiService apiService = ApiService();
   final TransactionService transactionService = TransactionService();
   List<dynamic> _filteredTransactions = [];
+  bool _transactionsFetched = false;
   
   @override
   void initState() {
     fetchTransactions();
+    setState(() {
+      _transactionsFetched = true;
+    });
     super.initState();
   }
 
@@ -258,7 +263,8 @@ class _DashboardState extends State<Dashboard>{
                         ],
                       ),
                       const SizedBox(height: 10.0),
-                      _filteredTransactions.isEmpty ? const Center(child: CircularProgressIndicator()) 
+                      !_transactionsFetched ? const Center(child: ThreeDotsLoader())
+                      : _filteredTransactions.isEmpty ? Center(child: Text('No Transactions', style: themeTextField2,)) 
                       : Column(
                           children: _filteredTransactions.map((transaction) {
                             return Container(
