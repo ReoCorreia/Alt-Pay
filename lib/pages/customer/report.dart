@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/save_report.dart';
 import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -69,9 +70,9 @@ class _ReportState extends State<Report> {
                   Expanded(child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      ElevatedButton(onPressed: () => {daysButtonPicked(30)}, style: datePicker, child: Text('30days')),
-                      ElevatedButton(onPressed: () => {daysButtonPicked(60)}, style: datePicker, child: Text('60days')),
-                      ElevatedButton(onPressed: () => {daysButtonPicked(90)}, style: datePicker, child: Text('90days')),
+                      GestureDetector(onTap: () => {daysButtonPicked(30)}, child: Container(width: 95, height: 40, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 30 Days')),)),
+                      GestureDetector(onTap: () => {daysButtonPicked(60)}, child: Container(width: 95, height: 40, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 60 Days')),)),
+                      GestureDetector(onTap: () => {daysButtonPicked(90)}, child: Container(width: 95, height: 40, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 90 Days')),)),
                     ],
                   )),
                   Expanded(child: Text('OR', style: themeTextField4,)),
@@ -131,7 +132,7 @@ class _ReportState extends State<Report> {
   }
 
   Future<void> downloadReport(DateTime? startDate, DateTime? endDate) async{
-    Map<String, dynamic> transactions = await transactionService.getAllTransactions();
+    Map<String, dynamic> transactions = await transactionService.getAllTransactions('45', '0');
     int startDateTimestamp = startDate!.millisecondsSinceEpoch;
     int endDateTimestamp = endDate!.millisecondsSinceEpoch; 
     

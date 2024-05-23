@@ -298,7 +298,7 @@ class _DashboardState extends State<Dashboard>{
   }
 
 Future<void> fetchTransactions() async {
-  Map<String, dynamic> response = await transactionService.getAllTransactions();
+  Map<String, dynamic> response = await transactionService.getAllTransactions('5', '0');
   List<Map<String, dynamic>> transactions = (response['data'] as List<dynamic>).cast<Map<String, dynamic>>();
     
   // Sort transactions in descending order by transaction_date
