@@ -23,3 +23,4 @@ Color purple = Colors.purple;
 Color grey = Colors.grey;
 Color black = const Color.fromARGB(255, 0, 0, 0);
 Color lightGreen = const Color(0xFFCEFAD0);
+Color green = Colors.green;

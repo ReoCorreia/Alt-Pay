@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/save_report.dart';
+import 'package:flutter_application_1/themes/button.dart';
+import 'package:flutter_application_1/themes/snack_bar.dart';
+import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xcel;
+import 'package:permission_handler/permission_handler.dart';
 
 class Report extends StatefulWidget {
   const Report({super.key});
@@ -33,10 +37,14 @@ class _ReportState extends State<Report> {
         } else {
           _endDate = picked;
         }
-        print(_startDate);
-        print(_endDate);
       });
     }
+  }
+
+  void daysButtonPicked(int days){
+    DateTime startDate = DateTime.now().subtract(Duration(days: days));
+    DateTime endDate = DateTime.now();
+    downloadReport(startDate, endDate);
   }
 
   @override
@@ -52,35 +60,68 @@ class _ReportState extends State<Report> {
         children: <Widget>[
           Expanded(child: SvgPicture.asset('lib/images/excel-1.svg', width: 150, height: 150),),
           Expanded(
-            child: Column(
-              children: <Widget>[
-                const Text('Time Period'),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      onPressed: () => _selectDate(context, true),
-                      child: Text(_startDate == null ? _dateFormat.format(DateTime.now().subtract(const Duration(days: 30))) : _dateFormat.format(_startDate!)),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text('Time Period', style: themeTextField2),
+                  Expanded(child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      ElevatedButton(onPressed: () => {daysButtonPicked(30)}, style: datePicker, child: Text('30days')),
+                      ElevatedButton(onPressed: () => {daysButtonPicked(60)}, style: datePicker, child: Text('60days')),
+                      ElevatedButton(onPressed: () => {daysButtonPicked(90)}, style: datePicker, child: Text('90days')),
+                    ],
+                  )),
+                  Expanded(child: Text('OR', style: themeTextField4,)),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        TextButton(
+                          style: datePicker,
+                          onPressed: () => _selectDate(context, true),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(_startDate == null ? _dateFormat.format(DateTime.now().subtract(const Duration(days: 30))) : _dateFormat.format(_startDate!)),
+                              const Icon(Icons.date_range_outlined)               
+                            ]
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        TextButton(
+                          style: datePicker,
+                          onPressed: () => _selectDate(context, false),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(_endDate == null ? _dateFormat.format(DateTime.now()) : _dateFormat.format(_endDate!)),
+                              const Icon(Icons.date_range_outlined)
+                            ]
+                           ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: () => _selectDate(context, false),
-                      child: Text(_endDate == null ? _dateFormat.format(DateTime.now()) : _dateFormat.format(_endDate!)),
-                    ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(
             child: Column(
               children: <Widget>[
-                const Text('Get your statement'),
-                ElevatedButton(onPressed: () => {
+                ElevatedButton(
+                  style: excelButton,
+                  onPressed: () => {
                   if(_startDate != null && _endDate != null){
+                    print('hi$_startDate'),
                     downloadReport(_startDate, _endDate)
+                  }else{
+                    snackBarMessage(context, 'Please select start and end date')
                   }
-                }, child: const Text('Download Button'))
+                }, child: const Text('Download Excel'))
               ],
             ),
           ),
@@ -106,7 +147,7 @@ class _ReportState extends State<Report> {
       return currTransactionTimestamp <= endDateTimestamp && currTransactionTimestamp >= startDateTimestamp;
     }).toList();    
         
-    print(transactions['data']);
+    // print(transactions['data']);
     generateExcel(transactions['data']);
   }
 
@@ -114,18 +155,18 @@ class _ReportState extends State<Report> {
     final xcel.Workbook workbook = xcel.Workbook(); 
     final xcel.Worksheet sheet = workbook.worksheets[0];
         
-    sheet.getRangeByIndex(1, 1).setText("transaction_type"); 
-    sheet.getRangeByIndex(1, 2).setText("amount_recipient_country");
-    sheet.getRangeByIndex(1, 3).setText("merchant_name");
-    sheet.getRangeByIndex(1, 4).setText("transaction_status");
-    sheet.getRangeByIndex(1, 5).setText("transaction_id");
-    sheet.getRangeByIndex(1, 6).setText("transaction_date");
-    sheet.getRangeByIndex(1, 7).setText("recipient_country");
-    sheet.getRangeByIndex(1, 8).setText("origination_country");
-    sheet.getRangeByIndex(1, 9).setText("bank");
-    sheet.getRangeByIndex(1, 10).setText("iban");
-    sheet.getRangeByIndex(1, 11).setText("bank_routing_number");
-    sheet.getRangeByIndex(1, 12).setText("account_number");
+    sheet.getRangeByIndex(1, 1).setText("Transaction Type"); 
+    sheet.getRangeByIndex(1, 2).setText("Amount Recipient Country");
+    sheet.getRangeByIndex(1, 3).setText("Merchant Name");
+    sheet.getRangeByIndex(1, 4).setText("Transaction Status");
+    sheet.getRangeByIndex(1, 5).setText("Transaction Id");
+    sheet.getRangeByIndex(1, 6).setText("Transaction Date");
+    sheet.getRangeByIndex(1, 7).setText("Recipient Country");
+    sheet.getRangeByIndex(1, 8).setText("Origination Country");
+    sheet.getRangeByIndex(1, 9).setText("Bank");
+    sheet.getRangeByIndex(1, 10).setText("IBAN");
+    sheet.getRangeByIndex(1, 11).setText("Bank Routing Number");
+    sheet.getRangeByIndex(1, 12).setText("Account Number");
 
     for (var i = 0; i < transactions.length; i++) { 
         final item = transactions[i];
@@ -134,7 +175,7 @@ class _ReportState extends State<Report> {
         sheet.getRangeByIndex(i + 2, 3).setText(item["merchant_name"].toString());
         sheet.getRangeByIndex(i + 2, 4).setText(item["transaction_status"].toString());
         sheet.getRangeByIndex(i + 2, 5).setText(item["transaction_id"].toString());
-        sheet.getRangeByIndex(i + 2, 6).setText(item["transaction_date"].toString());
+        sheet.getRangeByIndex(i + 2, 6).setText(DateTime.parse(item["transaction_date"]).toString());
         sheet.getRangeByIndex(i + 2, 7).setText(item["recipient_country"].toString());
         sheet.getRangeByIndex(i + 2, 8).setText(item["origination_country"].toString());
         sheet.getRangeByIndex(i + 2, 9).setText(item["bank"].toString());
@@ -146,10 +187,42 @@ class _ReportState extends State<Report> {
     final List<int> bytes = workbook.saveAsStream();
     workbook.dispose();
     try {
-      await saveExcel(bytes);
+      var status = await Permission.storage.status;
+        if (status.isDenied) {
+          showAlertDialog(context);
+        }else{
+          String outputFileName = "$_startDate-$_endDate";
+          await saveExcel(context, bytes, outputFileName);
+        }      
     } catch (e) {
       print(e);
     }       
   }
 
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Storage Permission Required"),
+          content: const Text("This app needs storage access to save files."),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("Settings"),
+              onPressed: () {
+                Navigator.of(context).pop();
+                openAppSettings();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
