@@ -26,12 +26,16 @@ class _CredentialSetupState extends State<CredentialSetup> {
 
   Future<void> _submit() async {
 
-    if(_ibanNo.text.isEmpty && _bankingRoutingNo.text.isEmpty){
-      snackBarError(context, 'Please fill IBAN No or Banking Routing No');
-      return;
-    }else if(_accountNo.text.isEmpty){
-      snackBarError(context, 'Please fill Account No');
-      return;
+    if(_ibanNo.text.isEmpty){
+      if(_bankingRoutingNo.text.isEmpty || _accountNo.text.isEmpty){
+        snackBarError(context, 'Please fill the required fields');
+        return;        
+      }
+    }else if(_bankingRoutingNo.text.isEmpty || _accountNo.text.isEmpty){
+      if(_ibanNo.text.isEmpty){
+        snackBarError(context, 'Please fill the required fields');
+        return;        
+      }
     }
 
     Map<String, dynamic>? userData = await authManager.getAuthData();
