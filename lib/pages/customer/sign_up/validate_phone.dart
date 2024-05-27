@@ -5,8 +5,8 @@ import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:flutter_application_1/pages/customer/enter_name.dart';
-import '../../themes/button.dart';
+import 'package:flutter_application_1/pages/customer/sign_up/enter_name.dart';
+import '../../../themes/button.dart';
 
 class ValidatePhone extends StatefulWidget {
   final String mobile, receivedOtp;

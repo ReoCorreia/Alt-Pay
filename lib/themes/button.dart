@@ -23,6 +23,28 @@ final ButtonStyle themeBtn2 = ElevatedButton.styleFrom(
   )
 );
 
+final ButtonStyle btnOrange = ElevatedButton.styleFrom(
+  backgroundColor: themeOrange,
+  foregroundColor: whitest,
+  elevation: 0,
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(50),
+    ),
+  )
+);
+
+final ButtonStyle btnBlack = ElevatedButton.styleFrom(
+  backgroundColor: black,
+  foregroundColor: whitest,
+  elevation: 0,
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(50),
+    ),
+  )
+);
+
 final ButtonStyle datePicker = ElevatedButton.styleFrom(
   backgroundColor: lightGrey,
   foregroundColor: black,

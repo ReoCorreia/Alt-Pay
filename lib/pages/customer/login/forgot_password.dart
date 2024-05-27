@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import '../../api_service/api_services.dart';
-import '../../themes/app_bar.dart';
-import '../../themes/button.dart';
-import '../../themes/text_field_decoration.dart';
+import '../../../api_service/api_services.dart';
+import '../../../themes/app_bar.dart';
+import '../../../themes/button.dart';
+import '../../../themes/text_field_decoration.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});

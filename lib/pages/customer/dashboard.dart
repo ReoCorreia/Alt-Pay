@@ -1,11 +1,11 @@
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/date_format.dart';
-import 'package:flutter_application_1/pages/customer/credentials_setup.dart';
+import 'package:flutter_application_1/pages/customer/sign_up/credentials_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/api_service/api_services.dart';
-import 'package:flutter_application_1/pages/customer/payment_amount.dart';
-import 'package:flutter_application_1/pages/customer/transactions.dart';
+import 'package:flutter_application_1/pages/customer/payment/payment_amount.dart';
+import 'package:flutter_application_1/pages/customer/transactions/transactions.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/color.dart';
@@ -105,7 +105,7 @@ class _DashboardState extends State<Dashboard>{
           side: BorderSide(
             color: lightGrey
           )
-        ),        
+        ),
         onPressed: () => scanQR(),
         foregroundColor: whitest,
         backgroundColor: whitest,
@@ -151,6 +151,7 @@ class _DashboardState extends State<Dashboard>{
                         children: <Widget>[
                           Expanded(
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 // First Button
@@ -304,7 +305,7 @@ class _DashboardState extends State<Dashboard>{
   }
 
 Future<void> fetchTransactions() async {
-  Map<String, dynamic> response = await transactionService.getAllTransactions('5', '0');
+  Map<String, dynamic> response = await transactionService.getAllTransactions('45', '0');
   List<Map<String, dynamic>> transactions = (response['data'] as List<dynamic>).cast<Map<String, dynamic>>();
     
   // Sort transactions in descending order by transaction_date
@@ -343,18 +344,24 @@ class _DemoBottomAppBar extends StatelessWidget {
             IconButton(
               tooltip: 'Home',
               icon: const Icon(Icons.home),
-              onPressed: () {},
+              onPressed: () {
+                snackBarMessage(context, 'home');
+              },
             ),
             if (centerLocations.contains(fabLocation)) const Spacer(),
             IconButton(
               tooltip: 'Transactions',
               icon: const Icon(Icons.payment),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute( builder: (context) => const Transactions()));
+              },
             ),
             IconButton(
               tooltip: 'Search',
               icon: const Icon(Icons.person),
-              onPressed: () {},
+              onPressed: () {
+                snackBarMessage(context, 'profile page');
+              },
             ),            
           ],
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/report.dart';
+import 'package:flutter_application_1/pages/customer/transactions/report.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/widgets/bottom_sliders/time_period_bs.dart';

@@ -17,7 +17,6 @@ class ApiService{
   static const String _signUpEndpoint = '/users/v1/send_otp';
   static const String _verifyOTPEndpoint = '/users/v1/verify_otp';
   static const String _addDeviceEndpoint = '/users/v1/add_device';
-  static const String _addBankEndpoint = '/users/v1/add_bank';
   static const String _lankaQrDetailsEndpoint = '/masters/v1/decodeLankaQR/';
   static const String _updateUserDetails = '/users/v1/update_user'; // same url for password setup and updating user data
 
@@ -171,31 +170,6 @@ class ApiService{
       }
   }  
 
-  Future<Map<String, dynamic>> addBank(String name, String phone, String bankingRoutingNo, String iban, String accountNo, String bank) async{
-      final String? authToken = await authManager.getAuthToken();
-      var response = await http.post(
-        Uri.parse(_baseUrl + _addBankEndpoint),
-        headers: <String, String>{
-          'accept': 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': authToken.toString()
-        },
-        body: jsonEncode(<String, String>{
-          "mobile": phone,
-          "iban": iban,
-          "bank_routing_number": bankingRoutingNo,
-          "account_number": accountNo,
-          "bank": bank
-        }),
-      );
-      Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-      if (!jsonResponse['error']) {
-        return jsonResponse;
-      } else {
-        throw Exception('Failed to add bank: ${jsonResponse['message']}');
-      }    
-  }
-
   Future<Map<String, dynamic>> qrData(String qrString) async{
     final String? authToken = await authManager.getAuthToken();
     var url = Uri.http(
@@ -211,7 +185,7 @@ class ApiService{
     if (!jsonResponse['error']) {
       return jsonResponse['data'];
     } else {
-      throw Exception('Failed to add bank: ${jsonResponse['message']}');
+      throw Exception({jsonResponse['message']});
     }    
   }
 

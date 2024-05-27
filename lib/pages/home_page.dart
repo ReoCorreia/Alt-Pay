@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:flutter_application_1/pages/customer/sign_in.dart';
-import 'package:flutter_application_1/pages/customer/sign_up.dart';
+import 'package:flutter_application_1/pages/customer/login/sign_in.dart';
+import 'package:flutter_application_1/pages/customer/sign_up/sign_up.dart';
 
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35),
                     child: Image.asset(
-                      'lib/images/lanka-pay-logo.png',
+                      'lib/images/t-logo.png',
                       width: 200,
                       height: 200,
                     ),
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                     padding: EdgeInsets.symmetric(horizontal: 35),
                     child: Text(
                       textAlign: TextAlign.center,
-                      'Pay using QR Codes in Sri Lanka',
+                      'Pay using QR Codes',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

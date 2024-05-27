@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/payment_amount2.dart';
+import 'package:flutter_application_1/pages/customer/payment/payment_amount2.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/button.dart';

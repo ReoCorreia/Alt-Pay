@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/customer/sign_in.dart';
+import 'package:flutter_application_1/pages/customer/login/sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {

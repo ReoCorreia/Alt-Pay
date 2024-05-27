@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
 import 'package:flutter_application_1/helper/save_report.dart';
+import 'package:flutter_application_1/pages/customer/transactions/transactions.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/color.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
@@ -53,7 +54,9 @@ class _ReportState extends State<Report> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Request Account Statement'),
-        leading: IconButton(onPressed: (() => {}), icon: const Icon(Icons.arrow_back)),
+        leading: IconButton(onPressed: (() => {
+          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const Transactions()))
+        }), icon: const Icon(Icons.arrow_back)),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,14 +70,22 @@ class _ReportState extends State<Report> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text('Time Period', style: themeTextField2),
-                  Expanded(child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      GestureDetector(onTap: () => {daysButtonPicked(30)}, child: Container(width: 95, height: 40, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 30 Days')),)),
-                      GestureDetector(onTap: () => {daysButtonPicked(60)}, child: Container(width: 95, height: 40, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 60 Days')),)),
-                      GestureDetector(onTap: () => {daysButtonPicked(90)}, child: Container(width: 95, height: 40, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 90 Days')),)),
-                    ],
-                  )),
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (BuildContext context, BoxConstraints constraints){
+                        final double containerWidth = constraints.maxWidth * 0.3; // 80% of parent width
+                        final double containerHeight = constraints.maxHeight * 0.6; // 40% of parent height                        
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            GestureDetector(onTap: () => {daysButtonPicked(30)}, child: Container(width: containerWidth, height: containerHeight, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 30 Days', textScaler: TextScaler.linear(1.0))))),
+                            GestureDetector(onTap: () => {daysButtonPicked(60)}, child: Container(width: containerWidth, height: containerHeight, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 60 Days', textScaler: TextScaler.linear(1.0))),)),
+                            GestureDetector(onTap: () => {daysButtonPicked(90)}, child: Container(width: containerWidth, height: containerHeight, decoration: BoxDecoration(border: Border.all(color: grey), color: lightGrey, borderRadius: const BorderRadius.all(Radius.circular(20))), child: const Center(child: Text('Last 90 Days', textScaler: TextScaler.linear(1.0))))),
+                          ],
+                        );
+                      },
+                    )
+                  ),
                   Expanded(child: Text('OR', style: themeTextField4,)),
                   Expanded(
                     child: Row(
@@ -117,7 +128,6 @@ class _ReportState extends State<Report> {
                   style: excelButton,
                   onPressed: () => {
                   if(_startDate != null && _endDate != null){
-                    print('hi$_startDate'),
                     downloadReport(_startDate, _endDate)
                   }else{
                     snackBarMessage(context, 'Please select start and end date')

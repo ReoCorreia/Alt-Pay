@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_application_1/api_service/api_services.dart';
-import 'package:flutter_application_1/pages/customer/sign_in.dart';
-import 'package:flutter_application_1/pages/customer/validate_phone.dart';
+import 'package:flutter_application_1/pages/customer/login/sign_in.dart';
+import 'package:flutter_application_1/pages/customer/sign_up/validate_phone.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-import '../../themes/button.dart';
+import '../../../themes/button.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});

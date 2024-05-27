@@ -68,30 +68,6 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
                           child: Text('Amount', style: filterByText,),
                         ),
                       ),
-                      // Container(
-                      //   width: double.infinity,
-                      //   color: _selectedIndex == 1 ? grey : null,
-                      //   child: TextButton(
-                      //     onPressed: () {
-                      //       setState(() {
-                      //         _selectedIndex = 1;
-                      //       });
-                      //     },
-                      //     style: ButtonStyle(
-                      //       backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                      //       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      //         const RoundedRectangleBorder(
-                      //           borderRadius: BorderRadius.zero, // Make it a rectangle
-                      //           side: BorderSide.none, // No border
-                      //         ),
-                      //       ),
-                      //       overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
-                      //       shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
-                      //       foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
-                      //     ),                        
-                      //     child: Text('Type', style: filterByText,),
-                      //   ),
-                      // )
                     ],
                   ),
                 )
@@ -110,11 +86,11 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
                       style: themeBtn1, child: const Text('Clear')
                     ),
                   ),
-                    RadioFilter(filterCallback: widget.filterCallback),
+                  RadioFilter(filterCallback: widget.filterCallback),
                   ],
                 )
               )
-              : Expanded(flex: 2, child: Text('type'))
+              : const Expanded(flex: 2, child: Text('type'))
             ],
           ),
         ),
@@ -192,30 +168,30 @@ extension SingingCharacterExtension on SingingCharacter {
   String get label {
     switch (this) {
       case SingingCharacter.filter1:
-        return '0-100';
+        return '0-250';
       case SingingCharacter.filter2:
-        return '100-200';
+        return '250-1000';
       case SingingCharacter.filter3:
-        return '250-1000';        
+        return '1000-8000';        
       case SingingCharacter.filter4:
-        return '1000-2000';
+        return '8000-16000';
       case SingingCharacter.filter5:
-        return '30000-40000';     
+        return '16000-40000';     
     }
   }
 
   RangeValues get range {
     switch (this) {
       case SingingCharacter.filter1:
-        return const RangeValues(0, 100);
+        return const RangeValues(0, 250);
       case SingingCharacter.filter2:
-        return const RangeValues(100, 200);
+        return const RangeValues(250, 1000);
       case SingingCharacter.filter3:
-        return const RangeValues(200, 1000);
+        return const RangeValues(1000, 8000);
       case SingingCharacter.filter4:
-        return const RangeValues(1000, 2000);
+        return const RangeValues(8000, 16000);
       case SingingCharacter.filter5:
-        return const RangeValues(30000, 40000);               
+        return const RangeValues(16000, 40000);               
     }
   }
 }

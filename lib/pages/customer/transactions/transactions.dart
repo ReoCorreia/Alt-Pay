@@ -19,22 +19,74 @@ class Transactions extends StatefulWidget {
 class _TransactionsState extends State<Transactions> {
   final TransactionService transactionService = TransactionService();
   Map<String, dynamic> _filteredTransactions = {};
-  ScrollController _scrollController = ScrollController();
+
+  final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
-  int _offset = 1;
-  
+  int _offset = 0;
+  final int _batchSize = 15;
 
   @override
   void initState() {
     super.initState();
-    fetchTransactions();
+    _fetchTransactions();
     _scrollController.addListener(_scrollListener);
   }
 
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadFilteredTransactionsFromPrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? transactionsJson = prefs.getString('transactions');
+    if (transactionsJson != null) {
+      Map<String, dynamic> transactions = jsonDecode(transactionsJson);
+      setState(() {
+        _filteredTransactions = transactions;
+      });
+    }
+  }
+
+  Future<void> _fetchTransactions() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Fetch transactions from the service using the current offset
+    Map<String, dynamic> transactions = await transactionService.getAllTransactions(_batchSize.toString(), _offset.toString());
+
+    setState(() {
+      if (transactions.isNotEmpty) {
+        if(_offset == 0){
+          _filteredTransactions = transactions;
+        }else if(_offset > 0){
+          List<dynamic> currentData = List.from(_filteredTransactions['data']);
+          currentData.addAll(transactions['data']);
+          _filteredTransactions['data'] = currentData;
+        }        
+        _offset++;
+        print(_filteredTransactions);
+        _saveTransactionsToPrefs();
+      }
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _saveTransactionsToPrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('transactions');
+    String transactionsJson = jsonEncode(_filteredTransactions);
+    await prefs.setString('transactions', transactionsJson);
+  }
+
+  void _scrollListener() {
+    // Fetch more transactions when scrolled to the bottom
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      _fetchTransactions();
+    }    
   }
 
   @override
@@ -114,44 +166,6 @@ class _TransactionsState extends State<Transactions> {
     );
   }
 
-  Future<void> fetchTransactions() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    Future.delayed(Duration(seconds: 5), () {
-
-    });
-
-    Map<String, dynamic> transactions = await transactionService.getAllTransactions('10', _offset.toString());
-    // Serialize transactions to JSON string
-    String transactionsJson = jsonEncode(transactions);
-
-    // Save transactions to Shared Preferences
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('transactions', transactionsJson);
-
-    setState(() {
-      if (_offset == 1) {
-        _filteredTransactions = transactions;
-      } else {
-        _filteredTransactions['data'].addAll(transactions['data']);
-      }
-      _isLoading = false;
-    });
-  }
-
-  Future<void> loadFilteredTransactionsFromPrefs() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? transactionsJson = prefs.getString('transactions');
-    if (transactionsJson != null) {
-      Map<String, dynamic> transactions = jsonDecode(transactionsJson);
-      setState(() {
-        _filteredTransactions = transactions;
-      });
-    }
-  }
-
   Future<void> filterTransactionsByAmount(double minAmount, double maxAmount) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? transactionsJson = prefs.getString('transactions');
@@ -190,17 +204,9 @@ class _TransactionsState extends State<Transactions> {
         return month == currTransactionMonth && year == currTransactionYear;
       }).toList();
     });
-  }
+  }  
 
   void clearFilters() {
-    loadFilteredTransactionsFromPrefs();
-  }
-
-  void _scrollListener() {
-    if (_scrollController.position.extentAfter < 500 && !_isLoading) {
-      _offset++;
-      print(_offset);
-      fetchTransactions();
-    }
+    _loadFilteredTransactionsFromPrefs();
   }
 }

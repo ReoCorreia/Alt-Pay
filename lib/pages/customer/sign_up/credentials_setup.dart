@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/api_service/api_services.dart';
-import 'package:flutter_application_1/pages/customer/validate_credentials.dart';
+import 'package:flutter_application_1/api_service/api_bank.dart';
+import 'package:flutter_application_1/pages/customer/sign_up/validate_credentials.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/themes/app_bar.dart';
-import '../../themes/button.dart';
-import '../../themes/text.dart';
+import '../../../themes/button.dart';
+import '../../../themes/text.dart';
 
 class CredentialSetup extends StatefulWidget {
 
@@ -18,7 +18,7 @@ class CredentialSetup extends StatefulWidget {
 
 class _CredentialSetupState extends State<CredentialSetup> {
 
-  final ApiService apiService = ApiService();
+  final BankService bankService = BankService();
   final AuthManager authManager = AuthManager();
   final TextEditingController _ibanNo = TextEditingController();
   final TextEditingController _bankingRoutingNo = TextEditingController();
@@ -37,7 +37,7 @@ class _CredentialSetupState extends State<CredentialSetup> {
     Map<String, dynamic>? userData = await authManager.getAuthData();
     String mobile = userData?['mobile_number'];
     String name = userData?['user_name']; 
-    await apiService.addBank(name, mobile, _bankingRoutingNo.text, _ibanNo.text.toUpperCase(), _accountNo.text, "bank");
+    await bankService.addBank(name, mobile, _bankingRoutingNo.text, _ibanNo.text.toUpperCase(), _accountNo.text, "bank");
     snackBarMessage(context, 'Bank details saved successfully');    
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => ValidateCredentials(ibanNo: _ibanNo.text, bankingRoutingNo: _bankingRoutingNo.text, accountNo: _accountNo.text)));
   }
