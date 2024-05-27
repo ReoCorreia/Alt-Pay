@@ -68,7 +68,6 @@ class _TransactionsState extends State<Transactions> {
           _filteredTransactions['data'] = currentData;
         }        
         _offset++;
-        print(_filteredTransactions);
         _saveTransactionsToPrefs();
       }
       _isLoading = false;

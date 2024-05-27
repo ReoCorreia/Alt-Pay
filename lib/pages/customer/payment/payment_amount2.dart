@@ -7,8 +7,8 @@ import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 class PaymentAmount2 extends StatefulWidget {
-  final String storeName, amount;
-  const PaymentAmount2({super.key, required this.storeName, required this.amount});
+  final String storeName, amount, conversionRateApplied;
+  const PaymentAmount2({super.key, required this.storeName, required this.amount, required this.conversionRateApplied});
 
   @override
   State<PaymentAmount2> createState() => _PaymentAmount2State();
@@ -30,7 +30,7 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
               const SizedBox(height: 30.0),
               Text(widget.storeName, style: const TextStyle(fontSize: 28)),
               const SizedBox(height: 20.0),
-              const Text('MCY Amount: LKR 3361.00 \nExchange Rate: LKR 336.10 \nCCY Amount: EUR 10.00'),
+              Text('MCY Amount: LKR ${widget.amount} \nExchange Rate: LKR ${widget.conversionRateApplied} \nCCY Amount: EUR 10.00'),
               const Divider(
                 color: Colors.black,
                 thickness: 2,
@@ -57,7 +57,7 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                     flex: 1,
                     child: ElevatedButton(
                       onPressed: () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.storeName, amount: widget.amount)))
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.storeName, amount: widget.amount, conversionRateApplied: widget.conversionRateApplied,)))
                     }, 
                     style: themeBtn2,
                     child: Text('Bill Photo Using Camera', textAlign: TextAlign.center, style: themeTextField)

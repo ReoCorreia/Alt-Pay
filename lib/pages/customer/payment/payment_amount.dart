@@ -29,7 +29,6 @@ class _PaymentAmountState extends State<PaymentAmount> {
   void _bankSelected(int bankId) {
     setState(() {
       _bankId = bankId;
-      print(_bankId);
     });
     _getCCYAmount(context, bankId);    
   }        
@@ -150,7 +149,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
                     }, style: btnOrange , child: const Text('Get CCY Amount')) 
                     : ElevatedButton(
                       onPressed: () => {
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text,)), (route) => false)
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(),)), (route) => false)
                       },
                       style: btnOrange , child: Text('Pay ${_amount.text}')),
                   ),
