@@ -94,50 +94,50 @@ class _TransactionBottomSheetState extends State<TransactionBottomSheet> {
             ],
           ),
         ),
-        Expanded(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Make it a rectangle
-                          side: BorderSide(color: textBlack, width: 2), // No border
-                        ),
-                      ),
-                      overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
-                      shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
-                    ),
-                    child: Text('Clear All', style: clearAll,),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(black),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero, // Make it a rectangle
-                          side: BorderSide.none, // No border
-                        ),
-                      ),
-                      overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
-                      shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
-                      foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
-                    ),
-                    child: Text('Apply', style: apply,),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ),
+        // Expanded(
+        //   child: Center(
+        //     child: Padding(
+        //       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+        //       child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //         children: [
+        //           TextButton(
+        //             onPressed: () {},
+        //             style: ButtonStyle(
+        //               backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
+        //               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        //                 RoundedRectangleBorder(
+        //                   borderRadius: BorderRadius.zero, // Make it a rectangle
+        //                   side: BorderSide(color: textBlack, width: 2), // No border
+        //                 ),
+        //               ),
+        //               overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
+        //               shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
+        //               foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
+        //             ),
+        //             child: Text('Clear All', style: clearAll,),
+        //           ),
+        //           TextButton(
+        //             onPressed: () {},
+        //             style: ButtonStyle(
+        //               backgroundColor: MaterialStateProperty.all<Color>(black),
+        //               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        //                 const RoundedRectangleBorder(
+        //                   borderRadius: BorderRadius.zero, // Make it a rectangle
+        //                   side: BorderSide.none, // No border
+        //                 ),
+        //               ),
+        //               overlayColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove tap color
+        //               shadowColor: MaterialStateProperty.all<Color>(Colors.transparent), // Remove shadow
+        //               foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color                          
+        //             ),
+        //             child: Text('Apply', style: apply,),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   )
+        // ),
 
       ],
     );
