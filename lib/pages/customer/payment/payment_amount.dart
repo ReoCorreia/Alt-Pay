@@ -26,6 +26,12 @@ class _PaymentAmountState extends State<PaymentAmount> {
   int _bankId = -1;
   final BankService bankService = BankService();
 
+  @override 
+  void dispose(){
+    _amount.dispose();
+    super.dispose();
+  }  
+  
   void _bankSelected(int bankId) {
     setState(() {
       _bankId = bankId;
@@ -149,7 +155,11 @@ class _PaymentAmountState extends State<PaymentAmount> {
                     }, style: btnOrange , child: const Text('Get CCY Amount')) 
                     : ElevatedButton(
                       onPressed: () => {
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(),)), (route) => false)
+                        setState(() {
+                          _ccyAmountGenerated = false;
+                        }),                        
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(), convertedRate: _rates['amount_origination_country'].toString())))
+                        // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(), convertedRate: _rates['amount_origination_country'].toString())), (route) => false)
                       },
                       style: btnOrange , child: Text('Pay ${_amount.text}')),
                   ),

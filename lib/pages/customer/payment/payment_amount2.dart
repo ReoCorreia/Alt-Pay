@@ -7,8 +7,8 @@ import 'package:flutter_application_1/themes/text.dart';
 import 'package:flutter_application_1/themes/text_field_decoration.dart';
 
 class PaymentAmount2 extends StatefulWidget {
-  final String storeName, amount, conversionRateApplied;
-  const PaymentAmount2({super.key, required this.storeName, required this.amount, required this.conversionRateApplied});
+  final String storeName, amount, conversionRateApplied, convertedRate;
+  const PaymentAmount2({super.key, required this.storeName, required this.amount, required this.conversionRateApplied, required this.convertedRate});
 
   @override
   State<PaymentAmount2> createState() => _PaymentAmount2State();
@@ -30,7 +30,7 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
               const SizedBox(height: 30.0),
               Text(widget.storeName, style: const TextStyle(fontSize: 28)),
               const SizedBox(height: 20.0),
-              Text('MCY Amount: LKR ${widget.amount} \nExchange Rate: LKR ${widget.conversionRateApplied} \nCCY Amount: EUR 10.00'),
+              Text('MCY Amount: LKR ${widget.amount} \nExchange Rate: LKR ${widget.conversionRateApplied} \nCCY Amount: EUR ${widget.convertedRate}'),
               const Divider(
                 color: Colors.black,
                 thickness: 2,
@@ -57,7 +57,7 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                     flex: 1,
                     child: ElevatedButton(
                       onPressed: () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.storeName, amount: widget.amount, conversionRateApplied: widget.conversionRateApplied,)))
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.storeName, amount: widget.amount, conversionRateApplied: widget.conversionRateApplied, convertedRate: widget.convertedRate)))
                     }, 
                     style: themeBtn2,
                     child: Text('Bill Photo Using Camera', textAlign: TextAlign.center, style: themeTextField)
@@ -86,7 +86,8 @@ class _PaymentAmount2State extends State<PaymentAmount2> {
                   const SizedBox(width: 25.0),
                   Expanded(
                     child: ElevatedButton(onPressed: () => {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>const Dashboard()))
+                      Navigator.pop(context)
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> const Dashboard()))
                     }, style: themeBtn2, child: Text('Cancel', textAlign: TextAlign.center, style: themeTextField)),
                   ),
                 ],
