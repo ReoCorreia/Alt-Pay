@@ -141,7 +141,7 @@ class _SelectBankState extends State<SelectBank> {
                     Navigator.pop(context);
                   },
                   style: themeBtn1, 
-                  child: const Text('Generate CCY Amount')
+                  child: const Text('Confirm')
                 ),
               ],
             ),

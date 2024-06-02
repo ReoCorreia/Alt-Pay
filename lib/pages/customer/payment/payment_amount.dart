@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/api_service/api_bank.dart';
 import 'package:flutter_application_1/api_service/api_transaction.dart';
-import 'package:flutter_application_1/pages/customer/payment/payment_amount2.dart';
 import 'package:flutter_application_1/pages/customer/dashboard.dart';
 import 'package:flutter_application_1/sessions/auth_manager.dart';
 import 'package:flutter_application_1/themes/button.dart';
 import 'package:flutter_application_1/themes/snack_bar.dart';
 import 'package:flutter_application_1/widgets/bottom_sliders/select_bank_bs.dart';
+import 'package:flutter_application_1/widgets/password_dialog_box/password_dialog_box.dart';
 
 class PaymentAmount extends StatefulWidget {
   final Map<String, dynamic> data;
@@ -19,7 +19,8 @@ class PaymentAmount extends StatefulWidget {
 class _PaymentAmountState extends State<PaymentAmount> {
 
   bool _ccyAmountGenerated = false;
-  late Map<String, dynamic> _rates;
+  late String _convertRate;
+  // Map<String, dynamic> _rates = {};
   final TextEditingController _amount = TextEditingController();
   final AuthManager authManager = AuthManager();
   final TransactionService transactionService = TransactionService();
@@ -35,26 +36,38 @@ class _PaymentAmountState extends State<PaymentAmount> {
   void _bankSelected(int bankId) {
     setState(() {
       _bankId = bankId;
-    });
-    _getCCYAmount(context, bankId);    
+    });    
   }        
 
-  Future<void> _getCCYAmount(BuildContext context, int bankId) async{
-    if(_bankId != -1){
-      try {
-        Map<String, dynamic> rates = await transactionService.initiateTransaction(int.parse(_amount.text), widget.data["Point of Initiation Method"]["data"], widget.data["Merchant Name"]["data"], _bankId);
-        setState(() {
-          _rates = rates;
-          _ccyAmountGenerated = true;
-        });
-      } catch (e) {
-        snackBarError(context, "Failed to get CCY Amount $e");
-      }
-    }else{
-
+  Future<void> _getCCYAmount() async{
+    try {
+      String convertRate = await transactionService.convertCurrency(int.parse(_amount.text));
+      setState(() {
+        _convertRate = convertRate;
+        _ccyAmountGenerated = true;
+      });
+    } catch (e) {
+      snackBarError(context, e.toString());
     }
     // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount1(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text)));
   }
+
+  // Future<void> _initiateTransaction(BuildContext context, int bankId) async{
+  //   if(_bankId != -1){
+  //     try {
+  //       Map<String, dynamic> rates = await transactionService.initiateTransaction(int.parse(_amount.text), widget.data["Point of Initiation Method"]["data"], widget.data["Merchant Name"]["data"], _bankId);
+  //       setState(() {
+  //         _rates = rates;
+  //         _ccyAmountGenerated = true;
+  //       });
+  //     } catch (e) {
+  //       snackBarError(context, "Failed to get CCY Amount $e");
+  //     }
+  //   }else{
+
+  //   }
+  //   // Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentAmount1(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text)));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +153,7 @@ class _PaymentAmountState extends State<PaymentAmount> {
                     ],
                   ),
                   const SizedBox(height: 20.0),                  
-                  _ccyAmountGenerated ? Text('MCY Amount: LKR ${_amount.text} \nExchange Rate: LKR ${_rates['conversion_rate_applied']} \nCCY Amount: EUR ${_rates['amount_origination_country']}') : const SizedBox(),                  
+                  _ccyAmountGenerated ? Text('MCY Amount: LKR ${_amount.text} \nExchange Rate: LKR 323.3 \nCCY Amount: EUR $_convertRate') : const SizedBox(),                  
                 ],
               ),
               
@@ -151,17 +164,20 @@ class _PaymentAmountState extends State<PaymentAmount> {
                     flex: 2,
                     child: 
                     !_ccyAmountGenerated ? ElevatedButton(onPressed: () => {
-                      openSelectBankBottomSheet(context, widget.data["Merchant Name"]["data"], _amount.text, _bankSelected)
+                      _getCCYAmount()
+                      // openSelectBankBottomSheet(context, widget.data["Merchant Name"]["data"], _amount.text, _bankSelected)
                     }, style: btnOrange , child: const Text('Get CCY Amount')) 
                     : ElevatedButton(
                       onPressed: () => {
-                        setState(() {
-                          _ccyAmountGenerated = false;
-                        }),                        
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(), convertedRate: _rates['amount_origination_country'].toString())))
+                        if(_bankId == -1){
+                          openSelectBankBottomSheet(context, widget.data["Merchant Name"]["data"], _amount.text, _bankSelected)
+                        }else{
+                          openFullScreenDialog(context, int.parse(_amount.text), widget.data["Point of Initiation Method"]["data"], widget.data["Merchant Name"]["data"], _bankId),
+                        }                         
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)=> PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(), convertedRate: _rates['amount_origination_country'].toString())))
                         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => PaymentAmount2(storeName: widget.data["Merchant Name"]["data"], amount: _amount.text, conversionRateApplied: _rates['conversion_rate_applied'].toString(), convertedRate: _rates['amount_origination_country'].toString())), (route) => false)
                       },
-                      style: btnOrange , child: Text('Pay ${_amount.text}')),
+                      style: btnOrange , child: Text('Pay LKR ${_amount.text}')),
                   ),
                   const SizedBox(width: 10,),
                   Expanded(

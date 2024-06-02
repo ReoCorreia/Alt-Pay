@@ -12,7 +12,8 @@ class TransactionService{
   // endpoints
   static const String _initiateTransaction = '/users/v1/initiate_transaction';
   static const String _getTransaction = '/users/v1/transactions/{transaction_id}';
-  static const String _allTransactions = '/users/v1/transactions/';  
+  static const String _allTransactions = '/users/v1/transactions/';
+  static const String _convertCurrency = '/users/v1/convert_currency/';  
 
   Future<Map<String, dynamic>> getTransaction(String transactionId) async{
     final String? authToken = await authManager.getAuthToken();
@@ -26,6 +27,7 @@ class TransactionService{
     });
 
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
     if (!jsonResponse['error']) {
       return jsonResponse['data'];
     } else {
@@ -52,6 +54,32 @@ class TransactionService{
     }    
   } 
 
+  Future<String> convertCurrency(int amount) async{
+    final String? authToken = await authManager.getAuthToken();
+    var response = await http.post(
+      Uri.parse(_baseUrl + _convertCurrency),
+      headers: <String, String>{
+        'accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': authToken.toString()
+      },
+      body: jsonEncode(<String, dynamic>{
+        "amountInRecipientCountry": 50,
+        "originationCountry": "Germany",
+        "recipientCountry": "Sri Lanka"
+      }),
+    );
+    
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+
+    if (!jsonResponse['error']) {        
+      return jsonResponse['data']; 
+    } else {
+      throw Exception('${jsonResponse['message']}');
+    }
+  }
+
+
   Future<Map<String, dynamic>> initiateTransaction(int amount, String merchantId, String merchantName, int bankId) async{
     final String? authToken = await authManager.getAuthToken();
     var response = await http.post(
@@ -73,6 +101,7 @@ class TransactionService{
     );
     
     Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    print(jsonResponse);
     
     if (!jsonResponse['error']) {        
       return jsonResponse['data']; 
